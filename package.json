@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/guc-met/milestone-1-team-46#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "env": "0.0.2"
   }
 }
