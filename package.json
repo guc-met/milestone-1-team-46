@@ -1,0 +1,22 @@
+{
+  "name": "milestone-1-team-46",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guc-met/milestone-1-team-46.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guc-met/milestone-1-team-46/issues"
+  },
+  "homepage": "https://github.com/guc-met/milestone-1-team-46#readme",
+  "dependencies": {
+    "env": "0.0.2"
+  }
+}
