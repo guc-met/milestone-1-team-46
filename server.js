@@ -5,6 +5,7 @@ const mongoose=require("mongoose");
 require('dotenv').config();
 
 
+
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
@@ -20,3 +21,4 @@ mongoose.connect(process.env.DB_URL, connParams).then(()=>{
 app.listen(process.env.PORT,()=>{
     console.log(`server running on ${process.env.PORT}`)
 })
+
