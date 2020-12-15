@@ -2,7 +2,7 @@ const mongoose=require("mongoose");
 
 const SignOut=mongoose.Schema({
     id:{
-        type:string,
+        type:String,
         required:true,
         minLength:[4,"Id is too short"]
         //at least we have 2 characters(ac,hr or 43 for example), a dash(-) and at least one more number
@@ -13,7 +13,7 @@ const SignOut=mongoose.Schema({
     },
     HR_id:{
         //id of the HR who added this entry if any
-        type:string,
+        type:String,
         default:null
     }
 })
