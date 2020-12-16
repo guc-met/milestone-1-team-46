@@ -1,15 +1,31 @@
 const mongoose=require("mongoose");
-
+const slots= mongoose.Schema({
+    location:
+    {
+        type:String,
+        required:true
+    },
+    course:{
+        type:String,
+        required:true
+    },
+    time:
+    {
+        type: String,
+        required: true
+    }
+})
 const Schedule=mongoose.Schema({
     id:{
-        type:String,
+        type:Number,
         required:true,
-        minLength:[4,"Id is too short"]
     },
-    day:{
-        // each day is an entry in the array having: location, coursename and timing
-        type:Array,
-    },
+    Saturday:[slots],
+    Sunday:[slots],
+    Monday:[slots],
+    Tuesday:[slots],
+    Wednesday:[slots],
+    Thursday:[slots]
 
 })
 module.exports=mongoose.model("Schedule",Schedule);

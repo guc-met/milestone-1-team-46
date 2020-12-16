@@ -5,6 +5,15 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const staffSchema = new schema({
   
+    id:{
+        type:Number
+    },
+    
+    no : {
+        type : Number,
+        unique : false
+    },
+
     name :{
         type: String
     },
@@ -29,10 +38,25 @@ const staffSchema = new schema({
     office : {
         type : String
     },
-
-    privilege : {
-        type :Array , 
-        default : [false , false , false, false , false]
+    hr: {
+        type : Boolean,
+        required : true
+    },
+    hod: {
+        type : Boolean,
+        default : false
+    },
+    ac: {
+        type : Boolean,
+        default : false
+    },
+    cc: {
+        type : Boolean,
+        default : false
+    },
+    ci: {
+        type : Boolean,
+        default : false
     },
 
     daysOff :  {
@@ -60,6 +84,7 @@ const staffSchema = new schema({
 
 });
 //should auto increment using mongoose-sequence module
+staffSchema.plugin(AutoIncrement,  {id: 'seq', inc_field: 'no', reference_fields: 'hr' , unique:false });
 staffSchema.plugin(AutoIncrement, {inc_field: 'id'});
-//I still dont know how to force other constraints on id
+
 module.exports = mongoose.model('staffMember' , staffSchema);

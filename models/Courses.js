@@ -1,13 +1,6 @@
 const mongoose=require("mongoose");
 
 const Courses=mongoose.Schema({
-    id:{
-        type:Number,
-        required:true,
-        unique:true,
-        fixed:true,
-        minLength:[4,"Id is too short"]
-    },
     coursename:{
         type:String,
         required:true,
@@ -21,16 +14,16 @@ const Courses=mongoose.Schema({
         unique :true,
     },
     labs :  {
-        type : Array
+        type : Number
     },
     lectures :  {
-        type : Array
+        type : Number
     },
     tutorials :  {
-        type : Array
+        type : Number
     },
     totalslots :  {
-        type : Array
+        type : Number
     },
 })
 module.exports=mongoose.model("Courses",Courses);
