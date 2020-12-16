@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const bcryptjs=require("bcryptjs");
 // const academicSchema = require("./academicMember.js");
+
+//salting and hashing
+const salt=bcryptjs.genSaltSync();
+const hashedPassword=bcryptjs.hashSync("123456",salt);
 
 const staffSchema = new schema({
   
@@ -31,7 +36,7 @@ const staffSchema = new schema({
     password: {
         type:String , 
         required : true , 
-        default:123456,
+        default:hashedPassword,
         minLength:[6,"Password is short , 6 chars is the minimum"]
     },
 
