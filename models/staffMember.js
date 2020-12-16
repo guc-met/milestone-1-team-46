@@ -72,7 +72,7 @@ const staffSchema = new schema({
     },
     faculty : {
         type : String,
-        default : null,
+        default : null
         
     },
 

@@ -3,19 +3,22 @@ const app = express();
 const connParams={ useNewUrlParser: true, useUnifiedTopology: true };
 const mongoose = require("mongoose");
 require('dotenv').config();
+const bcryptjs=require("bcryptjs");
+const jwt=require("jsonwebtoken");
+const jwtSignature=process.env.SIGNATURE;
 
 
 
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(auth);
 
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(()=>{
     console.log("DB connected");
     
-    testSchemas();
 }).catch((err)=>{
     console.log(`DB Error ${err.message}`)
 })
@@ -24,6 +27,26 @@ mongoose.connect(process.env.DB_URL, connParams).then(()=>{
 app.listen(process.env.PORT,()=>{
     console.log(`server running on ${process.env.PORT}`)
 })
+
+//authentication
+const auth=(req,res,next)=>{
+    try{
+        const token=req.header("auth-token");
+        if(!token){
+            return res.status(401).json({msg:"unauthorized etla3 bara"})
+        }
+        const verified=jwt.verify(token,jwtSignature);
+        if(!verified){
+            return res.status(401).json({msg:"unauthorized ya hacker"})
+        }
+        req.id=verified.id;
+        next();
+    }
+    catch(err){
+        return res.status(500).json({error:err.message})
+    }
+
+}
 
 async function  testSchemas() {
     const staffMember = require('./models/staffMember.js');
