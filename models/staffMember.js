@@ -23,9 +23,6 @@ const academicSchema = new schema({
 });
 const staffSchema = new schema({
   
-
-    children:[academicSchema],
-
     name :{
         type: String
     },
@@ -67,6 +64,17 @@ const staffSchema = new schema({
     accidentLeaveBalance :  {
         type : Number
     },
+    faculty : {
+        type : String,
+        default : null,
+        
+    },
+
+    department : {
+        type : String,
+        default : null
+        
+    }
 
 });
 //should auto increment using mongoose-sequence module
