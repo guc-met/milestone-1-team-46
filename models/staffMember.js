@@ -2,25 +2,7 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 // const academicSchema = require("./academicMember.js");
-const academicSchema = new schema({
-    id : {
-        type: Number, 
-        unique:true, 
-        required: true , 
-        fixed:true
-    },
 
-    faculty : {
-        type: String
-    },
-
-    department : {
-        type:String
-    },
-    
-    
-
-});
 const staffSchema = new schema({
   
     name :{
