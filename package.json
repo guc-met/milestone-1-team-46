@@ -14,8 +14,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-redis": "^6.0.0",
     "mongoose": "^5.11.7",
     "mongoose-sequence": "^5.3.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "redis": "^3.0.2"
   }
 }

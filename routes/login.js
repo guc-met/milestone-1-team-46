@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router();
 const bcryptjs=require("bcryptjs");
 const staffMember=require("../models/staffMember");
+const jwt=require("jsonwebtoken");
 require('dotenv').config();
 
 route.post("/", async (req,res)=>{
@@ -22,7 +23,11 @@ route.post("/", async (req,res)=>{
         //generating jwt token
         const token = jwt.sign({id:member.id},process.env.SIGNATURE);
         res.json({
-            token
+            token,
+            member:{
+                id:member.id,
+                email:member.email
+            }
         })
     }
     catch(err){

@@ -85,6 +85,11 @@ const staffSchema = new schema({
         type : String,
         default : null
         
+    },
+    salary: {
+        type: Number,
+        default: 3000
+
     }
 
 });
