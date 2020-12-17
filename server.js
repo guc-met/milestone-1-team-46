@@ -33,11 +33,12 @@ const auth=(req,res,next)=>{
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+//taking the login route before applying authentication
+app.use("/",login);
 app.use(auth);
 
 
 //routes
-app.use("/",login);
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(()=>{
