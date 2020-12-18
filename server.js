@@ -60,7 +60,7 @@ app.use("/ac",academic);
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-    testSchemas();
+  //  testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -76,6 +76,18 @@ app.listen(process.env.PORT, () => {
 async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
+    const TeachingSlots=require("./models/TeachingSlots");
+    const t=new TeachingSlots({
+        slot:
+        {
+            location:"c7.109",
+            course:"csen603",
+            time:"10:00"
+        },
+        ccId:10,
+
+    })
+   await t.save();
 
     const s=new Schedule({
         id:5,
@@ -96,7 +108,6 @@ async function testSchemas() {
             time:"nowwww"
         }]
     })
-    await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });

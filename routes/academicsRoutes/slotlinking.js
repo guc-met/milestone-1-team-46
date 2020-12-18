@@ -1,19 +1,24 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
-
+const teachingSlots=require("../../models/TeachingSlots");
 const requests=require("../../models/Requests");
 
 
 route.post("/", async(req, res)=>{
     try{
+      const slotId=req.body.slotId;
+      const tslot= await teachingSlots.find({_id:slotId});
+      const cc= tslot.ccId;
+
       const r1=new requests(
           {
               sender_id: req.id,
-              type: "slot linking"
+              receiver_id:cc,
+              type: "slot linking",
+              info:slotId
           }
       )
-      await r1.save();
-      res.send("Request submitted successfully");
+     res.send(tslot.ccId);
 
     }catch(err)
     {

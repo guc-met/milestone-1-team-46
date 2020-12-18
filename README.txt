@@ -33,7 +33,7 @@ Response: schedule of academic . Example of a single schedule: {
     "__v": 0
 }
 
-<<<<<<< HEAD
+
 Functionality: submit replacement request
 Route: ac/replacementrequest
 Request type: POST
@@ -71,7 +71,7 @@ Response: Array of requests . Example of requests: [
         "__v": 0
     }
 ]
-=======
+
 
 
 
@@ -106,4 +106,3 @@ Sign ins : [
         "HR_id": null
     }]
 
->>>>>>> 8fc9a276ec25683090bc090279126796415397fd
