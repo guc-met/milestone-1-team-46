@@ -7,7 +7,7 @@ const Departments=mongoose.Schema({
     },
     
     HOD:{
-        type:String,
+        type:Number,
         required:true,
     },
     courses: [Courses]
