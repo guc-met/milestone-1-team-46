@@ -26,6 +26,8 @@ route.post('/', async(req,res)=>{
     const allAttendanceIN=  await signIn.find({id : id});
     const allAttendanceOUT=  await signOut.find({id : id});
     let output = []
+    let ins = []
+    let outs = []
     let object ;
 
     if(month)
@@ -41,7 +43,8 @@ route.post('/', async(req,res)=>{
                   time : allAttendanceIN[i].time,
                   HR_id : allAttendanceIN[i].HR_id
           }
-          output.push(object);
+          ins.push(object);
+
         }
         }
          
@@ -54,10 +57,11 @@ route.post('/', async(req,res)=>{
                   time : allAttendanceOUT[i].time,
                   HR_id : allAttendanceOUT[i].HR_id
           }
-          output.push(object);
+          outs.push(object);
+
         }
         }
-        return res.send(output);
+        return res.send("Sign ins : " + JSON.stringify(ins) + "\n" + "Signs outs : " + JSON.stringify(outs));
     }
 
     else   //if he doesnt specify a month , get all records
@@ -70,7 +74,7 @@ route.post('/', async(req,res)=>{
                 time : allAttendanceIN[i].time,
                 HR_id : allAttendanceIN[i].HR_id
         }
-        output.push(object);
+        ins.push(object);
       }
 
 
@@ -84,11 +88,11 @@ route.post('/', async(req,res)=>{
                 time : allAttendanceOUT[i].time,
                 HR_id : allAttendanceOUT[i].HR_id
         }
-        output.push(object);
+        outs.push(object);
       }
      
 
-      return res.send(output);
+      return res.send("Sign ins : " + JSON.stringify(ins) + "\n" + "Signs outs : " + JSON.stringify(outs));
     }
     
    
