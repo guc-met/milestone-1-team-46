@@ -14,6 +14,10 @@ const Request=mongoose.Schema({
     status:{
         type: String,
         default: "Pending"
+    },
+    time:{
+        type: Date,
+        default: Date.now
     }
   
 })
