@@ -32,3 +32,22 @@ Response: schedule of academic . Example of a single schedule: {
     "Thursday": [],
     "__v": 0
 }
+
+Functionality: submit replacement request
+Route: ac/replacementrequest
+Request type: POST
+
+
+Functionality: get  submitted requests 
+Route: ac/replacementrequest
+Request type: GET
+Response: Array of requests . Example of requests: [
+    {
+        "status": "Pending",
+        "_id": "5fdce4e9ee563f745c7deb92",
+        "sender_id": 5,
+        "type": "replacememt",
+        "time": "2020-12-18T17:20:41.357Z",
+        "__v": 0
+    }
+]
