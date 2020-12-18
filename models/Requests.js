@@ -15,10 +15,21 @@ const Request=mongoose.Schema({
         type: String,
         default: "Pending"
     },
-    time :{
+
+    time:{
         type: Date,
         default: Date.now
+    },
+    /**
+     * in case of slot linking the id of slot in unassignedSlots schema
+     * in case of change-day-off the day to be changed to
+     * in case of compensation leave it is the reason
+     */
+    info:{
+        Type: String
+
     }
+
   
 })
 module.exports=mongoose.model("Request",Request);
