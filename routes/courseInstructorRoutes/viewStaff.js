@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
 
+
 route.get("/",async(req,res)=>{
     try{
         const id=req.id;
