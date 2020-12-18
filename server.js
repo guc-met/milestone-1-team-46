@@ -89,7 +89,7 @@ async function testSchemas() {
             time:"nowwww"
         }]
     })
-    await s.save();
+    //await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
@@ -107,7 +107,7 @@ async function testSchemas() {
         ci:true,
         faculty:"engineering",
         department:"MET"
-    });
+    });*/
     const s2 = new staffMember({
         name: "ashry",
         gender: "Male",
@@ -118,8 +118,9 @@ async function testSchemas() {
         hr: false,
         ci:false,
         faculty:"engineering",
-        department:"MET"
-    });*/
+        department:"MET",
+        courses:["acl","db"]
+    });
     /*const s2 = new staffMember({
         name : "7amada",
         gender: "Male",
@@ -152,7 +153,7 @@ async function testSchemas() {
 
 
    // await s1.save();
-   // await s2.save();
+   //await s2.save();
     /*s1.setNext('seq', function(err, user){
         s1.no; // the counter value
     });*/

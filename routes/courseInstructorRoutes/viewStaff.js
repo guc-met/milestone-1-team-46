@@ -1,7 +1,6 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
-const Schedule=require("../../models/Schedule");
 
 route.get("/",async(req,res)=>{
     try{
@@ -13,66 +12,20 @@ route.get("/",async(req,res)=>{
         if(!member.ci){
             return res.status(401).json({msg:"unauthorized"});            
         }
+        //get the course instructor's faculty and department
         const faculty=member.faculty; 
         const department=member.department;
         const course=req.body.course;
+        //get all staff member in the same department
         let preresult= await staffMember.find({faculty:faculty,department:department});
         let result=[];
+        //if the course instructor specified a certain course
         if(course){
-            for(i=0;i<preresult.length;i++){
-                const member=preresult[i];
-                const memberSchedule= await Schedule.findOne({id:member.id});
-                let pushed=false;
-                if(memberSchedule){
-                    if(memberSchedule.Saturday){
-                        memberSchedule.Saturday.forEach(slot=>{
-                            if (slot.course===course&&!pushed){
-                                result.push(member);
-                                pushed=true;
-                            }
-                        })
-                    }
-                    if(memberSchedule.Sunday){
-                        memberSchedule.Sunday.forEach(slot=>{
-                            if (slot.course===course&&!pushed){
-                                result.push(member);
-                                pushed=true;
-                            }
-                        })
-                    }
-                    if(memberSchedule.Monday){
-                        memberSchedule.Monday.forEach(slot=>{
-                            if (slot.course===course&&!pushed){
-                                result.push(member);
-                                pushed=true;
-                            }
-                        })
-                    }
-                    if(memberSchedule.Tuesday){
-                        memberSchedule.Tuesday.forEach(slot=>{
-                            if (slot.course===course&&!pushed){
-                                result.push(member);
-                                pushed=true;
-                            }
-                        })
-                    }
-                    if(memberSchedule.Wednesday){                    
-                        memberSchedule.Wednesday.forEach(slot=>{
-                            if (slot.course===course&&!pushed){
-                                result.push(member);
-                                pushed=true;
-                            }
-                        })
-                    }
-                    if(memberSchedule.Thursday){
-                        memberSchedule.Thursday.forEach(slot=>{
-                            if (slot.course===course&&!pushed){
-                                result.push(member);
-                                pushed=true;
-                            }
-                        })
-                    }
-                }
+            for(let i=0;i<preresult.length;i++){
+                let member=preresult[i];
+                if(member&&member.courses&&member.courses.includes(course)){
+                    result.push(member);
+                }  
             }
         }
         else{
