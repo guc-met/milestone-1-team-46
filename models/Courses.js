@@ -13,6 +13,10 @@ const Courses=mongoose.Schema({
         default:null,
         unique :true,
     },
+    ccId:{
+        type:Number,
+        default:null
+    },
     labs :  {
         type : Number
     },
@@ -26,7 +30,7 @@ const Courses=mongoose.Schema({
         type : Number
     },
 })
-module.exports=mongoose.model("Courses",Courses);
+module.exports=Courses;
 /*
 below is how to update any DATE type in the database 
 
