@@ -14,8 +14,10 @@ const updateprofile=require("./routes/updateprofile");
 const courseInstructor=require("./routes/courseInstructor");
 const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
+const academic=require("./routes/academic");
 
-                                                                                    
+
+                                                                                  
 //authentication
 const auth = (req, res, next) => {
     try {
@@ -52,6 +54,8 @@ app.use("/updateprofile",updateprofile);
 app.use("/ci",courseInstructor);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
+app.use("/ac",academic);
+
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
@@ -76,7 +80,7 @@ async function testSchemas() {
 
 
     const s=new Schedule({
-        id:3,
+        id:5,
         Saturday:[{
             location:"3am s3d",
             course:"acl",
@@ -94,7 +98,7 @@ async function testSchemas() {
             time:"nowwww"
         }]
     })
-    //await s.save();
+    await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
