@@ -12,6 +12,8 @@ const signout=require("./routes/signout");
 const viewProfile=require("./routes/viewProfile");
 const updateprofile=require("./routes/updateprofile");
 const courseInstructor=require("./routes/courseInstructor");
+const academic=require("./routes/academic");
+
 
 
                                                                                     
@@ -49,6 +51,8 @@ app.use("/signout",signout);
 app.use("/viewprofile",viewProfile);
 app.use("/updateprofile",updateprofile);
 app.use("/ci",courseInstructor);
+app.use("/ac",academic);
+
 
 
 //DB connection
@@ -92,7 +96,7 @@ async function testSchemas() {
     }) ;
     //await f.save();
     const s=new Schedule({
-        id:3,
+        id:5,
         Saturday:[{
             location:"3am s3d",
             course:"acl",
@@ -110,7 +114,7 @@ async function testSchemas() {
             time:"nowwww"
         }]
     })
-    //await s.save();
+    await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
