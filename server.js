@@ -12,11 +12,12 @@ const signout=require("./routes/signout");
 const viewProfile=require("./routes/viewProfile");
 const updateprofile=require("./routes/updateprofile");
 const courseInstructor=require("./routes/courseInstructor");
+const resetPassword = require('./routes/resetpw');
+const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
 
 
-
-                                                                                    
+                                                                                  
 //authentication
 const auth = (req, res, next) => {
     try {
@@ -51,8 +52,9 @@ app.use("/signout",signout);
 app.use("/viewprofile",viewProfile);
 app.use("/updateprofile",updateprofile);
 app.use("/ci",courseInstructor);
+app.use("/resetpw" , resetPassword);
+app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
-
 
 
 //DB connection
@@ -74,27 +76,6 @@ app.listen(process.env.PORT, () => {
 async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
-    const Faculties=require("./models/Faculties");
-    const f=new Faculties({
-        name:"engineering",
-        departments:[
-            {
-                name:"MET",
-                HOD:2,
-                courses:[
-                    {
-                        coursename:"acl",
-                        coursecode:"704"
-                    },
-                    {
-                        coursename:"db",
-                        coursecode:"504"
-                    },
-                ]
-        }
-    ]
-    }) ;
-    //await f.save();
     const s=new Schedule({
         id:5,
         Saturday:[{
