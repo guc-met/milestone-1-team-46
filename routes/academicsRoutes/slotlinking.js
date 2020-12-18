@@ -9,7 +9,7 @@ route.post("/", async(req, res)=>{
       const r1=new requests(
           {
               sender_id: req.id,
-              type: "replacement"
+              type: "slot linking"
           }
       )
       await r1.save();
@@ -23,7 +23,7 @@ route.post("/", async(req, res)=>{
 
 route.get("/", async(req, res)=>{
     try{
-    const result=  await requests.find({sender_id: req.id,type:"replacement"});
+    const result=  await requests.find({sender_id: req.id,type:"slot linking"});
      res.send(result);
 
     }catch(err)
@@ -31,5 +31,7 @@ route.get("/", async(req, res)=>{
         return res.status(500).json({error:err.message});
     }
 })
+
+
 
 module.exports = route;

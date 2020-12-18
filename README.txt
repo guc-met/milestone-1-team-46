@@ -51,3 +51,22 @@ Response: Array of requests . Example of requests: [
         "__v": 0
     }
 ]
+
+Functionality: submit slot linking request
+Route: ac/replacementrequest
+Request type: POST
+
+
+Functionality: get  slot linking requests 
+Route: ac/replacementrequest
+Request type: GET
+Response: Array of requests . Example of requests: [
+    {
+        "status": "Pending",
+        "_id": "5fdceaab33137e43080b945f",
+        "sender_id": 10,
+        "type": "slot linking",
+        "time": "2020-12-18T17:45:15.542Z",
+        "__v": 0
+    }
+]
