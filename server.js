@@ -11,6 +11,7 @@ const signin=require("./routes/signin");
 const signout=require("./routes/signout");
 const viewProfile=require("./routes/viewProfile");
 const updateprofile=require("./routes/updateprofile");
+const courseInstructor=require("./routes/courseInstructor");
 
 
                                                                                     
@@ -47,12 +48,13 @@ app.use("/signin",signin);
 app.use("/signout",signout);
 app.use("/viewprofile",viewProfile);
 app.use("/updateprofile",updateprofile);
+app.use("/ci",courseInstructor);
 
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-    //testSchemas();
+    testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -67,21 +69,57 @@ app.listen(process.env.PORT, () => {
 
 async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
+    const Schedule=require("./models/Schedule"); 
+    const s=new Schedule({
+        id:3,
+        Saturday:[{
+            location:"3am s3d",
+            course:"acl",
+            time:"nowwww"
+        },
+        {
+            location:"3am s3d",
+            course:"acl",
+            time:"nowwww"
+        }
+    ],
+        Sunday:[{
+            location:"3am s3d",
+            course:"acl",
+            time:"nowwww"
+        }]
+    })
+    await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
     staffMember.counterReset('id', function (err) {
         // Now the counter is 0
     });*/
-    const s1 = new staffMember({
-        name: "Muhad",
+   /* const s1 = new staffMember({
+        name: "slim",
         gender: "Male",
-        email: "muhadsamir@hotmail.com",
+        email: "ci@hotmail.com",
         office: "C701",
         daysOff: ["Sunday"],
         annualLeaveBalance: 5,
-        hr: false
+        hr: false,
+        ci:true,
+        faculty:"engineering",
+        department:"MET"
     });
+    const s2 = new staffMember({
+        name: "ashry",
+        gender: "Male",
+        email: "metstaff@hotmail.com",
+        office: "C701",
+        daysOff: ["Sunday"],
+        annualLeaveBalance: 5,
+        hr: false,
+        ci:false,
+        faculty:"engineering",
+        department:"MET"
+    });*/
     /*const s2 = new staffMember({
         name : "7amada",
         gender: "Male",
@@ -113,7 +151,8 @@ async function testSchemas() {
 
 
 
-    await s1.save();
+   // await s1.save();
+   // await s2.save();
     /*s1.setNext('seq', function(err, user){
         s1.no; // the counter value
     });*/
