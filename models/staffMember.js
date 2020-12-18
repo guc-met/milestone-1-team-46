@@ -86,6 +86,11 @@ const staffSchema = new schema({
         default : null
         
     },
+    courses : {
+        type : Array,
+        default : null
+        
+    },
     salary: {
         type: Number,
         default: 3000
