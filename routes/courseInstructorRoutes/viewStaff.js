@@ -22,9 +22,9 @@ route.get("/",async(req,res)=>{
         //if the course instructor specified a certain course
         if(course){
             for(let i=0;i<preresult.length;i++){
-                let member=preresult[i];
-                if(member&&member.courses&&member.courses.includes(course)){
-                    result.push(member);
+                let Smember=preresult[i];
+                if(Smember.courses&&Smember.courses.includes(course)){
+                    result.push(Smember);
                 }  
             }
         }
