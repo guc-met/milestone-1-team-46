@@ -70,6 +70,27 @@ app.listen(process.env.PORT, () => {
 async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
+    const Faculties=require("./models/Faculties");
+    const f=new Faculties({
+        name:"engineering",
+        departments:[
+            {
+                name:"MET",
+                HOD:2,
+                courses:[
+                    {
+                        coursename:"acl",
+                        coursecode:"704"
+                    },
+                    {
+                        coursename:"db",
+                        coursecode:"504"
+                    },
+                ]
+        }
+    ]
+    }) ;
+    //await f.save();
     const s=new Schedule({
         id:3,
         Saturday:[{
