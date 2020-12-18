@@ -12,7 +12,8 @@ const signout=require("./routes/signout");
 const viewProfile=require("./routes/viewProfile");
 const updateprofile=require("./routes/updateprofile");
 const courseInstructor=require("./routes/courseInstructor");
-
+const resetPassword = require('./routes/resetpw');
+const viewAtt = require("./routes/viewattendance");
 
                                                                                     
 //authentication
@@ -49,7 +50,8 @@ app.use("/signout",signout);
 app.use("/viewprofile",viewProfile);
 app.use("/updateprofile",updateprofile);
 app.use("/ci",courseInstructor);
-
+app.use("/resetpw" , resetPassword);
+app.use("/viewatt" , viewAtt);
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
@@ -70,6 +72,9 @@ app.listen(process.env.PORT, () => {
 async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
+   
+
+
     const s=new Schedule({
         id:3,
         Saturday:[{
