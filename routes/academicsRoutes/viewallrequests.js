@@ -10,13 +10,13 @@ route.get("/", async(req, res)=>{
     try{
     const status=req.body.status;
     let result;
-    if(type=="all")
+    if(status=="all")
     {
-     result=  await requests.find({sender_id: req.id});
+        result=  await requests.find({sender_id: req.id});
     }
     else
     {
-         result=  await requests.find({sender_id: req.id,status:status});
+        result=  await requests.find({sender_id: req.id,status:status});
     }
      res.send(result);
 

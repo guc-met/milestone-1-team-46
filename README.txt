@@ -40,8 +40,9 @@ Request type: POST
 
 
 Functionality: get  submitted requests 
-Route: ac/replacementrequest
+Route: ac/viewallrequests
 Request type: GET
+Request body: {"status":"Pending"}
 Response: Array of requests . Example of requests: [
     {
         "status": "Pending",
@@ -72,6 +73,11 @@ Functionality: send a leave request
 Route: /ac/leaverequest
 Request type: POST
 Request body: {"type":"Annual leave","info": "2"}
+
+Functionality: cancel a pending request
+Route: /ac/cancelrequest
+Request type: POST
+Request body: {"reqId":"5fddceb5beebcb4a94ae9dc7"}
 
 
 
