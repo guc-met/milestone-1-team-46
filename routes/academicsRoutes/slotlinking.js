@@ -7,18 +7,27 @@ const requests=require("../../models/Requests");
 route.post("/", async(req, res)=>{
     try{
       const slotId=req.body.slotId;
-      const tslot= await teachingSlots.find({_id:slotId});
+      const tslot= await teachingSlots.findOne({_id:slotId});
       const cc= tslot.ccId;
+      const x=tslot._id;
+    //  console.log(tslot._id);
 
       const r1=new requests(
           {
               sender_id: req.id,
               receiver_id:cc,
               type: "slot linking",
-              info:slotId
+              info: x
           }
       )
-     res.send(tslot.ccId);
+     await r1.save().then(()=>{
+         res.send("request submittedd");
+         console.log(`Request submitted successfully ${r1}`);
+        
+      } ).catch(err=>{
+          console.log(err.message);
+      });
+    
 
     }catch(err)
     {

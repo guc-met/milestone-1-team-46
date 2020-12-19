@@ -53,13 +53,11 @@ Response: Array of requests . Example of requests: [
     }
 ]
 
-Functionality: submit slot linking request
-Route: ac/replacementrequest
-Request type: POST
+
 
 
 Functionality: get  slot linking requests 
-Route: ac/replacementrequest
+Route: ac/slotlinking
 Request type: GET
 Response: Array of requests . Example of requests: [
     {
@@ -72,7 +70,10 @@ Response: Array of requests . Example of requests: [
     }
 ]
 
-
+Functionality: send a slot linking request
+Route: /ac/slotlinking
+Request type: POST
+Request body: { "slotId":"5fdd0e74b7f2d37b1cdb07a5"}
 
 
 

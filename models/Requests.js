@@ -26,7 +26,7 @@ const Request=mongoose.Schema({
      * in case of compensation leave it is the reason
      */
     info:{
-        Type: String
+        type: String
 
     }
 
