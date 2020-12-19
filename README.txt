@@ -68,6 +68,11 @@ Route: /ac/changedayoff
 Request type: POST
 Request body: { "dayOff":"Saturday"}
 
+Functionality: send a leave request
+Route: /ac/leaverequest
+Request type: POST
+Request body: {"type":"Annual leave","info": "2"}
+
 
 
 Functionality : reset a staff member password

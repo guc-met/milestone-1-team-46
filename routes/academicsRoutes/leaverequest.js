@@ -1,22 +1,38 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
-const teachingSlots=require("../../models/TeachingSlots");
 const requests=require("../../models/Requests");
+const StaffMembers=require("../../models/staffMember");
+const Faculties=require("../../models/Faculties")
 
 
 route.post("/", async(req, res)=>{
     try{
-      const slotId=req.body.slotId;
-      const tslot= await teachingSlots.findOne({_id:slotId});
-      const cc= tslot.ccId;
-      const info=tslot._id;
-    //  console.log(tslot._id);
+    //getting the HOD
+    const memId=req.id;
+    const mem=  await StaffMembers.findOne({id:memId});
+    const memFaculty=mem.faculty;
+    const memDepartment=mem.department;
+    const departments=(await Faculties.findOne({name:memFaculty})).departments;
+    let hodId=0;
+
+    console.log(departments);
+    for(let i=0;i<departments.length;i++)
+    {
+        if(departments[i].name==memDepartment)
+        {
+            hodId=departments[i].HOD;
+        }
+
+    }
+    //getting type of leave and info
+    const type=req.body.type;
+    const info=req.body.info;
 
       const r1=new requests(
           {
               sender_id: req.id,
-              receiver_id:cc,
-              type: "slot linking",
+              receiver_id:hodId,
+              type: type,
               info: info
           }
       )
