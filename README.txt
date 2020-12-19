@@ -56,24 +56,17 @@ Response: Array of requests . Example of requests: [
 
 
 
-Functionality: get  slot linking requests 
-Route: ac/slotlinking
-Request type: GET
-Response: Array of requests . Example of requests: [
-    {
-        "status": "Pending",
-        "_id": "5fdceaab33137e43080b945f",
-        "sender_id": 10,
-        "type": "slot linking",
-        "time": "2020-12-18T17:45:15.542Z",
-        "__v": 0
-    }
-]
 
 Functionality: send a slot linking request
 Route: /ac/slotlinking
 Request type: POST
 Request body: { "slotId":"5fdd0e74b7f2d37b1cdb07a5"}
+
+
+Functionality: send a change-day-off request
+Route: /ac/changedayoff
+Request type: POST
+Request body: { "dayOff":"Saturday"}
 
 
 
