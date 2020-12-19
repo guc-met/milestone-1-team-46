@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 
-const Courses=mongoose.Schema({
+const Coursesmodel=mongoose.Schema({
     coursename:{
         type:String,
         required:true,
@@ -34,15 +34,4 @@ const Courses=mongoose.Schema({
         type : Number
     },
 })
-module.exports=Courses;
-/*
-below is how to update any DATE type in the database 
-const Assignment = mongoose.model('Assignment', { dueDate: Date });
-Assignment.findOne(function (err, doc) {
-  doc.dueDate.setMonth(3);
-  doc.save(callback); // THIS DOES NOT SAVE YOUR CHANGE
-  doc.markModified('dueDate');
-  doc.save(callback); // works
-})
-*/
-
+module.exports=mongoose.model("Coursesmodel",Coursesmodel);

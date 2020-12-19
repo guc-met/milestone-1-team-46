@@ -65,7 +65,7 @@ const staffSchema = new schema({
     },
 
     daysOff :  {
-        type : Array
+        type : String
     },
 
     annualLeaveBalance : {
@@ -88,7 +88,7 @@ const staffSchema = new schema({
     },
     salary: {
         type: Number,
-        default: 3000
+        
 
     }
 

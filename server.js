@@ -12,6 +12,9 @@ const signout=require("./routes/signout");
 const viewProfile=require("./routes/viewProfile");
 const updateprofile=require("./routes/updateprofile");
 
+const HR=require("./routes/HR");
+const HOD=require("./routes/HOD");
+
 
                                                                                     
 //authentication
@@ -40,6 +43,8 @@ app.use(express.urlencoded({ extended: false }));
 //taking the login route before applying authentication
 app.use("/", login);
 app.use(auth);
+app.use("/HR",HR);
+app.use("/HOD",HOD);
 
 
 //routes
@@ -52,7 +57,7 @@ app.use("/updateprofile",updateprofile);
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-    //testSchemas();
+    //  testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -66,22 +71,23 @@ app.listen(process.env.PORT, () => {
 
 
 async function testSchemas() {
-    const staffMember = require('./models/staffMember.js');
+    const courses = require('./models/Coursesmodel.js');
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
     staffMember.counterReset('id', function (err) {
         // Now the counter is 0
     });*/
-    const s1 = new staffMember({
-        name: "Muhad",
-        gender: "Male",
-        email: "muhadsamir@hotmail.com",
-        office: "C701",
-        daysOff: ["Sunday"],
-        annualLeaveBalance: 5,
-        hr: false
+    const c1 = new courses({
+        coursename: "maths1",
+        coursecode: "maths101",
+        ccid:5
+
     });
+
+// var d=new Date(Date.now()).getDate();
+
+// console.log(d)
     /*const s2 = new staffMember({
         name : "7amada",
         gender: "Male",
@@ -110,10 +116,7 @@ async function testSchemas() {
         hr : false
     });*/
 
-
-
-
-    await s1.save();
+     await c1.save();
     /*s1.setNext('seq', function(err, user){
         s1.no; // the counter value
     });*/
@@ -129,4 +132,6 @@ async function testSchemas() {
     /*s4.setNext('seq', function(err, user){
         s4.no; // the counter value
     });*/
+
+   
 }
