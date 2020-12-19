@@ -4,6 +4,35 @@ const staffMember=require("../../models/staffMember");
 const teachingSlots=require("../../models/TeachingSlots");
 const faculties=require("../../models/Faculties");
 
+//viewing  course slot(s)
+route.get("/",async(req,res)=>{
+    try{
+        const CCId=req.id;
+        const member= await staffMember.findOne({id:CCId});
+        //if the course coordinator specified an id
+        const id=req.body.id;
+        if(! member){
+            return res.status(400).json({msg:"incorrect credentials"});        
+        }
+        if(!member.cc){
+            return res.status(401).json({msg:"unauthorized"});            
+        }
+        //const slots;
+        if(id){
+            slots=await teachingSlots.find({ccId:CCId,_id:id});
+        }
+        else{
+            slots=await teachingSlots.find({ccId:CCId});
+        }
+        
+        res.json(slots);
+    }
+    catch(err){
+        return res.status(500).json({error:err.message});
+    }
+})
+
+
 //adding a slot
 route.post("/",async(req,res)=>{
     try{
@@ -19,6 +48,7 @@ route.post("/",async(req,res)=>{
         const location=req.body.location;
         const time=req.body.time;
         const type=req.body.type;
+        const day=req.body.day;
         //get the course coordinator's course
         let course= "";//await getCourse(member);
         //get the member's faculty and department
@@ -43,7 +73,8 @@ route.post("/",async(req,res)=>{
                 location:location,
                 time:time,
                 course:course.coursename,
-                type:type
+                type:type,
+                day:day
             },
             ccId:CCId
         });
@@ -148,6 +179,7 @@ route.put("/",async(req,res)=>{
         const time=req.body.time;
         const location=req.body.location;
         const type=req.body.type;
+        const day=req.body.day;
         const slotID=req.body.id;
         const curSlot=await teachingSlots.findById(slotID);
         //get the course coordinator's course
@@ -177,6 +209,9 @@ route.put("/",async(req,res)=>{
         }
         if(location){
             await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.location":location}});
+        }
+        if(day){
+            await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.day":day}});
         }
         if(type){
             //updating numbers of each type of slots

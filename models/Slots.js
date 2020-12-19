@@ -13,6 +13,18 @@ const slots= mongoose.Schema({
         type:String,
         required:true
     },
+    day:
+    {
+        type: String,
+        enum:[
+            "Saturday",
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+        ]
+    },
     time:
     {
         type: String,
