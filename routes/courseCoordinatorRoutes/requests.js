@@ -32,9 +32,9 @@ route.post("/",async(req,res)=>{
         if(! member){
             return res.status(400).json({msg:"incorrect credentials"});        
         }
-       /* if(!member.cc){
+       if(!member.cc){
             return res.status(401).json({msg:"unauthorized"});            
-        }*/
+        }
         //request id and whether to accept or reject it
         const id=req.body.id;
         const accepted=req.body.accepted;
