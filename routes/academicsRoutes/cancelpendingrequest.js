@@ -9,7 +9,11 @@ const Requests=require("../../models/Requests");
 route.post("/", async(req, res)=>{
     try{
     const reqId=req.body.reqId;
-    const request= await Requests.findOne({_id:reqId});
+    const request= await Requests.findOne({_id:reqId}).then(()=>{
+        console.log(`found request with id:${reqId}`);
+    }).catch(err=>{
+        console.log(err.message);
+    });
 
     if(request.status=="Pending")
     {

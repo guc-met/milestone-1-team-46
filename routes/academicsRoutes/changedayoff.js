@@ -13,7 +13,13 @@ route.post("/", async(req, res)=>{
  
     const memFaculty=mem.faculty;
     const memDepartment=mem.department;
-    const departments=(await Faculties.findOne({name:memFaculty})).departments;
+    const faculty=await Faculties.findOne({name:memFaculty}).then(()=>{
+        console.log(`found faculty with name: ${memFaculty}`);
+    }).catch(err=>{
+        console.log(err.message);
+    });
+    const departments=faculty.departments;
+    
     let hodId=0;
 
     console.log(departments);

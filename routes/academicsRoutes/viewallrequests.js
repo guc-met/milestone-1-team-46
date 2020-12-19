@@ -12,11 +12,21 @@ route.get("/", async(req, res)=>{
     let result;
     if(status=="all")
     {
-        result=  await requests.find({sender_id: req.id});
+        result=  await requests.find({sender_id: req.id}).then(()=>{
+            console.log(`found requests for staff member ${req.id}`);
+           
+         } ).catch(err=>{
+             console.log(err.message);
+         });
     }
     else
     {
-        result=  await requests.find({sender_id: req.id,status:status});
+        result=  await requests.find({sender_id: req.id,status:status}).then(()=>{
+            console.log(`found requests for staff member ${req.id} with status: ${status}`);
+           
+         } ).catch(err=>{
+             console.log(err.message);
+         });
     }
      res.send(result);
 
