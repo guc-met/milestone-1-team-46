@@ -40,7 +40,8 @@ route.post('/', async(req,res)=>{
        "Annual Leave Balance":member.annualLeaveBalance,
        "Accidental Leave Balance":member.accidentalLeaveBalance,
        "Department":member.department,
-       "Faculty":member.faculty
+       "Faculty":member.faculty,
+    //    "Salary":member.Salary
     })
 }
 )

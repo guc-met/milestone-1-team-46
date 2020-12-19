@@ -17,7 +17,11 @@ const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
 const missingDays = require("./routes/viewmissingdays");
 
-                                                                                  
+const HR=require("./routes/HR");
+const HOD=require("./routes/HOD");
+
+
+                                                                                    
 //authentication
 const auth = (req, res, next) => {
     try {
@@ -46,6 +50,8 @@ app.use("/", login);
 
 //middleware of auth
 app.use(auth);
+app.use("/HR",HR);
+app.use("/HOD",HOD);
 
 
 //routes
@@ -63,7 +69,7 @@ app.use("/viewmissdays" , missingDays);
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-    //testSchemas();
+    //  testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -133,6 +139,10 @@ async function testSchemas() {
         department:"MET",
         courses:["acl","db"]
     });
+
+// var d=new Date(Date.now()).getDate();
+
+// console.log(d)
     /*const s2 = new staffMember({
         name : "7amada",
         gender: "Male",
@@ -181,4 +191,6 @@ async function testSchemas() {
     /*s4.setNext('seq', function(err, user){
         s4.no; // the counter value
     });*/
+
+   
 }
