@@ -105,7 +105,7 @@ Request body: {"course":"db","id":"5"}
 Functionality: Add course slot(s) in a course coordinator's course.
 Route: /cc/slots
 Request type: POST
-Request body: {"location":"c7.203","time":"11:45"}
+Request body: {"location":"c7.203","time":"11:45","type":"lab"}
 
 Functionality: Delete course slot(s) in a course coordinator's course.
 Route: /cc/slots
