@@ -12,9 +12,14 @@ route.post("/", async(req, res)=>{
               type: "replacement"
           }
       )
-      await r1.save();
-      res.send("Request submitted successfully");
-
+      await r1.save().then(()=>{
+        res.send("request submittedd");
+        console.log(`Request submitted successfully ${r1}`);
+       
+     } ).catch(err=>{
+         console.log(err.message);
+     });
+     
     }catch(err)
     {
         return res.status(500).json({error:err.message});
