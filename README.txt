@@ -67,3 +67,52 @@ Sign ins : [
         "HR_id": null
     }]
 
+>>>>Course Instructor Routes
+
+Functionality: View all the staff in a course instructor's department or per course along with their profiles.
+Route: /ci/viewstaff
+Request type: GET
+Request body: {"course":"db"}
+Response: Array of staff members, for example:{
+password:"$2a$10$UDpXjmTT1DnuAlB5vxVbyOBv3fTaW7Z0dQA27tEn993TKblatpuBC"
+"hod":false,
+"ac":false,
+"cc":false,
+"ci":true,
+"dayOff":"Saturday",
+"faculty":"engineering",
+"department":"MET",
+"salary":3000,
+"name":"slim",
+"gender":"Male",
+"email":"ci@hotmail.com",
+"office":"C701",
+"annualLeaveBalance":5,
+"hr":false,
+"no":2,
+"id":2
+}
+
+
+Functionality: Assign an academic member in each of a course instructor's course(s) to be a course coordinator.
+Route: /ci/assgincc
+Request type: POST
+Request body: {"course":"db","id":"5"}
+
+
+>>>>Course Coordinator Routes
+
+Functionality: Add course slot(s) in a course coordinator's course.
+Route: /cc/slots
+Request type: POST
+Request body: {"location":"c7.203","time":"11:45"}
+
+Functionality: Delete course slot(s) in a course coordinator's course.
+Route: /cc/slots
+Request type: DELETE
+Request body: {"id":"5fddbdddb77d5c139405ce39"}
+
+Functionality: Update course slot(s) in a course coordinator's course.
+Route: /cc/slots
+Request type: PUT
+Request body: {"id":"5fddbdddb77d5c139405ce39","location":"c7.203","time":"11:45"}

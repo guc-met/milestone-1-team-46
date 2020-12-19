@@ -19,18 +19,40 @@ route.post("/",async(req,res)=>{
         const location=req.body.location;
         const time=req.body.time;
         //get the course coordinator's course
-        let course= await getCourse(member);
-       
+        let course= "";//await getCourse(member);
+        //get the member's faculty and department
+        const faculty=member.faculty; 
+        const department=member.department;
+        //getting the course
+        const curFaculty=await faculties.findOne({name:faculty});
+        for(let i=0;i<curFaculty.departments.length;i++){
+            if(curFaculty.departments[i].name===department){
+                curDept=curFaculty.departments[i];
+                break;
+            }
+        }
+        for(let i=0;i<curDept.courses.length;i++){
+            if(curDept.courses[i].ccId===member.id){
+                course=curDept.courses[i];
+            }
+        }
         //adding the slot
         const ts=new teachingSlots({
             slot:{
                 location:location,
                 time:time,
-                course:course
+                course:course.coursename
             },
             ccId:CCId
         });
         await ts.save();
+        //updating the total number of this course's slots
+       
+        if(!course.totalslots)
+            course.totalslots=0;
+        course.totalslots+=1;
+
+        await curFaculty.save();
         res.json(ts);
     }
     catch(err){
@@ -52,13 +74,38 @@ route.delete("/",async(req,res)=>{
         //getting the slot's id
         const slotID=req.body.id;
         const curSlot=await teachingSlots.findById(slotID);
-         //get the course coordinator's course
-         let course= await getCourse(member);
-        //the course coordinator is authorized to only delete a lot from his/her course
-        if(curSlot.slot.course!==course){
+        //get the course coordinator's course
+        let course= "";
+         //get the member's faculty and department
+         const faculty=member.faculty; 
+         const department=member.department;
+         //getting the course
+         const curFaculty=await faculties.findOne({name:faculty});
+         for(let i=0;i<curFaculty.departments.length;i++){
+             if(curFaculty.departments[i].name===department){
+                 curDept=curFaculty.departments[i];
+                 break;
+             }
+         }
+         for(let i=0;i<curDept.courses.length;i++){
+             if(curDept.courses[i].ccId===member.id){
+                 course=curDept.courses[i];
+             }
+         }
+        //the course coordinator is authorized to only delete a slot from his/her course
+        if(curSlot.slot.course!==course.coursename){
             return res.status(401).json({msg:"unauthorized"});                        
         }
+        
         const deletedSlot=await teachingSlots.findByIdAndDelete(slotID);
+        //updating total number of course slots
+        if(deletedSlot){
+            if(!course.totalslots)
+                course.totalslots=0;
+            if(course.totalslots>0)
+                course.totalslots-=1;
+        }
+        await curFaculty.save();
         res.json(deletedSlot);
     }
     catch(err){
