@@ -147,12 +147,29 @@ route.put("/",async(req,res)=>{
         //getting the slot's updated time and/or location
         const time=req.body.time;
         const location=req.body.location;
+        const type=req.body.type;
         const slotID=req.body.id;
         const curSlot=await teachingSlots.findById(slotID);
-         //get the course coordinator's course
-         let course= await getCourse(member);
+        //get the course coordinator's course
+        let course="";
+        //get the member's faculty and department
+        const faculty=member.faculty; 
+        const department=member.department;
+        //getting the course name
+        const curFaculty=await faculties.findOne({name:faculty});
+        for(let i=0;i<curFaculty.departments.length;i++){
+            if(curFaculty.departments[i].name===department){
+                curDept=curFaculty.departments[i];
+                break;
+            }
+        }
+        for(let i=0;i<curDept.courses.length;i++){
+            if(curDept.courses[i].ccId===member.id){
+                course=curDept.courses[i];
+            }
+        }
         //the course coordinator is authorized to only delete a lot from his/her course
-        if(curSlot.slot.course!==course){
+        if(curSlot.slot.course!==course.coursename){
             return res.status(401).json({msg:"unauthorized"});                        
         }
         if(time){
@@ -160,6 +177,34 @@ route.put("/",async(req,res)=>{
         }
         if(location){
             await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.location":location}});
+        }
+        if(type){
+            //updating numbers of each type of slots
+            const curSlot= await teachingSlots.findById(slotID);
+            const oldType=curSlot.slot.type;
+            await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.type":type}});
+            if(oldType!==type){
+                if(type==="lab"){
+                    course.labs++;
+                }
+                else if(type==="tutorial"){
+                    course.tutorials++;
+                }
+                else if(type==="lecture"){
+                    course.lectures++;
+                }
+
+                if(oldType==="lab"){
+                    course.labs--;
+                }
+                else if(oldType==="tutorial"){
+                    course.tutorials--;
+                }
+                else if(oldType==="lecture"){
+                    course.lectures--;
+                }
+                await curFaculty.save();
+            }
         }
         const upSlot=await teachingSlots.findById(slotID);
         res.json(upSlot);

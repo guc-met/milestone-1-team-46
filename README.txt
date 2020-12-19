@@ -115,4 +115,4 @@ Request body: {"id":"5fddbdddb77d5c139405ce39"}
 Functionality: Update course slot(s) in a course coordinator's course.
 Route: /cc/slots
 Request type: PUT
-Request body: {"id":"5fddbdddb77d5c139405ce39","location":"c7.203","time":"11:45"}
+Request body: {"id":"5fddbdddb77d5c139405ce39","location":"c7.203","time":"11:45","type":"lab"}
