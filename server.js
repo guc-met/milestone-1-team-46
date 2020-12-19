@@ -15,7 +15,7 @@ const courseInstructor=require("./routes/courseInstructor");
 const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
-
+const missingDays = require("./routes/viewmissingdays");
 
                                                                                   
 //authentication
@@ -43,6 +43,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //taking the login route before applying authentication
 app.use("/", login);
+
+//middleware of auth
 app.use(auth);
 
 
@@ -55,12 +57,13 @@ app.use("/ci",courseInstructor);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
+app.use("/viewmissdays" , missingDays);
 
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-    testSchemas();
+    //testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
