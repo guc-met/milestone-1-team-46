@@ -6,13 +6,8 @@ const schedules=require("../../models/Schedule");
 
 route.get("/", async(req, res)=>{
     try{
-        const id=req.id;
-        const mySchedule= await schedules.findOne({id:id}).then(()=>{
-            console.log(`found schedule for staff member ${req.id}`);
-           
-         } ).catch(err=>{
-             console.log(err.message);
-         });
+        
+        const mySchedule= await schedules.findOne({id:req.id});
         res.json(mySchedule);
 
     }catch(err)

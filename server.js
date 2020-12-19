@@ -62,7 +62,7 @@ app.use("/ac",academic);
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-  //  testSchemas();
+    testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -89,28 +89,28 @@ async function testSchemas() {
         ccId:10,
 
     })
-   await t.save();
+ //  await t.save();
 
     const s=new Schedule({
-        id:5,
+        id:14,
         Saturday:[{
             location:"3am s3d",
             course:"acl",
-            time:"nowwww"
+            time:"8:15"
         },
         {
             location:"3am s3d",
             course:"acl",
-            time:"nowwww"
+            time:"10:00"
         }
     ],
         Sunday:[{
             location:"3am s3d",
             course:"acl",
-            time:"nowwww"
+            time:"11:45"
         }]
     })
-    //await s.save();
+    await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });

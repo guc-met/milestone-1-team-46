@@ -7,11 +7,7 @@ const requests=require("../../models/Requests");
 route.post("/", async(req, res)=>{
     try{
       const slotId=req.body.slotId;
-      const tslot= await teachingSlots.findOne({_id:slotId}).then(()=>{
-          console.log(`Found teaching slot with id: ${slotId}`);
-      }).catch(err=>{
-          console.log(err.message);
-      });
+      const tslot= await teachingSlots.findOne({_id:slotId});
       const cc= tslot.ccId;
       const info=tslot._id;
     //  console.log(tslot._id);
