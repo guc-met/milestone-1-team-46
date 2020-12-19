@@ -9,6 +9,7 @@ const Request=mongoose.Schema({
     },
     type:{
         type: String,
+        enum:["slot linking","replacement","compensation leave", "annual leave","maternity leave","sick leave", "accidental leave", "change-day-off"]
 
     },
     status:{
