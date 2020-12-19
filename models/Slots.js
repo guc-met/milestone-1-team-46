@@ -5,6 +5,10 @@ const slots= mongoose.Schema({
         type:String,
         required:true
     },
+    type:{
+        type:String,
+        enum:["lab","lecture","tutorial"]
+    },
     course:{
         type:String,
         required:true

@@ -18,6 +18,7 @@ route.post("/",async(req,res)=>{
         //get the location and the timing of the slot to be added
         const location=req.body.location;
         const time=req.body.time;
+        const type=req.body.type;
         //get the course coordinator's course
         let course= "";//await getCourse(member);
         //get the member's faculty and department
@@ -41,17 +42,26 @@ route.post("/",async(req,res)=>{
             slot:{
                 location:location,
                 time:time,
-                course:course.coursename
+                course:course.coursename,
+                type:type
             },
             ccId:CCId
         });
         await ts.save();
+
         //updating the total number of this course's slots
-       
         if(!course.totalslots)
             course.totalslots=0;
         course.totalslots+=1;
-
+        if(type==="lab"){
+            course.labs++;
+        }
+        else if(type==="tutorial"){
+            course.tutorials++;
+        }
+        if(type==="lecture"){
+            course.lectures++;
+        }
         await curFaculty.save();
         res.json(ts);
     }
@@ -74,6 +84,7 @@ route.delete("/",async(req,res)=>{
         //getting the slot's id
         const slotID=req.body.id;
         const curSlot=await teachingSlots.findById(slotID);
+        const type=curSlot.slot.type;
         //get the course coordinator's course
         let course= "";
          //get the member's faculty and department
@@ -102,8 +113,18 @@ route.delete("/",async(req,res)=>{
         if(deletedSlot){
             if(!course.totalslots)
                 course.totalslots=0;
-            if(course.totalslots>0)
+            if(course.totalslots>0){
                 course.totalslots-=1;
+                if(type==="lab"){
+                    course.labs--;
+                }
+                else if(type==="tutorial"){
+                    course.tutorials--;
+                }
+                if(type==="lecture"){
+                    course.lectures--;
+                }
+            }
         }
         await curFaculty.save();
         res.json(deletedSlot);
