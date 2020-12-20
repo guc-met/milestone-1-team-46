@@ -20,7 +20,7 @@ route.post('/', async(req,res)=>{
             HR_id:req.id,
             time: req.body.time
            })
-           MissedSign.save();
+         await  MissedSign.save();
            
     }
     else{

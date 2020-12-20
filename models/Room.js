@@ -14,15 +14,7 @@ const Room=mongoose.Schema({
         type: Number,
 
     },
-    currcapacity:{
-        type: Number,
-
-    },
-    occupied:{
-        type: Boolean,
-        required: true,
-
-    },
+   
 })
 module.exports=mongoose.model("Room",Room);
 /*

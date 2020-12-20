@@ -66,6 +66,7 @@ app.use("/ac",academic);
 app.use("/viewmissdays" , missingDays);
 
 
+
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
