@@ -55,8 +55,9 @@ route.post('/', async(req,res)=>{
         allLeaves.forEach(ele => {
             leaveMonth = ele.date.getMonth()+1;
             leaveDay = ele.date.getDate();
+            leaveDuration = ele.Duration
             if(leaveMonth==month){
-                if(leaveDay == day || (day == leaveDay-1) || (day < leaveDay+ele.Duration-1 && day>leaveDay)){
+                if(leaveDay == day || (day <= leaveDay+leaveDuration && day>leaveDay)){
                         leaveExecuse = true;
                 }
             }
