@@ -34,7 +34,9 @@ const Courses=mongoose.Schema({
         default:0
     },
 })
+//module.exports=mongoose.model("Courses",Courses);
 module.exports=Courses;
+
 /*
 below is how to update any DATE type in the database 
 

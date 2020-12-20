@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router();
 
 const staffMember=require("../../models/staffMember");
+const TeachingSlots=require("../../models/TeachingSlots");
 
 
 route.get("/", async(req, res)=>{
@@ -17,15 +18,24 @@ route.get("/", async(req, res)=>{
         //get the hod's faculty and department
         const faculty=member.faculty; 
         const department=member.department;
-        const hod=member.hod;
-        //get all staff member in the same department
+        let staffmembers= await staffMember.find({faculty:faculty,department:department});
+        let results=[];
 
-        let result= await staffMember.find({faculty:faculty,department:department,hod:hod});
-
-        res.json(result);
+        
+       
+        for(let i=0;i<staffmembers.length;i++){
+          let memberid=staffmembers[i].id;
+          let match= await TeachingSlots.findOne({assigneeid:memberid});
+          if(match)
+          results.push(match);
+         }
+         
+        
+        res.json(results);
     } 
     catch(err)
     {
+        //return res.status(401).json({msg:"testing"});  
         return res.status(500).json({error:err.message});
     }
 })
