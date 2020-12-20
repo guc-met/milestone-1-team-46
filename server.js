@@ -16,12 +16,13 @@ const courseCoordinator=require("./routes/courseCoordinator");
 const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
+const missingDays = require("./routes/viewmissingdays");
 
 const HR=require("./routes/HR");
 const HOD=require("./routes/HOD");
 
 
-                                                                                  
+                                                                                    
 //authentication
 const auth = (req, res, next) => {
     try {
@@ -47,6 +48,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //taking the login route before applying authentication
 app.use("/", login);
+
+//middleware of auth
 app.use(auth);
 app.use("/HR",HR);
 app.use("/HOD",HOD);
@@ -62,6 +65,8 @@ app.use("/cc",courseCoordinator);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
+app.use("/viewmissdays" , missingDays);
+
 
 
 //DB connection
@@ -83,6 +88,41 @@ app.listen(process.env.PORT, () => {
 
 async function testSchemas() {
     const room= require('./models/Room.js');
+    const staffMember = require('./models/staffMember.js');
+    const Schedule=require("./models/Schedule"); 
+    const TeachingSlots=require("./models/TeachingSlots");
+    const t=new TeachingSlots({
+        slot:
+        {
+            location:"c7.109",
+            course:"csen603",
+            time:"10:00"
+        },
+        ccId:10,
+
+    })
+ //  await t.save();
+
+    const s=new Schedule({
+        id:14,
+        Saturday:[{
+            location:"3am s3d",
+            course:"acl",
+            time:"8:15"
+        },
+        {
+            location:"3am s3d",
+            course:"acl",
+            time:"10:00"
+        }
+    ],
+        Sunday:[{
+            location:"3am s3d",
+            course:"acl",
+            time:"11:45"
+        }]
+    })
+    await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
@@ -97,7 +137,19 @@ async function testSchemas() {
         curcapacity:29
 
 
-    });
+   /* const s1 = new staffMember({
+        name: "slim",
+        gender: "Male",
+        email: "ci@hotmail.com",
+        office: "C701",
+        daysOff: ["Sunday"],
+        annualLeaveBalance: 5,
+        hr: false,
+        ci:true,
+        faculty:"engineering",
+        department:"MET"
+    });*/
+ 
 
 // var d=new Date(Date.now()).getDate();
 
@@ -130,7 +182,12 @@ async function testSchemas() {
         hr : false
     });*/
 
-     await c1.save();
+     
+
+
+
+   // await s1.save();
+   //await s2.save();
     /*s1.setNext('seq', function(err, user){
         s1.no; // the counter value
     });*/
@@ -148,4 +205,6 @@ async function testSchemas() {
     });*/
 
    
+
+})
 }

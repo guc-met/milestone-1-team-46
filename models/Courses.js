@@ -5,13 +5,13 @@ const Courses=mongoose.Schema({
         type:String,
         required:true,
         default:null,
-        unique: true,
+        unique: true
     },
     coursecode:{
         type:String,
         required:true,
         default:null,
-        unique :true,
+        unique: true
     },
     ccId:{
         type:Number,
