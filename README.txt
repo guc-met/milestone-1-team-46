@@ -144,6 +144,37 @@ Request type: POST
 Request body: {"course":"db","id":"5"}
 
 
+Functionality: Assign an academic member to an unassigned slots in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: POST
+Request body: {"ass_id":"5","slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: Update an academic member to an unassigned slots in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: PUT
+Request body: {"ass_id":"5","slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: delete assignment of academic member in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: DELETE
+Request body: {"slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: Assign an academic member to an unassigned slots in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: POST
+Request body: {"ass_id":"5","slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: Remove an assigned academic member in course(s) he/she is assigned to.
+Route: /ci/assignees
+Request type: POST
+Request body: { "ass_id":"5",  "course":"math"}
+
+
+
 >>>>Course Coordinator Routes
 
 Functionality: Add course slot(s) in a course coordinator's course.
