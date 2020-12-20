@@ -3,6 +3,7 @@ const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
 const teachingSlots=require("../../models/TeachingSlots");
 const faculties=require("../../models/Faculties");
+const schedules=require("../../models/Schedule");
 
 //viewing  course slot(s)
 route.get("/",async(req,res)=>{
@@ -200,50 +201,212 @@ route.put("/",async(req,res)=>{
                 course=curDept.courses[i];
             }
         }
-        //the course coordinator is authorized to only delete a lot from his/her course
+        //the course coordinator is authorized to only update a slot from his/her course
         if(curSlot.slot.course!==course.coursename){
             return res.status(401).json({msg:"unauthorized"});                        
         }
-        if(time){
-            await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.time":time}});
-        }
-        if(location){
-            await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.location":location}});
-        }
-        if(day){
-            await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.day":day}});
-        }
-        if(type){
-            //updating numbers of each type of slots
-            const curSlot= await teachingSlots.findById(slotID);
-            const oldType=curSlot.slot.type;
-            await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.type":type}});
-            if(oldType!==type){
-                if(type==="lab"){
-                    course.labs++;
+        //updating the teaching slot
+        const actualSlot=curSlot.slot;
+        const oldDay=actualSlot.day;
+        const ass_id=curSlot.assigneeid;
+        //if no academic member is assigned to this slot
+        if(ass_id===null){
+            if(time){
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.time":time}});
+            }
+            if(location){
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.location":location}});
+            }
+            if(day&&day!==oldDay){
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.day":day}});
+            }
+            if(type){
+                //updating numbers of each type of slots
+                const curSlot= await teachingSlots.findById(slotID);
+                const oldType=curSlot.slot.type;
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.type":type}});
+                if(oldType!==type){
+                    if(type==="lab"){
+                        course.labs++;
+                    }
+                    else if(type==="tutorial"){
+                        course.tutorials++;
+                    }
+                    else if(type==="lecture"){
+                        course.lectures++;
+                    }
+    
+                    if(oldType==="lab"){
+                        course.labs--;
+                    }
+                    else if(oldType==="tutorial"){
+                        course.tutorials--;
+                    }
+                    else if(oldType==="lecture"){
+                        course.lectures--;
+                    }
+                    await curFaculty.save();
                 }
-                else if(type==="tutorial"){
-                    course.tutorials++;
-                }
-                else if(type==="lecture"){
-                    course.lectures++;
-                }
+            }
+        }
+        //if there is an assignee we have to update his/her schedule
+        else{
+            //get his/her schedule slot to be updated
+            ass_schedule= await schedules.findOne({id:ass_id});
+            acslotID=actualSlot._id;
+            let schedSlot=undefined;
+            switch(oldDay){
+                case "Saturday":
+                    for(i=0;i<ass_schedule.Saturday.length;i++){
+                        if(ass_schedule.Saturday[i]._id.equals(acslotID)){
+                            schedSlot=ass_schedule.Saturday[i];
+                            break;
+                        }
+                    }
+                    break;
+                case "Sunday":
+                    for(i=0;i<ass_schedule.Sunday.length;i++){
+                        if(ass_schedule.Sunday[i]._id.equals(acslotID)){
+                            schedSlot=ass_schedule.Sunday[i];
+                            break;
+                        }
+                    }
+                    break;
+                case "Monday":
+                    for(i=0;i<ass_schedule.Monday.length;i++){
+                        if(ass_schedule.Monday[i]._id.equals(acslotID)){
+                            schedSlot=ass_schedule.Monday[i];
+                            break;
+                        }
+                    }
+                    break;
+                case "Tuesday":
+                    for(i=0;i<ass_schedule.Tuesday.length;i++){
+                        if(ass_schedule.Tuesday[i]._id.equals(acslotID)){
+                            schedSlot=ass_schedule.Tuesday[i];
+                            break;
+                        }
+                    }
+                    break;
+                case "Wednesday":
+                    for(i=0;i<ass_schedule.Wednesday.length;i++){
+                        if(ass_schedule.Wednesday[i]._id.equals(acslotID)){
+                            schedSlot=ass_schedule.Wednesday[i];
+                            break;
+                        }
+                    }
+                    break;
+                case "Thursday":
+                    for(i=0;i<ass_schedule.Thursday.length;i++){
+                        if(ass_schedule.Thursday[i]._id.equals(acslotID)){
+                            schedSlot=ass_schedule.Thursday[i];
+                            break;
+                        }
+                    }
+                    
+                    break;
+                default:
+                    console.log("day is wrong");
 
-                if(oldType==="lab"){
-                    course.labs--;
+            }
+            if(time){
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.time":time}});
+                schedSlot.time=time;
+                await ass_schedule.save();
+            }
+            if(location){
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.location":location}});
+                schedSlot.location=location;
+                await ass_schedule.save();    
+            }
+            if(type){
+                //updating numbers of each type of slots
+                const curSlot= await teachingSlots.findById(slotID);
+                const oldType=curSlot.slot.type;
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.type":type}});
+                schedSlot.type=type;
+                await ass_schedule.save(); 
+                if(oldType!==type){
+                    if(type==="lab"){
+                        course.labs++;
+                    }
+                    else if(type==="tutorial"){
+                        course.tutorials++;
+                    }
+                    else if(type==="lecture"){
+                        course.lectures++;
+                    }
+    
+                    if(oldType==="lab"){
+                        course.labs--;
+                    }
+                    else if(oldType==="tutorial"){
+                        course.tutorials--;
+                    }
+                    else if(oldType==="lecture"){
+                        course.lectures--;
+                    }
+                    await curFaculty.save();
                 }
-                else if(oldType==="tutorial"){
-                    course.tutorials--;
+            }
+            if(day&&day!==oldDay){
+                await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.day":day}});
+                schedSlot.day=day;
+                await ass_schedule.save();
+                //change the assignee's slot day
+                //remove slot from old day
+                switch(oldDay){
+                    case "Saturday":
+                        ass_schedule.Saturday.splice(ass_schedule.Saturday.indexOf(schedSlot),1);
+                        break;
+                    case "Sunday":
+                        ass_schedule.Sunday.splice(ass_schedule.Sunday.indexOf(schedSlot),1);
+                        break;
+                    case "Monday":
+                        ass_schedule.Monday.splice(ass_schedule.Monday.indexOf(schedSlot),1);
+                        break;
+                    case "Tuesday":
+                        ass_schedule.Tuesday.splice(ass_schedule.Tuesday.indexOf(schedSlot),1);
+                        break;
+                    case "Wednesday":
+                        ass_schedule.Wednesday.splice(ass_schedule.Wednesday.indexOf(schedSlot),1);
+                        break;
+                    case "Thursday":
+                        ass_schedule.Thursday.splice(ass_schedule.Thursday.indexOf(schedSlot),1);
+                        break;
+                    default:
+                        console.log("day is wrong");
+    
                 }
-                else if(oldType==="lecture"){
-                    course.lectures--;
+                //add the slot to the updated day
+                switch(day){
+                    case "Saturday":
+                        ass_schedule.Saturday.push(schedSlot);
+                        break;
+                    case "Sunday":
+                        ass_schedule.Sunday.push(schedSlot);
+                        break;
+                    case "Monday":
+                        ass_schedule.Monday.push(schedSlot);
+                        break;
+                    case "Tuesday":
+                        ass_schedule.Tuesday.puh(schedSlot);
+                        break;
+                    case "Wednesday":
+                        ass_schedule.Wednesday.push(schedSlot);
+                        break;
+                    case "Thursday":
+                        ass_schedule.Thursday.push(schedSlot);
+                        break;
+                    default:
+                        console.log("day is wrong");
                 }
-                await curFaculty.save();
+                await ass_schedule.save();
             }
         }
         const upSlot=await teachingSlots.findById(slotID);
         res.json(upSlot);
-    }
+   }
     catch(err){
         return res.status(500).json({error:err.message});
     }
