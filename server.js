@@ -16,6 +16,7 @@ const courseCoordinator=require("./routes/courseCoordinator");
 const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
+
 const viewdayoff=require("./routes/HOD/viewdayoff");
 const viewrequests=require("./routes/HOD/viewrequests");
 const Requests = require("./models/Requests");
@@ -25,7 +26,14 @@ const viewcourse = require("./routes/courseInstructorRoutes/viewcourse");
 const CoursesModel = require("./models/CoursesModel");
 const viewslots = require("./routes/courseInstructorRoutes/viewslots");
 
-                                                                                  
+const missingDays = require("./routes/viewmissingdays");
+
+const HR=require("./routes/HR");
+const HOD=require("./routes/HOD");
+
+
+
+                                                                                    
 //authentication
 const auth = (req, res, next) => {
     try {
@@ -51,7 +59,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //taking the login route before applying authentication
 app.use("/", login);
+
+//middleware of auth
 app.use(auth);
+app.use("/HR",HR);
+app.use("/HOD",HOD);
 
 
 //routes
@@ -64,12 +76,18 @@ app.use("/cc",courseCoordinator);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
+
 app.use("/viewdayoff",viewdayoff);
 app.use("/viewrequests",viewrequests);
 app.use("/viewcoverage",viewcoverage);
 app.use("/viewta",viewta);
 app.use("/viewcourse",viewcourse);
 app.use("/viewslots",viewslots);
+
+app.use("/viewmissdays" , missingDays);
+
+
+
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
@@ -90,6 +108,18 @@ app.listen(process.env.PORT, () => {
 async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
+    const TeachingSlots=require("./models/TeachingSlots");
+    const t=new TeachingSlots({
+        slot:
+        {
+            location:"c7.109",
+            course:"csen603",
+            time:"10:00"
+        },
+        ccId:10,
+
+    })
+ //  await t.save();
 
 //     const s=new Schedule({
 //         id:5,
@@ -235,4 +265,6 @@ async function testSchemas() {
     /*s4.setNext('seq', function(err, user){
         s4.no; // the counter value
     });*/
+
+   
 }
