@@ -1,0 +1,6 @@
+1- documentation of "add/update/delete location"
+2- handle "view attendance" in a better Way 
+3- take "view missing hours" from farah
+4- handle model hours balance with farah and add month attribute to it 
+5- when a person "views missing days" using a month , add a record in hoursBalance with the missing days for the corresponding month
+
