@@ -73,6 +73,7 @@ app.use("/viewmissdays" , missingDays);
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
     //  testSchemas();
+    // testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -86,6 +87,7 @@ app.listen(process.env.PORT, () => {
 
 
 async function testSchemas() {
+    const room= require('./models/Room.js');
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
     const TeachingSlots=require("./models/TeachingSlots");
@@ -127,6 +129,14 @@ async function testSchemas() {
     staffMember.counterReset('id', function (err) {
         // Now the counter is 0
     });*/
+    const c1 = new room({
+        location:"C8",
+        roomtype:"office",
+        occupied:false,
+        maxcapacity:30,
+        curcapacity:29
+
+
    /* const s1 = new staffMember({
         name: "slim",
         gender: "Male",
@@ -139,19 +149,7 @@ async function testSchemas() {
         faculty:"engineering",
         department:"MET"
     });*/
-    const s2 = new staffMember({
-        name: "ashry",
-        gender: "Male",
-        email: "metstaff@hotmail.com",
-        office: "C701",
-        daysOff: ["Sunday"],
-        annualLeaveBalance: 5,
-        hr: false,
-        ci:false,
-        faculty:"engineering",
-        department:"MET",
-        courses:["acl","db"]
-    });
+ 
 
 // var d=new Date(Date.now()).getDate();
 
@@ -184,6 +182,7 @@ async function testSchemas() {
         hr : false
     });*/
 
+     
 
 
 
@@ -206,4 +205,6 @@ async function testSchemas() {
     });*/
 
    
+
+})
 }
