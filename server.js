@@ -68,7 +68,7 @@ app.use("/ac",academic);
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
     //  testSchemas();
-    testSchemas();
+    // testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
