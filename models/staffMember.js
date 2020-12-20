@@ -24,7 +24,8 @@ const staffSchema = new schema({
     },
 
     gender : {
-        type:String
+        type:String,
+        enum:["Female","Male"]
     },
 
     email : {
