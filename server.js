@@ -16,12 +16,13 @@ const courseCoordinator=require("./routes/courseCoordinator");
 const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
+const missingDays = require("./routes/viewmissingdays");
 
 const HR=require("./routes/HR");
 const HOD=require("./routes/HOD");
 
 
-                                                                                  
+                                                                                    
 //authentication
 const auth = (req, res, next) => {
     try {
@@ -47,6 +48,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //taking the login route before applying authentication
 app.use("/", login);
+
+//middleware of auth
 app.use(auth);
 app.use("/HR",HR);
 app.use("/HOD",HOD);
@@ -62,6 +65,8 @@ app.use("/cc",courseCoordinator);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
+app.use("/viewmissdays" , missingDays);
+
 
 
 //DB connection
