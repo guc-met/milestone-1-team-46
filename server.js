@@ -11,12 +11,17 @@ const signin=require("./routes/signin");
 const signout=require("./routes/signout");
 const viewProfile=require("./routes/viewProfile");
 const updateprofile=require("./routes/updateprofile");
+const courseInstructor=require("./routes/courseInstructor");
+const courseCoordinator=require("./routes/courseCoordinator");
+const resetPassword = require('./routes/resetpw');
+const viewAtt = require("./routes/viewattendance");
+const academic=require("./routes/academic");
 
 const HR=require("./routes/HR");
 const HOD=require("./routes/HOD");
 
 
-                                                                                    
+                                                                                  
 //authentication
 const auth = (req, res, next) => {
     try {
@@ -52,12 +57,18 @@ app.use("/signin",signin);
 app.use("/signout",signout);
 app.use("/viewprofile",viewProfile);
 app.use("/updateprofile",updateprofile);
+app.use("/ci",courseInstructor);
+app.use("/cc",courseCoordinator);
+app.use("/resetpw" , resetPassword);
+app.use("/viewatt" , viewAtt);
+app.use("/ac",academic);
 
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
     //  testSchemas();
+    testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)

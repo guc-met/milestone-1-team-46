@@ -7,7 +7,7 @@ const Departments=mongoose.Schema({
     },
     
     HOD:{
-        type:String,
+        type:Number,
         required:true,
     },
     courses: [Courses]
@@ -23,6 +23,7 @@ const Faculties=mongoose.Schema({
     departments:[Departments]
     
 })
+
 module.exports=mongoose.model("Faculties",Faculties);
 
 
