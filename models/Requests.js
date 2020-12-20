@@ -3,6 +3,7 @@ const mongoose=require("mongoose");
 const Request=mongoose.Schema({
     sender_id:{
         type: Number
+       
     },
     receiver_id:{
         type: Number
@@ -14,8 +15,10 @@ const Request=mongoose.Schema({
     },
     status:{
         type: String,
-        default: "Pending"
+        default: "Pending",
+        enum:["Pending","Accepted","Rejected"]
     },
+
     time:{
         type: Date,
         default: Date.now
@@ -24,10 +27,16 @@ const Request=mongoose.Schema({
      * in case of slot linking the id of slot in unassignedSlots schema
      * in case of change-day-off the day to be changed to
      * in case of compensation leave it is the reason
+     * in case of any other type of leave it is the number of days
+     * in case of replacement the date of the day
      */
     info:{
-        Type: String
+        type: String
 
+    },
+    //in case of leave requests , the day of leave
+    day:{
+        type:Date
     }
 
   

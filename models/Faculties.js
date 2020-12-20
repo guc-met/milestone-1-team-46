@@ -23,6 +23,7 @@ const Faculties=mongoose.Schema({
     departments:[Departments]
     
 })
+
 module.exports=mongoose.model("Faculties",Faculties);
 
 

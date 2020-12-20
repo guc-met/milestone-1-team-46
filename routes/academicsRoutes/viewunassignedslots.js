@@ -1,14 +1,16 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
 
-const schedules=require("../../models/Schedule");
+const teachingSlots=require("../../models/TeachingSlots");
+
+
 
 
 route.get("/", async(req, res)=>{
     try{
-        
-        const mySchedule= await schedules.findOne({id:req.id});
-        res.json(mySchedule);
+    const course=req.body.course;
+    const result= await teachingSlots.find({"slot.course":course});
+    res.send(result);
 
     }catch(err)
     {

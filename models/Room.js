@@ -9,20 +9,17 @@ const Room=mongoose.Schema({
         // could be lab, office, hall or tutorial room
         type:String,
         required:true,
+        enum:["lab","office","hall","tutorial room"]
     },
     maxcapacity:{
         type: Number,
+        required:true
 
     },
-    currcapacity:{
-        type: Number,
-
-    },
-    occupied:{
-        type: Boolean,
-        required: true,
-
-    },
+    currentCapacity:{
+        type: Number
+    }
+   
 })
 module.exports=mongoose.model("Room",Room);
 /*

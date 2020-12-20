@@ -21,10 +21,6 @@ const Coursesmodel=mongoose.Schema({
         type:Number, // farah added course instructor id to the model.
         default:null
     },
-    ciIdarray:{
-        type:Array, // farah added course instructor id to the model.
-        default: []
-    },
     labs :  {
         type : Number
     },

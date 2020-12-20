@@ -10,22 +10,20 @@ route.get("/",async(req,res)=>{
         if(! member){
             return res.status(400).json({msg:"incorrect credentials"});        
         }
-        if(!member.ci){
-            return res.status(401).json({msg:"unauthorized"});            
+        if(!member.hod){
+            return res.status(401).json({msg:"unauthorized access"});            
         }
-        //get the course instructor's faculty and department
         const faculty=member.faculty; 
         const department=member.department;
         const course=req.body.course;
-        //get all staff members in the same department
-        let preresult= await staffMember.find({faculty:faculty,department:department});
+        let preresult= await staffMember.find({faculty:faculty,department:department}); // get members in same department
         let result=[];
-        //if the course instructor specified a certain course
-        if(course){
+       
+        if(course){                                                                       // if hod checks for staff with a course
             for(let i=0;i<preresult.length;i++){
-                let member=preresult[i];
-                if(member&&member.courses&&member.courses.includes(course)){
-                    result.push(member);
+                let Staffmember=preresult[i];
+                if(Staffmember.courses&&Staffmember.courses.includes(course)){
+                    result.push(Staffmember);
                 }  
             }
         }
