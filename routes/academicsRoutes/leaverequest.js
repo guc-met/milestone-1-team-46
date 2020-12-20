@@ -7,6 +7,8 @@ const Faculties=require("../../models/Faculties")
 
 route.post("/", async(req, res)=>{
     try{
+    //getting the day of the leave
+    const reqDay=req.body.day;
     //getting the HOD
     const memId=req.id;
     const mem=  await StaffMembers.findOne({id:memId});
@@ -34,7 +36,8 @@ route.post("/", async(req, res)=>{
               sender_id: req.id,
               receiver_id:hodId,
               type: type,
-              info: info
+              info: info,
+              day:reqDay
           }
       )
      await r1.save().then(()=>{
