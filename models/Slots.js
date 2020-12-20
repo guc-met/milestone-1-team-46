@@ -29,7 +29,7 @@ const slots= mongoose.Schema({
     {
         type: String,
         required: true
-    }
+    } 
 })
 
 module.exports=slots;

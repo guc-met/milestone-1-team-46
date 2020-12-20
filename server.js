@@ -16,7 +16,14 @@ const courseCoordinator=require("./routes/courseCoordinator");
 const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
-
+const viewdayoff=require("./routes/HOD/viewdayoff");
+const viewrequests=require("./routes/HOD/viewrequests");
+const Requests = require("./models/Requests");
+const viewcoverage = require("./routes/HOD/viewcoverage");
+const viewta = require("./routes/HOD/viewta");
+const viewcourse = require("./routes/courseInstructorRoutes/viewcourse");
+const CoursesModel = require("./models/CoursesModel");
+const viewslots = require("./routes/courseInstructorRoutes/viewslots");
 
                                                                                   
 //authentication
@@ -57,12 +64,17 @@ app.use("/cc",courseCoordinator);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
-
+app.use("/viewdayoff",viewdayoff);
+app.use("/viewrequests",viewrequests);
+app.use("/viewcoverage",viewcoverage);
+app.use("/viewta",viewta);
+app.use("/viewcourse",viewcourse);
+app.use("/viewslots",viewslots);
 
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-    testSchemas();
+  // testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -79,57 +91,102 @@ async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
 
-    const s=new Schedule({
-        id:5,
-        Saturday:[{
-            location:"3am s3d",
-            course:"acl",
-            time:"nowwww"
-        },
-        {
-            location:"3am s3d",
-            course:"acl",
-            time:"nowwww"
-        }
-    ],
-        Sunday:[{
-            location:"3am s3d",
-            course:"acl",
-            time:"nowwww"
-        }]
-    })
-    //await s.save();
-   /* staffMember.counterReset('seq', function (err) {
-        // Now the counter is 0
-    });
-    staffMember.counterReset('id', function (err) {
-        // Now the counter is 0
-    });*/
-   /* const s1 = new staffMember({
-        name: "slim",
-        gender: "Male",
-        email: "ci@hotmail.com",
-        office: "C701",
-        daysOff: ["Sunday"],
-        annualLeaveBalance: 5,
-        hr: false,
-        ci:true,
-        faculty:"engineering",
-        department:"MET"
-    });*/
-    const s2 = new staffMember({
+//     const s=new Schedule({
+//         id:5,
+//         Saturday:[{
+//             location:"3am s3d",
+//             course:"acl",
+//             time:"nowwww"
+//         },
+//         {
+//             location:"3am s3d",
+//             course:"acl",
+//             time:"nowwww"
+//         }
+//     ],
+//         Sunday:[{
+//             location:"3am s3d",
+//             course:"acl",
+//             time:"nowwww"
+//         }]
+//     })
+//     //await s.save();
+//    /* staffMember.counterReset('seq', function (err) {
+//         // Now the counter is 0
+//     });
+//     staffMember.counterReset('id', function (err) {
+//         // Now the counter is 0
+//     });*/
+//    /* const s1 = new staffMember({
+//         name: "slim",
+//         gender: "Male",
+//         email: "ci@hotmail.com",
+//         office: "C701",
+//         daysOff: ["Sunday"],
+//         annualLeaveBalance: 5,
+//         hr: false,
+//         ci:true,
+//         faculty:"engineering",
+//         department:"MET"
+//     });*/
+    const s6 = new staffMember({
         name: "ashry",
         gender: "Male",
-        email: "metstaff@hotmail.com",
+        email: "muhadsamir123@hotmail.com",
         office: "C701",
         daysOff: ["Sunday"],
         annualLeaveBalance: 5,
         hr: false,
         ci:false,
+        hod: true,
         faculty:"engineering",
         department:"MET",
         courses:["acl","db"]
     });
+   // await s6.save();
+    const s7 = new CoursesModel({
+        coursename:"db",
+        coursecode: "1234",
+
+ 
+    });
+    await s7.save();
+    const s8 = new CoursesModel({
+        coursename:"acl",
+        coursecode: "123",
+        
+ 
+    });
+    await s8.save();
+//   const r10= new Requests({
+//     sender_id : "6",
+//     reciever_id: "1",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
+//   const r20= new Requests({
+//     sender_id : "2",
+//     reciever_id: "1",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
+//   const r30= new Requests({
+//     sender_id : "7",
+//     reciever_id: "3",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
+//   const r40= new Requests({
+//     sender_id : "2",
+//     reciever_id: "1",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
+
+//   await r40.save();
+  //await r20.save();
+  //await r30.save();
+   //await s6.save();
     /*const s2 = new staffMember({
         name : "7amada",
         gender: "Male",
