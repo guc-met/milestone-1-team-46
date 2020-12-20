@@ -78,27 +78,39 @@ app.listen(process.env.PORT, () => {
 async function testSchemas() {
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
+    const TeachingSlots=require("./models/TeachingSlots");
+    const t=new TeachingSlots({
+        slot:
+        {
+            location:"c7.109",
+            course:"csen603",
+            time:"10:00"
+        },
+        ccId:10,
+
+    })
+ //  await t.save();
 
     const s=new Schedule({
-        id:5,
+        id:14,
         Saturday:[{
             location:"3am s3d",
             course:"acl",
-            time:"nowwww"
+            time:"8:15"
         },
         {
             location:"3am s3d",
             course:"acl",
-            time:"nowwww"
+            time:"10:00"
         }
     ],
         Sunday:[{
             location:"3am s3d",
             course:"acl",
-            time:"nowwww"
+            time:"11:45"
         }]
     })
-    //await s.save();
+    await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });

@@ -34,6 +34,50 @@ Response: schedule of academic . Example of a single schedule: {
 }
 
 
+Functionality: submit replacement request
+Route: ac/replacementrequest
+Request type: POST
+
+
+Functionality: get  submitted requests 
+Route: ac/viewallrequests
+Request type: GET
+Request body: {"status":"Pending"}
+Response: Array of requests . Example of requests: [
+    {
+        "status": "Pending",
+        "_id": "5fdce4e9ee563f745c7deb92",
+        "sender_id": 5,
+        "type": "replacememt",
+        "time": "2020-12-18T17:20:41.357Z",
+        "__v": 0
+    }
+]
+
+
+
+
+
+Functionality: send a slot linking request
+Route: /ac/slotlinking
+Request type: POST
+Request body: { "slotId":"5fdd0e74b7f2d37b1cdb07a5"}
+
+
+Functionality: send a change-day-off request
+Route: /ac/changedayoff
+Request type: POST
+Request body: { "dayOff":"Saturday"}
+
+Functionality: send a leave request
+Route: /ac/leaverequest
+Request type: POST
+Request body: {"type":"Annual leave","info": "2"}
+
+Functionality: cancel a pending request
+Route: /ac/cancelrequest
+Request type: POST
+Request body: {"reqId":"5fddceb5beebcb4a94ae9dc7"}
 
 
 
