@@ -17,21 +17,21 @@ const Courses=mongoose.Schema({
         type:Number,
         default:null
     },
-    ciId:{
-        type:Number, // farah added course instructor id to the model.
-        default:null
-    },
     labs :  {
-        type : Number
+        type : Number,
+        default:0
     },
     lectures :  {
-        type : Number
+        type : Number,
+        default:0
     },
     tutorials :  {
-        type : Number
+        type : Number,
+        default:0
     },
     totalslots :  {
-        type : Number
+        type : Number,
+        default:0
     },
 })
 module.exports=Courses;
