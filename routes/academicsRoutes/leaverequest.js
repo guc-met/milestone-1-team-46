@@ -8,7 +8,7 @@ const Faculties=require("../../models/Faculties")
 route.post("/", async(req, res)=>{
     try{
     //getting the day of the leave
-    const reqDay=req.body.day;
+   
     //getting the HOD
     const memId=req.id;
     const mem=  await StaffMembers.findOne({id:memId});
@@ -27,10 +27,10 @@ route.post("/", async(req, res)=>{
         }
 
     }
-    //getting type of leave and info
+    //getting type of leave, info and day
     const type=req.body.type;
     const info=req.body.info;
-
+    const reqDay=req.body.day;
       const r1=new requests(
           {
               sender_id: req.id,

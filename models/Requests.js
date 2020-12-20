@@ -2,8 +2,8 @@ const mongoose=require("mongoose");
 
 const Request=mongoose.Schema({
     sender_id:{
-        type: Number,
-        enum:["Pending","Accepted","Rejected"]
+        type: Number
+       
     },
     receiver_id:{
         type: Number
@@ -15,7 +15,8 @@ const Request=mongoose.Schema({
     },
     status:{
         type: String,
-        default: "Pending"
+        default: "Pending",
+        enum:["Pending","Accepted","Rejected"]
     },
 
     time:{
