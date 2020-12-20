@@ -3,6 +3,7 @@ const mongoose=require("mongoose");
 const Request=mongoose.Schema({
     sender_id:{
         type: Number
+       
     },
     receiver_id:{
         type: Number
@@ -14,7 +15,8 @@ const Request=mongoose.Schema({
     },
     status:{
         type: String,
-        default: "Pending"
+        default: "Pending",
+        enum:["Pending","Accepted","Rejected"]
     },
 
     time:{
@@ -30,6 +32,10 @@ const Request=mongoose.Schema({
     info:{
         type: String
 
+    },
+    //in case of leave requests , the day of leave
+    day:{
+        type:Date
     }
 
   
