@@ -4,10 +4,14 @@ const Courses=mongoose.Schema({
     coursename:{
         type:String,
         required:true,
+        default:null,
+        unique: true
     },
     coursecode:{
         type:String,
         required:true,
+        default:null,
+        unique: true
     },
     ccId:{
         type:Number,
