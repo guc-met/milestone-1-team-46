@@ -20,11 +20,11 @@ route.post('/', async(req,res)=>{
             HR_id:req.id,
             time: req.body.time
            })
-           MissedSign.save();
+         await  MissedSign.save();
            
     }
     else{
-        return res.status(401).json({ msg: "unauthorized you cant add your own missing sign-in or out" })
+        return res.status(401).json({ msg: "unauthorized you cant add your own missing sign-in " })
     }
    
 

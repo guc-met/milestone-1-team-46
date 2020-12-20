@@ -71,17 +71,20 @@ app.listen(process.env.PORT, () => {
 
 
 async function testSchemas() {
-    const courses = require('./models/Coursesmodel.js');
+    const room= require('./models/Room.js');
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
     staffMember.counterReset('id', function (err) {
         // Now the counter is 0
     });*/
-    const c1 = new courses({
-        coursename: "maths1",
-        coursecode: "maths101",
-        ccid:5
+    const c1 = new room({
+        location:"C8",
+        roomtype:"office",
+        occupied:false,
+        maxcapacity:30,
+        curcapacity:29
+
 
     });
 
