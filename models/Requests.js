@@ -9,12 +9,14 @@ const Request=mongoose.Schema({
     },
     type:{
         type: String,
+        enum:["slot linking","replacement","compensation leave", "annual leave","maternity leave","sick leave", "accidental leave", "change-day-off"]
 
     },
     status:{
         type: String,
         default: "Pending"
     },
+
     time:{
         type: Date,
         default: Date.now
@@ -23,9 +25,10 @@ const Request=mongoose.Schema({
      * in case of slot linking the id of slot in unassignedSlots schema
      * in case of change-day-off the day to be changed to
      * in case of compensation leave it is the reason
+     * in case of any other type of leave it is the number of days
      */
     info:{
-        Type: String
+        type: String
 
     }
 

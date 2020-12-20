@@ -14,16 +14,20 @@ const Courses=mongoose.Schema({
         default:null
     },
     labs :  {
-        type : Number
+        type : Number,
+        default:0
     },
     lectures :  {
-        type : Number
+        type : Number,
+        default:0
     },
     tutorials :  {
-        type : Number
+        type : Number,
+        default:0
     },
     totalslots :  {
-        type : Number
+        type : Number,
+        default:0
     },
 })
 module.exports=Courses;

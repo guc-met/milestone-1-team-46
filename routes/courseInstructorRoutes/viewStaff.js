@@ -17,15 +17,15 @@ route.get("/",async(req,res)=>{
         const faculty=member.faculty; 
         const department=member.department;
         const course=req.body.course;
-        //get all staff member in the same department
+        //get all staff members in the same department
         let preresult= await staffMember.find({faculty:faculty,department:department});
         let result=[];
         //if the course instructor specified a certain course
         if(course){
             for(let i=0;i<preresult.length;i++){
-                let Smember=preresult[i];
-                if(Smember.courses&&Smember.courses.includes(course)){
-                    result.push(Smember);
+                let member=preresult[i];
+                if(member&&member.courses&&member.courses.includes(course)){
+                    result.push(member);
                 }  
             }
         }
