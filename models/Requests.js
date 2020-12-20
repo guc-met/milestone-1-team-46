@@ -30,6 +30,10 @@ const Request=mongoose.Schema({
     info:{
         type: String
 
+    },
+    //in case of leave requests , the day of leave
+    day:{
+        type:Date
     }
 
   
