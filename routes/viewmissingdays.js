@@ -52,7 +52,7 @@ route.post('/', async(req,res)=>{
    // console.log(monthOut);
 
     //console.log("days in month " ,daysInMonth);
-    for(i = 11 ; i<daysInMonth+11 ; i++){
+    for(i = 11 ; i<daysInMonth+11 ; i++){   
         day = i%daysInMonth;
         if(day==0) day = daysInMonth;
         if(day==1) month++;
