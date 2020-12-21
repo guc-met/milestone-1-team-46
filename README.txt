@@ -1,3 +1,61 @@
+Functionality : log in onto the system
+Route : /
+Request type : POST 
+Request body : {"email":"muhadsamir123@hotmail.com" , "password" : "123456"}
+Response : {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA4NTc3NTcwfQ.hnyDmgKvoXkcNeBmmgw7l81s6YSKEFZYV3VXt6ZZdk4",
+    "member": {
+        "id": 1,
+        "email": "muhadsamir123@hotmail.com"
+    }
+}
+
+
+
+Functionality : Sign in for attendance
+Route : /signin
+Request type : POST 
+Response : added a sign-in entry of id: 5
+
+
+Functionality : Sign out for attendance
+Route : /signout
+Request type : POST 
+Response : added a sign-out entry of id: 5
+
+
+
+Functionality : view information in a user profile
+Route : /viewprofile
+Request type : GET 
+Response : {"name":"Ahmed Mohamed,
+       "ID":"hr-4",
+       "email": "ahmedmohamed@gmail.com",
+       "Office": "C7-222",
+       "Day-Off": "Tuesday",
+       "Annual Leave Balance": "10",
+       "Accidental Leave Balance": "2",
+       "Department": "Laser cutting department",
+       "Faculty": "Faculty of absolute useless arts and crafts"}
+
+
+
+
+Functionality : update information in a user profile
+Route : /updateprofile
+Request type : POST 
+Request body : {"office" :"C7-420" , "dayoff" : "Saturday"}
+Response : {"name":"Ahmed Mohamed,
+       "ID":"hr-4",
+       "email": "ahmedmohamed@gmail.com",
+       "Office": "C7-420",
+       "Day-Off": "Saturday",
+       "Annual Leave Balance": "10",
+       "Accidental Leave Balance": "2",
+       "Department": "Laser cutting department",
+       "Faculty": "Faculty of absolute useless arts and crafts"}
+
+
 Functionality: view schedule
 Route: /ac/viewschedule
 Request type: GET
@@ -145,6 +203,42 @@ Example output : [
 
 
 
+
+
+Functionality: Add a location/room to the system.
+Route: /HR/AddLocation
+Request type: POST
+Request body: {
+"location" : "B12-808",
+"roomType" :   "lab",
+"maxCapacity" : "69" 
+}
+
+Functionality: update a location/room on the system.
+Route: /HR/UpdateLocation
+Request type: POST
+Request body: {
+    "location" : "B12-808",
+    "roomType" : "hall",
+    "maxCapacity" : 25
+
+}
+Example output :  {
+        "_id": "5fe0ed567e74711c70bc92a6",
+        "location": "B12-808",
+        "roomtype": "hall",
+        "maxcapacity": 25,
+        "__v": 0
+    }
+
+Functionality: delete a location/room from the system.
+Route: /HR/AddLocation
+Request type: POST
+Request body: {
+"location" : "B12-808",
+"roomType" :   "lab",
+"maxCapacity" : "69" 
+}    
 
 
 Functionality : add a course to a certain department in a certain faculty
