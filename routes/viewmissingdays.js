@@ -103,24 +103,6 @@ route.post('/', async(req,res)=>{
 
      //now add the missing days onto his hours balance
      //FARAH NEEDS THIS
-    if(month-1 ==0) month = 13
-     let balanceRecord = await hoursbalance.findOne({id:id , month:month-1});
-     if(!balanceRecord){
-
-        const record = new hoursbalance({
-            id : id,
-            month : month-1,
-            days : -missing.length
-        })
-        await record.save();
-
-     }
-     else{
-         console.log("Found once in db")
-         balanceRecord.days = -missing.length;
-         await balanceRecord.save();
-
-     }
 
     }
     else{
