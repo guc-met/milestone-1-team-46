@@ -34,9 +34,24 @@ Response: schedule of academic . Example of a single schedule: {
 }
 
 
-Functionality: submit replacement request
+Functionality: submit replacement request with the id of the replacement member
 Route: ac/replacementrequest
 Request type: POST
+Request body:{"repId":2}
+
+Functionality: view replacement request that both I submitted and was submitted to me
+Route: ac/replacementrequest
+Request type: GET
+Response body:  [
+    {
+        "status": "Pending",
+        "_id": "5fdce4e9ee563f745c7deb92",
+        "sender_id": 5,
+        "type": "replacememt",
+        "time": "2020-12-18T17:20:41.357Z",
+        "__v": 0
+    }
+]
 
 
 Functionality: get  submitted requests 

@@ -92,7 +92,7 @@ app.use("/viewmissdays" , missingDays);
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-  // testSchemas();
+  testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -160,12 +160,12 @@ async function testSchemas() {
 //         department:"MET"
 //     });*/
     const s6 = new staffMember({
-        name: "ashry",
-        gender: "Male",
-        email: "muhadsamir123@hotmail.com",
+        name: "lola",
+        gender: "Female",
+        email: "lola11@gmail.com",
         office: "C701",
-        daysOff: ["Sunday"],
-        annualLeaveBalance: 5,
+        daysOff: "Sunday",
+        annualLeaveBalance: 6,
         hr: false,
         ci:false,
         hod: true,
@@ -173,21 +173,21 @@ async function testSchemas() {
         department:"MET",
         courses:["acl","db"]
     });
-   // await s6.save();
+//   await s6.save();
     const s7 = new CoursesModel({
         coursename:"db",
         coursecode: "1234",
 
  
     });
-    await s7.save();
+    //await s7.save();
     const s8 = new CoursesModel({
         coursename:"acl",
         coursecode: "123",
         
  
     });
-    await s8.save();
+    //await s8.save();
 //   const r10= new Requests({
 //     sender_id : "6",
 //     reciever_id: "1",

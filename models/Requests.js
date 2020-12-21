@@ -37,6 +37,25 @@ const Request=mongoose.Schema({
     //in case of leave requests , the day of leave
     day:{
         type:Date
+    },
+    /**
+     * in case of replacement requests --> the id of the replacement academic
+     */
+    replacementId:{
+        type:Number
+    },
+    /**
+     * in case of replacement request--> whether the replacement academic accepted the request or not
+     */
+    replacementAcceptance:{
+        type: Boolean,
+        default: false
+    },
+    /**
+     * in case of sick leave and maternity leave--> proper documents provided
+     */
+    document:{
+        type: String
     }
 
   
