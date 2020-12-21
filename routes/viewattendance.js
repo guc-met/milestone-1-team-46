@@ -22,19 +22,19 @@ route.post('/', async(req,res)=>{
         pre="ac-";
     }
     const memid=pre+member.no;
-    const month=req.body.month; 
+    let month=req.body.month; 
     const allAttendanceIN=  await signIn.find({id : id});
     const allAttendanceOUT=  await signOut.find({id : id});
-    let output = []
-    let ins = []
-    let outs = []
-    let object ;
+    const allLeaves = await leavesM.find({id:id});
     let missing = []
     let attended = false;
     let dateformat = "";
     let day = "";
     let leaveExecuse = false;
-
+    let today = new Date()
+    let yearEnum = today.getFullYear() ;
+    let monthEnum = today.getMonth()+1;
+    let daysInMonth = new Date(yearEnum , monthEnum , 0).getDate();
     if(month)
     {
      const monthIn = allAttendanceIN.filter((record)=>{
@@ -46,15 +46,16 @@ route.post('/', async(req,res)=>{
 
     
     //TODO: comment the console.logs
-    console.log(monthIn);
-    console.log(monthOut);
+    //console.log(monthIn);
+   // console.log(monthOut);
 
-
-    for(i = 11 ; i<42 ; i++){
-        day = i%31;
-        if(day==0) day = 31;
+    //console.log("days in month " ,daysInMonth);
+    for(i = 11 ; i<daysInMonth+11 ; i++){
+        day = i%daysInMonth;
+        if(day==0) day = daysInMonth;
         if(day==1) month++;
-        let dateEnum = "2020-" + month + "-" + day;
+        if(month==13){month = 1; yearEnum +=1;};
+        let dateEnum =  yearEnum +"-" + month + "-" + day;
         allLeaves.forEach(ele => {
             leaveMonth = ele.date.getMonth()+1;
             leaveDay = ele.date.getDate();
@@ -65,7 +66,6 @@ route.post('/', async(req,res)=>{
                 }
             }
         });
-
         switch (new Date(dateEnum).getDay()){
             case(0): day = "Sunday"; break;
             case(1): day = "Monday"; break;
@@ -75,16 +75,15 @@ route.post('/', async(req,res)=>{
             case(5): day = "Friday"; break;
             case(6): day = "Saturday"; break;
         }
-        if(!(day==member.daysOff[0] || day==member.daysOff[1]) && !leaveExecuse)
-        
+        if(!(day==member.daysOff || day=="Friday") && !leaveExecuse)
             monthIn.forEach(element => {
             elementMonth = element.time.getMonth()+1;
-            dateformat = "2020-" + elementMonth + "-" + element.time.getDate();
+            dateformat = yearEnum + "-" + elementMonth + "-" + element.time.getDate();
             if(dateformat == dateEnum)
             {
                 attended = true;
             }
-                console.log(dateformat + "   " + dateEnum);
+                //console.log(dateformat + "   " + dateEnum);
 
               });
         else{
@@ -99,6 +98,9 @@ route.post('/', async(req,res)=>{
 }
 
      res.send(missing);
+     //now add the missing days onto his hours balance
+     //FARAH NEEDS THIS
+
     }
 
     else   //if he doesnt specify a month , get all records
