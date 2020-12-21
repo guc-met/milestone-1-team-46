@@ -34,9 +34,24 @@ Response: schedule of academic . Example of a single schedule: {
 }
 
 
-Functionality: submit replacement request
+Functionality: submit replacement request with the id of the replacement member
 Route: ac/replacementrequest
 Request type: POST
+Request body:{"repId":2}
+
+Functionality: view replacement request that both I submitted and was submitted to me
+Route: ac/replacementrequest
+Request type: GET
+Response body:  [
+    {
+        "status": "Pending",
+        "_id": "5fdce4e9ee563f745c7deb92",
+        "sender_id": 5,
+        "type": "replacememt",
+        "time": "2020-12-18T17:20:41.357Z",
+        "__v": 0
+    }
+]
 
 
 Functionality: get  submitted requests 
@@ -577,6 +592,37 @@ Functionality: Assign an academic member in each of a course instructor's course
 Route: /ci/assgincc
 Request type: POST
 Request body: {"course":"db","id":"5"}
+
+
+Functionality: Assign an academic member to an unassigned slots in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: POST
+Request body: {"ass_id":"5","slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: Update an academic member to an unassigned slots in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: PUT
+Request body: {"ass_id":"5","slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: delete assignment of academic member in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: DELETE
+Request body: {"slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: Assign an academic member to an unassigned slots in course(s) he/she is assigned to.
+Route: /ci/slots
+Request type: POST
+Request body: {"ass_id":"5","slot_id":"5fde87e9f13b8555682f75c3"}
+
+
+Functionality: Remove an assigned academic member in course(s) he/she is assigned to.
+Route: /ci/assignees
+Request type: POST
+Request body: { "ass_id":"5",  "course":"math"}
+
 
 
 >>>>Course Coordinator Routes

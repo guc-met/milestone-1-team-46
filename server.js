@@ -16,10 +16,21 @@ const courseCoordinator=require("./routes/courseCoordinator");
 const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
+
+const viewdayoff=require("./routes/HOD/viewdayoff");
+const viewrequests=require("./routes/HOD/viewrequests");
+const Requests = require("./models/Requests");
+const viewcoverage = require("./routes/HOD/viewcoverage");
+const viewta = require("./routes/HOD/viewta");
+const viewcourse = require("./routes/courseInstructorRoutes/viewcourse");
+const CoursesModel = require("./models/CoursesModel");
+const viewslots = require("./routes/courseInstructorRoutes/viewslots");
+
 const missingDays = require("./routes/viewmissingdays");
 
 const HR=require("./routes/HR");
 const HOD=require("./routes/HOD");
+
 
 
                                                                                     
@@ -65,7 +76,16 @@ app.use("/cc",courseCoordinator);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
+
+app.use("/viewdayoff",viewdayoff);
+app.use("/viewrequests",viewrequests);
+app.use("/viewcoverage",viewcoverage);
+app.use("/viewta",viewta);
+app.use("/viewcourse",viewcourse);
+app.use("/viewslots",viewslots);
+
 app.use("/viewmissdays" , missingDays);
+
 
 
 
@@ -151,9 +171,45 @@ async function testSchemas() {
     });*/
  
 
-// var d=new Date(Date.now()).getDate();
+ 
+    });
+    //await s7.save();
+    const s8 = new CoursesModel({
+        coursename:"acl",
+        coursecode: "123",
+        
+ 
+    });
+    //await s8.save();
+//   const r10= new Requests({
+//     sender_id : "6",
+//     reciever_id: "1",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
+//   const r20= new Requests({
+//     sender_id : "2",
+//     reciever_id: "1",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
+//   const r30= new Requests({
+//     sender_id : "7",
+//     reciever_id: "3",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
+//   const r40= new Requests({
+//     sender_id : "2",
+//     reciever_id: "1",
+//     type: "change dayoff/leave",
+//     status: "testing"
+//   })
 
-// console.log(d)
+//   await r40.save();
+  //await r20.save();
+  //await r30.save();
+   //await s6.save();
     /*const s2 = new staffMember({
         name : "7amada",
         gender: "Male",
@@ -206,5 +262,5 @@ async function testSchemas() {
 
    
 
-})
 }
+
