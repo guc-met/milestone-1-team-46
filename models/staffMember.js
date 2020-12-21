@@ -66,7 +66,7 @@ const staffSchema = new schema({
     },
 
     daysOff :  {
-        type : Array
+        type : String
     },
 
     annualLeaveBalance : {
