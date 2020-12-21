@@ -92,7 +92,8 @@ app.use("/viewmissdays" , missingDays);
 //DB connection
 mongoose.connect(process.env.DB_URL, connParams).then(() => {
     console.log("DB connected");
-  testSchemas();
+    //  testSchemas();
+    // testSchemas();
 
 }).catch((err) => {
     console.log(`DB Error ${err.message}`)
@@ -106,6 +107,7 @@ app.listen(process.env.PORT, () => {
 
 
 async function testSchemas() {
+    const room= require('./models/Room.js');
     const staffMember = require('./models/staffMember.js');
     const Schedule=require("./models/Schedule"); 
     const TeachingSlots=require("./models/TeachingSlots");
@@ -121,62 +123,53 @@ async function testSchemas() {
     })
  //  await t.save();
 
-//     const s=new Schedule({
-//         id:5,
-//         Saturday:[{
-//             location:"3am s3d",
-//             course:"acl",
-//             time:"nowwww"
-//         },
-//         {
-//             location:"3am s3d",
-//             course:"acl",
-//             time:"nowwww"
-//         }
-//     ],
-//         Sunday:[{
-//             location:"3am s3d",
-//             course:"acl",
-//             time:"nowwww"
-//         }]
-//     })
-//     //await s.save();
-//    /* staffMember.counterReset('seq', function (err) {
-//         // Now the counter is 0
-//     });
-//     staffMember.counterReset('id', function (err) {
-//         // Now the counter is 0
-//     });*/
-//    /* const s1 = new staffMember({
-//         name: "slim",
-//         gender: "Male",
-//         email: "ci@hotmail.com",
-//         office: "C701",
-//         daysOff: ["Sunday"],
-//         annualLeaveBalance: 5,
-//         hr: false,
-//         ci:true,
-//         faculty:"engineering",
-//         department:"MET"
-//     });*/
-    const s6 = new staffMember({
-        name: "lola",
-        gender: "Female",
-        email: "lola11@gmail.com",
-        office: "C701",
-        daysOff: "Sunday",
-        annualLeaveBalance: 6,
-        hr: false,
-        ci:false,
-        hod: true,
-        faculty:"engineering",
-        department:"MET",
-        courses:["acl","db"]
+    const s=new Schedule({
+        id:14,
+        Saturday:[{
+            location:"3am s3d",
+            course:"acl",
+            time:"8:15"
+        },
+        {
+            location:"3am s3d",
+            course:"acl",
+            time:"10:00"
+        }
+    ],
+        Sunday:[{
+            location:"3am s3d",
+            course:"acl",
+            time:"11:45"
+        }]
+    })
+    await s.save();
+   /* staffMember.counterReset('seq', function (err) {
+        // Now the counter is 0
     });
-//   await s6.save();
-    const s7 = new CoursesModel({
-        coursename:"db",
-        coursecode: "1234",
+    staffMember.counterReset('id', function (err) {
+        // Now the counter is 0
+    });*/
+    const c1 = new room({
+        location:"C8",
+        roomtype:"office",
+        occupied:false,
+        maxcapacity:30,
+        curcapacity:29
+
+
+   /* const s1 = new staffMember({
+        name: "slim",
+        gender: "Male",
+        email: "ci@hotmail.com",
+        office: "C701",
+        daysOff: ["Sunday"],
+        annualLeaveBalance: 5,
+        hr: false,
+        ci:true,
+        faculty:"engineering",
+        department:"MET"
+    });*/
+ 
 
  
     });
@@ -245,6 +238,7 @@ async function testSchemas() {
         hr : false
     });*/
 
+     
 
 
 
@@ -267,4 +261,6 @@ async function testSchemas() {
     });*/
 
    
+
 }
+
