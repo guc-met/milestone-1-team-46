@@ -162,3 +162,16 @@ Example output :
         "coursename": "maths1"
     }
 ]
+30- reject request func :-
+Functionality : reject a request sent to hod.
+Route : "./routes/HOD/rejectrequest"
+Request type : Post
+Example input :
+{
+    "sender_id": 2,
+    "receiver_id": 1,
+    "type": "annual leave",
+    "status": "Pending"
+
+}
+output : status change in database to "Rejected"

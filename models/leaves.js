@@ -21,6 +21,7 @@ const Leaves=mongoose.Schema({
     }
 })
 module.exports=mongoose.model("Leaves",Leaves);
+//export const Leaves = mongoose.models.Leaves || mongoose.model('Leaves', Leaves);
 /*
 below is how to update any DATE type in the database 
 
