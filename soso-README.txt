@@ -162,6 +162,27 @@ Example output :
         "coursename": "maths1"
     }
 ]
+
+29- accept request func :-
+Functionality : accept a request sent to hod.
+Route : "./routes/HOD/acceptrequest"
+Request type : Post
+Example input 1 :
+{
+    "_id": "5fddc78db6f8d80c504d6cac"
+
+}
+output : Day off changed!
+
+Example input 2 :{
+    
+"_id":"5fddceeae760f72b981d18a5"
+
+}
+output : "New leave created!"
+
+
+
 30- reject request func :-
 Functionality : reject a request sent to hod.
 Route : "./routes/HOD/rejectrequest"
@@ -174,4 +195,4 @@ Example input :
     "status": "Pending"
 
 }
-output : status change in database to "Rejected"
+output : Request Rejected!

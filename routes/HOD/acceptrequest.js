@@ -3,13 +3,13 @@ const route = express.Router();
 
 const staffMember=require("../../models/staffMember");
 const requests=require("../../models/Requests");
-//const leaves=require("../../models/Leaves");
+const leaves=require("../../models/leaves");
 
 
 route.post("/", async(req, res)=>{
     try{
-        const id=req.id;
-        const member= await staffMember.findOne({id:id});
+        const memberid=req.id;
+        const member= await staffMember.findOne({id:memberid});
         if(! member){
             return res.status(400).json({msg:"incorrect credentials"});        
         }
@@ -17,24 +17,27 @@ route.post("/", async(req, res)=>{
             return res.status(401).json({msg:"unauthorized"});            
        }
         
-       const request = await requests.findOne({sender_id:req.body.sender_id,receiver_id:req.body.receiver_id,type:req.body.type,status:req.body.status});
+       let request = await requests.findOne({_id:req.body._id});
        if(request)
-       await requests.findOneAndUpdate({sender_id:req.body.sender_id,receiver_id:req.body.receiver_id},{$set :{"status": "Accepted"}});
+       requestt= await requests.findOneAndUpdate({_id:req.body._id},{$set :{"status": "Accepted"}});
 
-       const requesttype = req.body.type;
+       const requesttype = request.type;
        
 
        if(requesttype=="change-day-off"){
-         await staffMember.findOneAndUpdate({id:req.body.id},{$set :{"daysOff": req.body.info}});
-        
+        //const sender = await staffMember.findOne({id:request.sender_id});
+        //console.log(request.info);
+        await staffMember.findOneAndUpdate({id:request.sender_id},{$set :{"daysOff": request.info}});
+        res.send("Day off changed!");
        }
        else{
         const leave= new leaves({
-            id: req.body.id,
-            type: req.body.type,
-            Duration: Number(req.body.info),
+            id: request.sender_id,
+            type: request.type,
+            Duration: parseInt(request.info),
         })
-        await leave.save()
+        await leave.save();
+        res.send("New leave created!")
        }
     } 
     catch(err)

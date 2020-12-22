@@ -17,7 +17,7 @@ const Leaves=mongoose.Schema({
     },
     Duration:{ 
         type:Number,
-        rquired:true,
+        required:true,
     }
 })
 module.exports=mongoose.model("Leaves",Leaves);
