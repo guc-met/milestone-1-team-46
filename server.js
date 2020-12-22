@@ -27,7 +27,6 @@ const CoursesModel = require("./models/CoursesModel");
 const viewslots = require("./routes/courseInstructorRoutes/viewslots");
 
 const missingDays = require("./routes/viewmissingdays");
-
 const HR=require("./routes/HR");
 const HOD=require("./routes/HOD");
 

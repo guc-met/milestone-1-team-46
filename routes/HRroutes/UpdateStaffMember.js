@@ -1,11 +1,12 @@
 const express = require("express");
 const route = express.Router();
-const staffMember=require("../models/staffMember");
+const staffMember=require("../../models/staffMember");
 
 require('dotenv').config();
 
-route.post('/', async(req,res)=>{
+route.put('/', async(req,res)=>{
     const id=req.id;
+    const sID=req.body.id;
     let member= await staffMember.findOne({id:id});
     if(! member.hr){
         return res.status(400).json({msg:"unauthorized you can't access this page"});        
@@ -14,13 +15,13 @@ route.post('/', async(req,res)=>{
     const faculty=req.body.faculty; //passing parameters
     if(department)
     {
-       await staffMember.findOneAndUpdate({"id":id},  {$set :{"department": department}});
+       await staffMember.findOneAndUpdate({"id":sID},  {$set :{"department": department}});
     }
-    if(dayoff)
+    if(faculty)
     {
-       await staffMember.findOneAndUpdate({"id":id},  {$set: {"faculty": faculty}});
+       await staffMember.findOneAndUpdate({"id":sID},  {$set: {"faculty": faculty}});
     }
-     member= await staffMember.findOne({id:id});
+     member= await staffMember.findOne({id:sID});
     let pre="";
     if(member.hr)
     {
