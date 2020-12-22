@@ -1,24 +1,19 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
-const staffMember=require("../../models/staffMember");
-const signIn = require('../../models/SignIn');
-const leaves = require('../../models/leaves');
-const signOut = require('../../models/SignOut');
-const HourBalance = require('../../models/HourBalance');
+const staffMember=require("../models/staffMember");
+const signIn = require('../models/SignIn');
+const leaves = require('../models/leaves');
+const signOut = require('../models/SignOut');
+const HourBalance = require('../models/HourBalance');
 const { sign } = require("jsonwebtoken");
 require('dotenv').config();
 
-route.get('/', async(req,res)=>{
+route.post('/', async(req,res)=>{
     const id=req.id;
-    const sID=req.body.id;
     let member= await staffMember.findOne({id:id});
-    if(! member){
+    if(!member){
         return res.status(400).json({msg:"incorrect credentials"});        
     }
-    if(! member.hr){
-        return res.status(400).json({msg:"unauthorized you can't access this page"});        
-    }
-
     let pre="";
     if(member.hr)
     {
@@ -30,9 +25,9 @@ route.get('/', async(req,res)=>{
     const memid=pre+member.no;
     const month=req.body.month;
     // const day=req.body.day; 
-    const allIns=  await signIn.find({id : sID});
-    const allOuts=  await signOut.find({id : sID});
-    const leave=await leaves.find({id:sID});
+    const allIns=  await signIn.find({id : id});
+    const allOuts=  await signOut.find({id : id});
+    const leave=await leaves.find({id:id});
     let output = []
     let Signins = []
     let Signouts = []
@@ -49,13 +44,14 @@ route.get('/', async(req,res)=>{
     let somehours=0;
     let someminutes=0;
     let missing_hours=0;
+    let missing_hrs = 0;
     let object ;
 
     if(month){
 
-        let curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
+        let curHourBalance= await HourBalance.findOne({"id":id,"month":month});
 
- await HourBalance.findOneAndUpdate({id:sID},{$set :{"hours": 0 }});
+        await HourBalance.findOneAndUpdate({id:id , month:month},{$set :{"hours": 0 }});
     
 
         //         // check if there's a leave
@@ -192,10 +188,10 @@ route.get('/', async(req,res)=>{
         
             
             }}
-            let curHourBalance= await HourBalance.findOne({"id":sID});
+            let curHourBalance= await HourBalance.findOne({"id":id});
             if (curHourBalance==null){
                 let Hours = new HourBalance({
-                    id:sID,
+                    id:id,
                     month:month,
                     hours:-missing_hours,
                     
@@ -208,7 +204,7 @@ route.get('/', async(req,res)=>{
 
             let curHour=curHourBalance.hours;
             // console.log(curHour);
-            await HourBalance.findOneAndUpdate({id:sID},{$set :{"hours": curHour-missing_hours }});
+            await HourBalance.findOneAndUpdate({id:id , month : month},{$set :{"hours": curHour-missing_hours }});
            
             
         }
@@ -250,10 +246,10 @@ route.get('/', async(req,res)=>{
     
                 
                }
-                let curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
+                let curHourBalance= await HourBalance.findOne({"id":id,"month":month});
                 if (curHourBalance===null){
                     let Hours = new HourBalance({
-                        id:sID,
+                        id:id,
                         hours:missing_hrs,
                         month:month,
                        })
@@ -265,7 +261,7 @@ route.get('/', async(req,res)=>{
             else{
                 let curHour=curHourBalance.hours;
                 // console.log(curHour);
-                await HourBalance.findOneAndUpdate({id:sID,"month":month},{$set :{"hours": curHour+missing_hours }});
+                await HourBalance.findOneAndUpdate({id:id,"month":month},{$set :{"hours": curHour+missing_hours }});
             }
               
                

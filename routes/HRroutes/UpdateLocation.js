@@ -5,11 +5,16 @@ const room = require("../../models/Room");
 require('dotenv').config();
 
 route.post('/', async(req,res)=>{
-    // const id=req.id;
-    // let member= await staffMember.findOne({id:id});
-    // if(! member){
-    //     return res.status(400).json({msg:"incorrect credentials"});        
-    // }
+    const id=req.id;
+    let member= await staffMember.findOne({id:id});
+    if(! member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
+
+   
+    if(! member.hr){
+        return res.status(400).json({msg:"unauthroised access"});        
+    }
   const location = req.body.location
   const roomType = req.body.roomType;
   const maxCapacity = req.body.maxCapacity;

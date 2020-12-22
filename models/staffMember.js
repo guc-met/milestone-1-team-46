@@ -96,6 +96,7 @@ const staffSchema = new schema({
     salary: {
         type: Number,
         
+        
 
     }
 
