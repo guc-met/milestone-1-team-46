@@ -53,7 +53,9 @@ route.get('/', async(req,res)=>{
 
     if(month){
 
+        let curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
 
+ await HourBalance.findOneAndUpdate({id:sID},{$set :{"hours": 0 }});
     
 
         //         // check if there's a leave
@@ -203,6 +205,7 @@ route.get('/', async(req,res)=>{
                 
             }
             else{
+
             let curHour=curHourBalance.hours;
             // console.log(curHour);
             await HourBalance.findOneAndUpdate({id:sID},{$set :{"hours": curHour-missing_hours }});
