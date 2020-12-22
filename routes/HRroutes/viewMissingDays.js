@@ -16,6 +16,10 @@ route.get('/', async(req,res)=>{
         return res.status(400).json({msg:"incorrect credentials"});        
     }
 
+    if(! member.hr){
+        return res.status(400).json({msg:"unauthroised access"});        
+    }
+
     let pre="";
     if(member.hr)
     {

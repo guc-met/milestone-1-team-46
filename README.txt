@@ -199,6 +199,19 @@ Example output : [
     "2020-3-16"]]
 
 
+Functionality : View missing hours where the staff didnt continue a full day for a specified month 
+Route : /viewmisshours
+Request type : POST
+Request body : {"month" : 3 }
+Example output : missing : [
+    {
+        "id": "ac-1",
+        "missing_date": 17,
+        "missing_hours": 6.316666666666667
+    }
+]
+
+
 
 
 

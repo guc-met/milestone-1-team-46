@@ -1,23 +1,19 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
-const staffMember=require("../../models/staffMember");
-const signIn = require('../../models/SignIn');
-const leaves = require('../../models/leaves');
-const signOut = require('../../models/SignOut');
-const HourBalance = require('../../models/HourBalance');
+const staffMember=require("../models/staffMember");
+const signIn = require('../models/SignIn');
+const leaves = require('../models/leaves');
+const signOut = require('../models/SignOut');
+const HourBalance = require('../models/HourBalance');
 const { sign } = require("jsonwebtoken");
 require('dotenv').config();
 
-route.get('/', async(req,res)=>{
+route.post('/', async(req,res)=>{
     const id=req.id;
     let member= await staffMember.findOne({id:id});
-    if(! member){
+    if(!member){
         return res.status(400).json({msg:"incorrect credentials"});        
     }
-    if(! member.hr){
-        return res.status(400).json({msg:"unauthorized you can't access this page"});        
-    }
-
     let pre="";
     if(member.hr)
     {
@@ -48,6 +44,7 @@ route.get('/', async(req,res)=>{
     let somehours=0;
     let someminutes=0;
     let missing_hours=0;
+    let missing_hrs = 0;
     let object ;
 
     if(month){
