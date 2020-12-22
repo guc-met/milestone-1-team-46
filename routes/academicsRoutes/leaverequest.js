@@ -37,7 +37,7 @@ route.post("/", async(req, res)=>{
     //getting type of leave, info and day
     const type=req.body.type;
     const info=req.body.info;
-    console.log(info);
+   
     const reqDay=req.body.day;
     const annualBalance= mem.annualLeaveBalance;
     const accidentalBalance=mem.accidentLeaveBalance;
@@ -49,6 +49,7 @@ route.post("/", async(req, res)=>{
     if(type=="annual leave")
     {
        console.log(today);
+       console.log(reqDay);
         if(reqDay<today)
         {
             res.send("Can not submit annual leave after the targetted day");

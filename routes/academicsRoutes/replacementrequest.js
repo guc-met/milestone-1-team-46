@@ -1,6 +1,6 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
-
+const staffMember=require("../../models/staffMember");
 const requests=require("../../models/Requests");
 
 
@@ -13,6 +13,20 @@ route.post("/", async(req, res)=>{
         }
        if(!member.ac){
             return res.status(401).json({msg:"unauthorized"});            
+       }
+       const academics= await staffMember.find({ac:true});
+       let found =false;
+       for(let i=0;i<academics.length;i++)
+       {
+           if(academics[i].id==req.body.repId)
+           {
+                found=true;
+           }
+
+       }
+       if(!found)
+       {
+        return res.status(401).json({msg:"There is no academic member with this ID"});
        }
       const r1=new requests(
           {
