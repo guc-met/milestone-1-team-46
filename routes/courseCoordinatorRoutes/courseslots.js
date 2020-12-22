@@ -183,6 +183,8 @@ route.put("/",async(req,res)=>{
         const day=req.body.day;
         const slotID=req.body.id;
         const curSlot=await teachingSlots.findById(slotID);
+        if(!curSlot)
+            return res.status(500).json("No such teaching slot was found");
         //get the course coordinator's course
         let course="";
         //get the member's faculty and department
@@ -190,16 +192,25 @@ route.put("/",async(req,res)=>{
         const department=member.department;
         //getting the course name
         const curFaculty=await faculties.findOne({name:faculty});
+        if(!curFaculty)
+            return res.status(500).json("the course coordinator's faculty was not found in the database");
+        
         for(let i=0;i<curFaculty.departments.length;i++){
             if(curFaculty.departments[i].name===department){
                 curDept=curFaculty.departments[i];
                 break;
             }
         }
+        if(!curDept)
+            return res.status(500).json("the course coordinator's department was not found in the database");  
+
         for(let i=0;i<curDept.courses.length;i++){
             if(curDept.courses[i].ccId===member.id){
                 course=curDept.courses[i];
+                break;
             }
+            if(i==curDept.courses.length-1)
+                return res.status(500).json("course coordinator's course was not found");
         }
         //the course coordinator is authorized to only update a slot from his/her course
         if(curSlot.slot.course!==course.coursename){
@@ -253,6 +264,8 @@ route.put("/",async(req,res)=>{
         else{
             //get his/her schedule slot to be updated
             ass_schedule= await schedules.findOne({id:ass_id});
+            if(!ass_schedule)
+                return res.status(500).json("No schedule was found for the assignee to be updated");
             acslotID=actualSlot._id;
             let schedSlot=undefined;
             switch(oldDay){
@@ -390,7 +403,7 @@ route.put("/",async(req,res)=>{
                         ass_schedule.Monday.push(schedSlot);
                         break;
                     case "Tuesday":
-                        ass_schedule.Tuesday.puh(schedSlot);
+                        ass_schedule.Tuesday.push(schedSlot);
                         break;
                     case "Wednesday":
                         ass_schedule.Wednesday.push(schedSlot);
@@ -412,24 +425,7 @@ route.put("/",async(req,res)=>{
     }
 })
 
-const getCourse = async (member) => {
-    //get the member's faculty and department
-    const faculty=member.faculty; 
-    const department=member.department;
-    //getting the course name
-    const curFaculty=await faculties.findOne({name:faculty});
-    for(let i=0;i<curFaculty.departments.length;i++){
-        if(curFaculty.departments[i].name===department){
-            curDept=curFaculty.departments[i];
-            break;
-        }
-    }
-    for(let i=0;i<curDept.courses.length;i++){
-        if(curDept.courses[i].ccId===member.id){
-            return curDept.courses[i].coursename;
-        }
-    }
-}
+
 
 
 
