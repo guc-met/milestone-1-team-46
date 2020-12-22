@@ -1,3 +1,6 @@
+1. write in cmd npm run server
+2. port number: 3000
+====================================================================================
 Functionality : log in onto the system
 Route : /
 Request type : POST 
