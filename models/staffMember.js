@@ -97,6 +97,12 @@ const staffSchema = new schema({
         
         
 
+    },
+    salarywithDeductions: {
+        type: Number,
+        
+        
+
     }
 
 });
