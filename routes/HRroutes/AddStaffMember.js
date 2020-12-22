@@ -13,7 +13,7 @@ route.post('/', async(req,res)=>{
     }
     let cc,ac,ci,hod=false;
     var hr=false;
-    let dayOff=[];
+    let dayOff="";
     let office="";
     const name=req.body.name;
     const role=req.body.role;
@@ -35,7 +35,7 @@ route.post('/', async(req,res)=>{
         }
         if(role[i]=="hr"){
             hr=true;
-            dayOff.push("Saturday");
+            dayOff="Saturday";
         }
         if(role[i]=="hod"){
             hod=true;

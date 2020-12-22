@@ -241,12 +241,12 @@ route.get('/', async(req,res)=>{
                       console.log("total time"+(hours+minutes));
                      if (hours+minutes <8.4){
                          missing_hrs=(8.4-(hours+minutes))
-                         console.log("missing_Hrs hereeee"+missing_hrs);
+                         console.log("missing_Hrs hereeee"+-(missing_hrs));
                         //  console.log("missing hours is " +missing_hrs);
                         object={
                             id:memid,
                             missing_date: Signins[0].time.getDate(),
-                            missing_hours:  missing_hrs,
+                            missing_hours:  -missing_hrs,
                         }
                         output.push(object);
                 }
