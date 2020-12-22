@@ -1,10 +1,20 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
 const signin=require("../../models/SignIn");
+const staffMember = require("../../models/staffMember");
 
 require('dotenv').config();
 
 route.post('/', async(req,res)=>{
+  
+  let member= await staffMember.findOne({id:req.id});
+  if(!member){
+      return res.status(400).json({msg:"incorrect credentials"});        
+  }
+  if(!member.hr){
+    return res.status(400).json({msg:"unauthorized"});        
+}
+
     // const id=req.id;
     // let member= await staffMember.findOne({id:id});
     // if(! member){
@@ -12,6 +22,7 @@ route.post('/', async(req,res)=>{
     // }
   const time=req.body.time
   const id=(req.body.id);
+
     if(id !=req.id )
     {
       

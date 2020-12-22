@@ -55,7 +55,7 @@ route.get('/', async(req,res)=>{
 
         let curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
 
- await HourBalance.findOneAndUpdate({id:sID},{$set :{"hours": 0 }});
+ await HourBalance.findOneAndDelete({id:sID,month:month});
     
 
         //         // check if there's a leave
@@ -104,7 +104,9 @@ route.get('/', async(req,res)=>{
 
     //    console.log(allOuts);
        
-       
+       if(Signins.length != Signouts.length){
+           res.send("you have incomplete sign-ins or outs please enter them");
+       }
     
      
     

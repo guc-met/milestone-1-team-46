@@ -820,7 +820,7 @@ Request body: {"id":5,"month":12}
 Response  missing : [{"id":"hr-5","missing_date":11,"missing_hours":-1.9000000000000004}]
 
 Functionality view Missing Days for a staff member
-Route: /HR/viewMissingHours
+Route: /HR/viewMissingDays
 Request type: GET
 Request body: {
   "id":1,
@@ -856,12 +856,16 @@ Functionality Update salary for a staff member
 Route: /HR/UpdateSalary
 Request type:POST
 Request body:{
-  "id":10,
-  "salary":5000}
+    "id":1,
+  "salary":5000
+  }
 Response {
-    "name": "newbie2",
-    "salary": 4972.222222222223,
-    "email": "newb22@yahoo.com"
+ {
+    "name": "Muhad",
+    "salary": 5000,
+    "email": "muhadsamir@hotmail.com",
+    "salaryWithDeduction": 4991.211030105926
+}
 }
 
 Functionality add missing Sign in for a staff member
