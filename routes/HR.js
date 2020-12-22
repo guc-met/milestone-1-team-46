@@ -5,24 +5,29 @@ const viewMissingHours=require("./HRroutes/viewMissingHours");
 const viewAttendance=require("./HRroutes/viewAttendance");
 const AddMissingSignIn=require("./HRroutes/AddMissingSignIn");
 const AddMissingSignOut=require("./HRroutes/AddMissingSignOut");
+const DeleteStaffMember=require("./HRroutes/DeleteStaffMember");
+const AddStaffMember=require("./HRroutes/AddStaffMember");
+const UpdateStaffMember=require("./HRroutes/UpdateStaffMember");
 const AddLocation=require("./HRroutes/AddLocation");
-const UpdateLocation = require("./HRroutes/UpdateLocation");
-const DeleteLocation = require("./HRroutes/DeleteLocation");
-const AddFaculty = require("./HRroutes/AddFaculty");
-const UpdateFaculty = require("./HRroutes/UpdateFaculty");
-const DeleteFaculty = require("./HRroutes/DeleteFaculty");
-const AddDepartment = require("./HRroutes/AddDepartment");
-const UpdateDepartment = require("./HRroutes/UpdateDepartment")
-const DeleteDepartment = require("./HRroutes/DeleteDepartment")
-const AddCourse = require("./HRroutes/AddCourse")
-const DeleteCourse = require("./HRroutes/DeleteCourse");
-const UpdateCourse = require("./HRroutes/UpdateCourse");
-
+const UpdateLocation=require("./HRroutes/UpdateLocation");
+const DeleteLocation=require("./HRroutes/DeleteLocation");
+const AddFaculty=require("./HRroutes/AddFaculty");
+const UpdateFaculty=require("./HRroutes/UpdateFaculty");
+const DeleteFaculty=require("./HRroutes/DeleteFaculty");
+const AddDepartment=require("./HRroutes/AddDepartment");
+const UpdateDepartment=require("./HRroutes/UpdateDepartment");
+const DeleteDepartment=require("./HRroutes/DeleteDepartment");
+const AddCourse=require("./HRroutes/AddCourse");
+const DeleteCourse=require("./HRroutes/DeleteCourse");
+const UpdateCourse=require("./HRroutes/UpdateCourse");
+const viewMissingDays=require("./HRroutes/viewMissingDays");
 route.use("/updateSalary",updateSalary);
 route.use("/viewMissingHours",viewMissingHours);
 route.use("/viewAttendance",viewAttendance);
 route.use("/AddMissingSignIn",AddMissingSignIn);
 route.use("/AddMissingSignOut",AddMissingSignOut);
+route.use("/DeleteStaffMember",DeleteStaffMember);
+route.use("/AddStaffMember",AddStaffMember);
 route.use("/AddLocation",AddLocation);
 route.use("/UpdateLocation",UpdateLocation);
 route.use("/DeleteLocation" , DeleteLocation);
@@ -35,4 +40,6 @@ route.use("/DeleteDepartment" , DeleteDepartment);
 route.use("/AddCourse" , AddCourse);
 route.use("/DeleteCourse",DeleteCourse);
 route.use("/UpdateCourse" , UpdateCourse);
+route.use("/viewMissingDays",viewMissingDays);
+route.use("/UpdateStaffMember",UpdateStaffMember);
 module.exports = route;

@@ -1,16 +1,23 @@
 const express = require("express");
-const route = express.Router();
-const staffMember=require("../models/staffMember");
-const signIn = require('../models/SignIn');
-const signOut = require('../models/SignOut');
+const route = express.Router({mergeParams: true});
+const staffMember=require("../../models/staffMember");
+const signIn = require('../../models/SignIn');
+const leaves = require('../../models/leaves');
+const signOut = require('../../models/SignOut');
+const HourBalance = require('../../models/HourBalance');
 const { sign } = require("jsonwebtoken");
 require('dotenv').config();
 
-route.post('/', async(req,res)=>{
+route.get('/', async(req,res)=>{
     const id=req.id;
-    let member= await staffMember.findOne({id:id});
+    const sID=req.body.id;
+    let member= await staffMember.findOne({id:sID});
     if(! member){
         return res.status(400).json({msg:"incorrect credentials"});        
+    }
+
+    if(! member.hr){
+        return res.status(400).json({msg:"unauthroised access"});        
     }
 
     let pre="";
@@ -23,9 +30,9 @@ route.post('/', async(req,res)=>{
     }
     const memid=pre+member.no;
     let month=req.body.month; 
-    const allAttendanceIN=  await signIn.find({id : id});
-    const allAttendanceOUT=  await signOut.find({id : id});
-    const allLeaves = await leavesM.find({id:id});
+    const allAttendanceIN=  await signIn.find({id : sID});
+    const allAttendanceOUT=  await signOut.find({id : sID});
+    const allLeaves = await leaves.find({id:sID});
     let missing = []
     let attended = false;
     let dateformat = "";
@@ -50,7 +57,7 @@ route.post('/', async(req,res)=>{
    // console.log(monthOut);
 
     //console.log("days in month " ,daysInMonth);
-    for(i = 11 ; i<daysInMonth+11 ; i++){
+    for(i = 11 ; i<daysInMonth+11 ; i++){   
         day = i%daysInMonth;
         if(day==0) day = daysInMonth;
         if(day==1) month++;
@@ -98,17 +105,34 @@ route.post('/', async(req,res)=>{
 }
 
      res.send(missing);
+
      //now add the missing days onto his hours balance
      //FARAH NEEDS THIS
+    if(month-1 ==0) month = 13
+     let balanceRecord = await HourBalance.findOne({id:id , month:month-1});
+     if(!balanceRecord){
+
+        const record = new hoursbalance({
+            id : id,
+            month : month-1,
+            days : -missing.length
+        })
+        await record.save();
+
+     }
+     else{
+         console.log("Found once in db")
+         balanceRecord.days = -missing.length;
+         await balanceRecord.save();
+
+     }
 
     }
-
-    else   //if he doesnt specify a month , get all records
-    {
-    
-
-      return res.send("please enter a month to view attendance");
+    else{
+        return res.send('Please enter a month to view its missing days');
     }
+
+   
     
    
    

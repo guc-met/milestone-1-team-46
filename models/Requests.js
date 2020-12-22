@@ -3,6 +3,7 @@ const mongoose=require("mongoose");
 const Request=mongoose.Schema({
     sender_id:{
         type: Number
+       
     },
     receiver_id:{
         type: Number
@@ -14,7 +15,8 @@ const Request=mongoose.Schema({
     },
     status:{
         type: String,
-        default: "Pending"
+        default: "Pending",
+        enum:["Pending","Accepted","Rejected"]
     },
 
     time:{
@@ -26,10 +28,34 @@ const Request=mongoose.Schema({
      * in case of change-day-off the day to be changed to
      * in case of compensation leave it is the reason
      * in case of any other type of leave it is the number of days
+     * in case of replacement the date of the day
      */
     info:{
         type: String
 
+    },
+    //in case of leave requests , the day of leave
+    day:{
+        type:Date
+    },
+    /**
+     * in case of replacement requests --> the id of the replacement academic
+     */
+    replacementId:{
+        type:Number
+    },
+    /**
+     * in case of replacement request--> whether the replacement academic accepted the request or not
+     */
+    replacementAcceptance:{
+        type: Boolean,
+        default: false
+    },
+    /**
+     * in case of sick leave and maternity leave--> proper documents provided
+     */
+    document:{
+        type: String
     }
 
   

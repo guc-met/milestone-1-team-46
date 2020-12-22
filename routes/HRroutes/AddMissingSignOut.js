@@ -24,7 +24,7 @@ route.post('/', async(req,res)=>{
            
     }
     else{
-        return res.status(401).json({ msg: "unauthorized you cant add your own missing sign-in or out" })
+        return res.status(401).json({ msg: "unauthorized you cant add your own missing sign-out" })
     }
    
 
