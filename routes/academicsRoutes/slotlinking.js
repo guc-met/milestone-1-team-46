@@ -10,7 +10,7 @@ route.post("/", async(req, res)=>{
       const tslot= await teachingSlots.findOne({_id:slotId});
       const cc= tslot.ccId;
       const info=tslot._id;
-    //  console.log(tslot._id);
+
 
       const r1=new requests(
           {

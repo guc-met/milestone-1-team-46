@@ -145,7 +145,29 @@ Request body: { "dayOff":"Saturday"}
 Functionality: send a leave request
 Route: /ac/leaverequest
 Request type: POST
-Request body: {"type":"Annual leave","info": "2"}
+Request body: {"type":"annual leave","info": "2","day":"2020-12-30"}
+
+Functionality: send a leave request
+Route: /ac/leaverequest
+Request type: POST
+Request body: {"type":"aacidental leave","info": "2","day":"2020-12-10"}
+
+Functionality: send a leave request
+Route: /ac/leaverequest
+Request type: POST
+Request body: {"type":"sick leave","info": "2","day":"2020-12-30","document": "https://drive.google.com/file/d/1TBbV3paVB4Y-_kKR4iNJAJqBe2yWkZw6/view?usp=sharing"}
+
+Functionality: send a leave request
+Route: /ac/leaverequest
+Request type: POST
+Request body: {"type":"maternity leave","info": "2","day":"2020-12-30","document": "https://drive.google.com/file/d/1TBbV3paVB4Y-_kKR4iNJAJqBe2yWkZw6/view?usp=sharing"}
+
+Functionality: send a leave request
+Route: /ac/leaverequest
+Request type: POST
+Request body: {"type":"comoensatio leave","info": "2ZAHEGT","day":"2020-12-30"}
+
+
 
 Functionality: cancel a pending request
 Route: /ac/cancelrequest

@@ -219,17 +219,6 @@ route.post("/", async(req, res)=>{
     }
 })
 
-route.get("/", async(req, res)=>{
-    try{
-    const result=  await requests.find({sender_id: req.id,type:"slot linking"});
-     res.send(result);
-
-    }catch(err)
-    {
-        return res.status(500).json({error:err.message});
-    }
-})
-
 
 
 module.exports = route;
