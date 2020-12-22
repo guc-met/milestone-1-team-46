@@ -8,6 +8,14 @@ const Requests=require("../../models/Requests");
 
 route.post("/", async(req, res)=>{
     try{
+        const id=req.id;
+        const member= await staffMember.findOne({id:id});
+        if(! member){
+            return res.status(400).json({msg:"incorrect credentials"});        
+        }
+       if(!member.ac){
+            return res.status(401).json({msg:"unauthorized"});            
+       }
     const reqId=req.body.reqId;
     const request= await Requests.findOne({_id:reqId});
     if(request.status=="Pending")

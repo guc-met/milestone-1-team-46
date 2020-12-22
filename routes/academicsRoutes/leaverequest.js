@@ -12,6 +12,13 @@ route.post("/", async(req, res)=>{
     //getting the HOD
     const memId=req.id;
     const mem=  await StaffMembers.findOne({id:memId});
+   
+    if(! mem){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
+   if(!mem.ac){
+        return res.status(401).json({msg:"unauthorized"});            
+   }
     const memFaculty=mem.faculty;
     const memDepartment=mem.department;
     const faculty=await Faculties.findOne({name:memFaculty});
