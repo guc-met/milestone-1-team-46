@@ -51,10 +51,10 @@ route.get('/', async(req,res)=>{
     let missing_hours=0;
     let object ;
 
-    if(month)
+    if(month){
 
 
-    {
+    
 
         //         // check if there's a leave
         for(i = 0 ; i<leave.length ; i++){
@@ -62,11 +62,8 @@ route.get('/', async(req,res)=>{
             var leaveMonth=new Date(leave[i].date).getMonth()+1
             if( month==leaveMonth){
             var Duration=leave[i].Duration;
-
-           leaveDays[0]=new Date(leave[i].date).getDate()-1
-           leaveDays[1]=new Date(leave[i].date).getDate()
-           let counter=1;
-           for(j=2;j<Duration;j++){
+           let counter=0;
+           for(j=0;j<Duration;j++){
           leaveDays[j]=(new Date(leave[i].date).getDate() + counter);
           counter++;
            }
@@ -106,15 +103,16 @@ route.get('/', async(req,res)=>{
     //    console.log(allOuts);
        
        
-       
-       
+    
      
-       
-           
-           for( j=0;j<Signins.length-1;j++){
+    
+           if(Signins.length>1){
+               console.log("i have to be here");
+           for( j=0;j<Signins.length-1 ;j++){
             if(!(leaveDays.includes(Signins[j].time.getDate()))){
-            if(Signins[j].time.getDate() == Signouts[j].time.getDate()){ // no missing sign-ins or outs
-            if(Signins[j+1].time.getDate() != Signins[j].time.getDate()){  // ideal case sign in & out once early
+            if(Signins[j].time.getDate() == Signouts[j].time.getDate()){ 
+                // no missing sign-ins or outs
+            if(Signins[j].time.getDate() != Signins[j+1].time.getDate()){  // ideal case sign in & out once early
                  let inTime=Signins[j].time.getHours();
                  let inMins=(Signins[j].time.getMinutes()/60);
                  let outTime=Signouts[j].time.getHours();
@@ -132,82 +130,153 @@ route.get('/', async(req,res)=>{
                         missing_hours:  missing_hrs,
                     }
                     output.push(object);
-            }}
-            
-            else{
-             for( i=0;i<Signins.length-1;i++){
-                 if((Signins[i+1].time.getDate())!= undefined){
-                 if(Signins[i].time.getDate() ==Signins[i+1].time.getDate()){ // get next sign in
-                  SignInHours=Signins[i].time.getHours();
-                  SignInMins=(Signins[i].time.getMinutes()/60);
-                  SignOutHours=Signouts[i].time.getHours();
-                  SignOutMins=(Signouts[i].time.getMinutes()/60);
-                  NextSignInHours=Signins[i+1].time.getHours();
-                  NextSignInMins=(Signins[i+1].time.getMinutes()/60);
-                  NextSignOutHours=Signouts[i+1].time.getHours();
-                  NextSignOutMins=(Signouts[i+1].time.getMinutes()/60);
-                  
+            }
+        }
+        else{
+                if(Signins[j].time.getDate() == Signins[j+1].time.getDate() ){ // get next sign in
+                 SignInHours=Signins[j].time.getHours();
+                 SignInMins=(Signins[j].time.getMinutes()/60);
+                 SignOutHours=Signouts[j].time.getHours();
+                 SignOutMins=(Signouts[j].time.getMinutes()/60);
+                 NextSignInHours=Signins[j+1].time.getHours();
+                 NextSignInMins=(Signins[j+1].time.getMinutes()/60);
+                 NextSignOutHours=Signouts[j+1].time.getHours();
+                 NextSignOutMins=(Signouts[j+1].time.getMinutes()/60);
+                 
 
 
-                  somehours=SignOutHours-SignInHours + (NextSignOutHours-NextSignInHours) ;
-                  someminutes=SignOutMins-SignInMins + (NextSignOutMins-NextSignInMins);
+                 somehours=SignOutHours-SignInHours + (NextSignOutHours-NextSignInHours) -1;
+                 someminutes=SignOutMins-SignInMins + (NextSignOutMins-NextSignInMins);
+
+   
+                 console.log("sign in hours"+ j+ SignInHours);
+                 console.log("sign in mins"+ j+ SignInMins);
+                 console.log("sign out hours"+ j+ SignOutHours);
+                 console.log("sign out mins"+ j+ SignOutMins);
+                 console.log("sign in next hours"+ j+ NextSignInHours);
+                 console.log("sign in next mins"+ j+ NextSignInMins);
+                 console.log("sign out next hours"+ j+ NextSignOutHours);
+                 console.log("sign out next mins"+ j+ NextSignOutMins);
+                 console.log("some hours is"+ somehours);
+                 console.log("some minutes is"+ someminutes); 
+                 totalhours = (somehours + someminutes);
+                 console.log("total hours is"+ totalhours);
+               //  totalins +=SignInHours+SignInMins;
+           
+                
+
+                }
+                   
 
     
-                //   console.log("sign in hours"+ i+ SignInHours);
-                //   console.log("sign in mins"+ i+ SignInMins);
-                //   console.log("sign out hours"+ i+ SignOutHours);
-                //   console.log("sign out mins"+ i+ SignOutMins);
-                //   console.log("sign in next hours"+ i+ NextSignInHours);
-                //   console.log("sign in next mins"+ i+ NextSignInMins);
-                //   console.log("sign out next hours"+ i+ NextSignOutHours);
-                //   console.log("sign out next mins"+ i+ NextSignOutMins);
-                  totalhours += (somehours + someminutes);
-                //  totalins +=SignInHours+SignInMins;
-            }
-                 }
+           }
 
-                 
-                    
+        // code here
+    }}
+           
+            
+         
 
-             }
-            }
-
+            
              if (totalhours <8.4){
                  missing_hours=8.4-totalhours;
+                 console.log("missing hours is"+ missing_hours);
                 object={
                     id:memid,
                     missing_date: Signins[j].time.getDate(),
-                    missing_hours:  totalhours-8.4
+                    missing_hours: -missing_hours
                 }
                 output.push(object);
         
             
             }}
             let curHourBalance= await HourBalance.findOne({"id":sID});
+            if (curHourBalance==null){
+                let Hours = new HourBalance({
+                    id:sID,
+                    month:month,
+                    hours:-missing_hours,
+                    
+                   })
+                 await  Hours.save();
+    
+                
+            }
+            else{
             let curHour=curHourBalance.hours;
             // console.log(curHour);
             await HourBalance.findOneAndUpdate({id:sID},{$set :{"hours": curHour-missing_hours }});
-            if (curHour==null){
-            let Hours = new HourBalance({
-                id:sID,
-                hours:missing_hours,
-                
-               })
-             await  Hours.save();
-
+           
             
         }
     }
+   
 
     //   console.log("missing hours is"+missing_hours);
 
             // return res.send("missing hours : " + JSON.stringify(output));
-           }     
+           
+         
+           else{
+                if(!(leaveDays.includes(Signins[0].time.getDate()))){
+                    console.log("my length is 1");
+                if(Signins[0].time.getDate() == Signouts[0].time.getDate()){ 
+                    // console.log("definitely here");
+                    // no missing sign-ins or outs
+             // ideal case sign in & out once early
+                     let inTime=Signins[0].time.getHours();
+                     let inMins=(Signins[0].time.getMinutes()/60);
+                     let outTime=Signouts[0].time.getHours();
+                     let outMins=(Signouts[0].time.getMinutes()/60);
+                     let hours= outTime-inTime;
+                     let minutes=outMins-inMins;
+                    //  console.log("total minutes"+(hours+minutes));
+                     if (hours+minutes <8.4){
+                         missing_hrs=(8.4-(hours+minutes))
+                         console.log("missing_Hrs"+missing_hrs);
+                        //  console.log("missing hours is " +missing_hrs);
+                        object={
+                            id:memid,
+                            missing_date: Signins[0].time.getDate(),
+                            missing_hours:  missing_hrs,
+                        }
+                        output.push(object);
+                }
+                
+            
+    
+                
+               }
+                let curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
+                if (curHourBalance===null){
+                    let Hours = new HourBalance({
+                        id:sID,
+                        hours:missing_hrs,
+                        month:month,
+                       })
+                     await  Hours.save();
+        
+                    
+                
+            }
+            else{
+                let curHour=curHourBalance.hours;
+                // console.log(curHour);
+                await HourBalance.findOneAndUpdate({id:sID,"month":month},{$set :{"hours": curHour+missing_hours }});
+            }
+              
+               
+    
+        //   console.log("missing hours is"+missing_hours);
+    
+                // return res.send("missing hours : " + JSON.stringify(output));
+               }     }
+           }
 
-    }
+    
     //    return res.send("leave days : " + JSON.stringify(leaveDays));
-    return res.send("outs : " + JSON.stringify(Signouts));
-    // return res.send("missing : " + JSON.stringify(output) );
+    // return res.send("outs : " + JSON.stringify(Signouts) + "ins :"+JSON.stringify(Signins));
+    return res.send("missing : " + JSON.stringify(output) );
     
    
    

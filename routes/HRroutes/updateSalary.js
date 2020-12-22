@@ -1,6 +1,7 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
+const Hours=require("../../models/HourBalance");
 
 require('dotenv').config();
 
@@ -10,10 +11,28 @@ route.post('/', async(req,res)=>{
     // if(! member){
     //     return res.status(400).json({msg:"incorrect credentials"});        
     // }
-  const salary=req.body.salary
-  const id=(req.body.id).match(/(\d+)/);
+  let salary=req.body.salary;
+  var d = new Date();
+  var n = d.getMonth()+1;
+  console.log("month is"+ n);
+  const id=(req.body.id);
     if(id !=req.id )
     {
+        let deductions= await Hours.find({id:id,month:n});
+        
+        console.log("hours is"+deductions[0].hours);
+        let deductionhours=-(deductions[0].hours);
+        let deductiondays=-(deductions[0].days);
+        console.log(deductionhours);
+        console.log(deductionhours);
+        if(deductionhours>2.98){
+            salary=salary-(salary/180);
+        }
+        if(deductiondays!=0){
+        for(i=0;i<deductiondays;i++){
+        salary=salary-(salary/(180*60));
+        }}
+        
        await staffMember.findOneAndUpdate({"id":id},  {$set :{"salary": salary}});
     }
     else{
@@ -41,7 +60,6 @@ route.post('/', async(req,res)=>{
     
     res.json({
        "name":member.name,
-       "ID":memid,
        "salary":member.salary,
        "email":member.email
        

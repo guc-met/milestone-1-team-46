@@ -14,6 +14,9 @@ const Room=mongoose.Schema({
         type: Number,
 
     },
+    currcapacity:{
+        type:Number,
+    }
    
 })
 module.exports=mongoose.model("Room",Room);

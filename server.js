@@ -17,7 +17,6 @@ const resetPassword = require('./routes/resetpw');
 const viewAtt = require("./routes/viewattendance");
 const academic=require("./routes/academic");
 const missingDays = require("./routes/viewmissingdays");
-
 const HR=require("./routes/HR");
 const HOD=require("./routes/HOD");
 
