@@ -33,9 +33,10 @@ const HOD=require("./routes/HOD");
 
 
 
+const BadToken=require("./models/badTokens");
                                                                                     
 //authentication
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
     try {
        const token = req.header("auth-token");
         if (!token) {
@@ -44,6 +45,10 @@ const auth = (req, res, next) => {
         const verified = jwt.verify(token, jwtSignature);
         if (!verified) {
             return res.status(401).json({ msg: "unauthorized ya hacker" })
+        }
+        const foundToken=await BadToken.findOne({token:token});
+        if(foundToken){
+            return res.status(401).json({ msg: "expired token" })
         }
         req.id = verified.id;
         next();
@@ -59,6 +64,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //taking the login route before applying authentication
 app.use("/", login);
+
+//logouts
+app.post("/logout",async(req,res)=>{
+    try{
+        const token = req.header("auth-token");
+        if (token) {
+            const verified = jwt.verify(token, jwtSignature);
+            if (verified) {
+                const foundToken=await BadToken.findOne({token:token});
+                if(!foundToken){
+                    const curToken=new BadToken({token:token});
+                    await curToken.save();
+                    res.json({token:token});
+                }
+            }
+        }
+        res.end();
+    }
+    catch(err){
+        return res.status(500).json({error:err.message});
+    }
+})
 
 //middleware of auth
 app.use(auth);
