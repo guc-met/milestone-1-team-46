@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const signOut=require("../../models/SignOut");
 const faculty = require("../../models/Faculties");
 const Courses = require("../../models/Courses");
+const staffMember = require("../../models/staffMember");
 
 require('dotenv').config();
 
