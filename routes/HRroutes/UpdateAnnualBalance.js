@@ -6,6 +6,14 @@ const staffMember=require("../../models/staffMember");
 require('dotenv').config();
 
 route.put('/', async(req,res)=>{
+    let member= await staffMember.findOne({id:req.id});
+    if(!member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
+    if(!member.hr){
+      return res.status(400).json({msg:"unauthorized"});        
+  }
+  
 const query = {};
 const update = { "$inc": { "annualLeaveBalance": 2.5 } };
 const options = { "upsert": false }

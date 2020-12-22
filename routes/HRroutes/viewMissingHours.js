@@ -103,6 +103,10 @@ route.get('/', async(req,res)=>{
         }
         }
 
+        if (Signouts.length !=Signins.length){
+            res.send("please enter  equal signs in and outs to calculate the staff missing hours");
+        }
+
     //    console.log(allOuts);
        
        

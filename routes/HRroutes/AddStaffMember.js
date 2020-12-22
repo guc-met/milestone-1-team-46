@@ -6,8 +6,14 @@ const room=require("../../models/Room");
 require('dotenv').config();
 
 route.post('/', async(req,res)=>{
+    let member= await staffMember.findOne({id:req.id});
+    if(!member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
+ 
+  
     const HRid=req.id;
-    let member= await staffMember.findOne({id:HRid});
+     member= await staffMember.findOne({id:HRid});
     if(! member.hr){
         return res.status(400).json({msg:"unauthorized you can't access this page"});        
     }
