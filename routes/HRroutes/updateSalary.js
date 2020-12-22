@@ -2,7 +2,6 @@ const express = require("express");
 const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
 const Hours=require("../../models/HourBalance");
-const staffMember = require("../../models/staffMember");
 
 require('dotenv').config();
 

@@ -2,7 +2,6 @@ const express = require("express");
 const route = express.Router();
 const staffMember=require("../../models/staffMember");
 const room=require("../../models/Room");
-const staffMember = require("../../models/staffMember");
 
 require('dotenv').config();
 
