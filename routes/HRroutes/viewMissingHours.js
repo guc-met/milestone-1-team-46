@@ -55,7 +55,7 @@ route.get('/', async(req,res)=>{
 
         let curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
 
- await HourBalance.findOneAndUpdate({id:sID},{$set :{"hours": 0 }});
+ await HourBalance.findOneAndDelete({id:sID,"month":month});
     
 
         //         // check if there's a leave
@@ -193,6 +193,7 @@ route.get('/', async(req,res)=>{
             
             }}
             let curHourBalance= await HourBalance.findOne({"id":sID});
+            console.log("testing this" +curHourBalance);
             if (curHourBalance==null){
                 let Hours = new HourBalance({
                     id:sID,
@@ -233,10 +234,14 @@ route.get('/', async(req,res)=>{
                      let outMins=(Signouts[0].time.getMinutes()/60);
                      let hours= outTime-inTime;
                      let minutes=outMins-inMins;
-                    //  console.log("total minutes"+(hours+minutes));
+                     console.log("hour in "+ inTime);
+                     console.log("minute in "+ inMins);
+                     console.log("hour out "+ outTime);
+                     console.log("min out "+ inTime);
+                      console.log("total time"+(hours+minutes));
                      if (hours+minutes <8.4){
                          missing_hrs=(8.4-(hours+minutes))
-                         console.log("missing_Hrs"+missing_hrs);
+                         console.log("missing_Hrs hereeee"+missing_hrs);
                         //  console.log("missing hours is " +missing_hrs);
                         object={
                             id:memid,
@@ -250,14 +255,7 @@ route.get('/', async(req,res)=>{
     
                 
                }
-                let curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
-                if (curHourBalance===null){
-                    let Hours = new HourBalance({
-                        id:sID,
-                        hours:missing_hrs,
-                        month:month,
-                       })
-                     await  Hours.save();
+                
         
                     
                 
@@ -273,7 +271,16 @@ route.get('/', async(req,res)=>{
         //   console.log("missing hours is"+missing_hours);
     
                 // return res.send("missing hours : " + JSON.stringify(output));
-               }     }
+               } 
+                curHourBalance= await HourBalance.findOne({"id":sID,"month":month});
+                if (curHourBalance===null){
+                    let Hours = new HourBalance({
+                        id:sID,
+                        hours:-missing_hrs,
+                        month:month,
+                       })
+                     await  Hours.save();
+                }
            }
 
     
