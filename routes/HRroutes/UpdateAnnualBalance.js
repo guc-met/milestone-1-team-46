@@ -21,7 +21,7 @@ return staffMember.updateMany(query, update, options)
   .then(result => {
     const { matchedCount, modifiedCount } = result;
     console.log(`Successfully matched ${matchedCount} and modified ${modifiedCount} items.`)
-    res.send(result);
+    res.send("added 2.5 to all staff annual leave balances");
   })
   .catch(err => console.error(`Failed to update items: ${err}`))
 });

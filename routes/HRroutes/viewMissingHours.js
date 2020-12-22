@@ -19,6 +19,11 @@ route.get('/', async(req,res)=>{
         return res.status(400).json({msg:"unauthorized you can't access this page"});        
     }
 
+    let mem= await staffMember.findOne({id:sID});
+        if(! mem){
+            return res.status(400).json({msg:"this staff member doesn't exist"});        
+        }
+
     let pre="";
     if(member.hr)
     {
@@ -72,7 +77,8 @@ route.get('/', async(req,res)=>{
         
           
 
-        }}
+        }
+    }
 
         
       
@@ -86,6 +92,7 @@ route.get('/', async(req,res)=>{
           Signins.push(object);
 
         }
+       
         }
          
             //sign outs
@@ -102,11 +109,19 @@ route.get('/', async(req,res)=>{
         }
         }
 
+    
+
     //    console.log(allOuts);
        
        if(Signins.length != Signouts.length){
            res.send("you have incomplete sign-ins or outs please enter them");
        }
+
+       
+
+       if(Signins.length==0 || Signouts.length==0){
+        res.send("you dont have signins or outs in the specified month");
+    }
     
      
     

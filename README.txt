@@ -1172,6 +1172,29 @@ Response [
     }
 ]
 
+Functionality Update Annual Leave Balance
+Route /HR/UpdateAnnualBalance
+Route type:PUT
+Request body{}
+Response {
+    "n": 11,
+    "nModified": 11,
+    "opTime": {
+        "ts": "6909173160176779277",
+        "t": 5
+    },
+    "electionId": "7fffffff0000000000000005",
+    "ok": 1,
+    "$clusterTime": {
+        "clusterTime": "6909173160176779277",
+        "signature": {
+            "hash": "ccfZLXvsdVYva+ahz9/1Mpx2FUs=",
+            "keyId": "6905737538527297539"
+        }
+    },
+    "operationTime": "6909173160176779277"
+}
+
 
 View Dayoff func :-
 Functionality : view day off for staff memebers
