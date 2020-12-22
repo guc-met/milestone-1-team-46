@@ -17,7 +17,10 @@ route.get("/",async(req,res)=>{
             return res.status(401).json({msg:"unauthorized"});            
         }
         const reqs= await Requests.find({type:"slot linking",receiver_id:CCId,status:"Pending"});
-        res.json(reqs);
+        if((!reqs)||reqs.length==0)
+            return res.status(401).json("there are no pending slot linking requests for you");
+        else
+            res.json(reqs);
     }
     catch(err){
         return res.status(500).json({error:err.message});
@@ -40,18 +43,24 @@ route.post("/",async(req,res)=>{
         const accepted=req.body.accepted;
         //get the request
         const cureq= await Requests.findById(id);
+        if(!cureq)
+            return res.status(500).json("no request with the given id was found");
         if(accepted){
             //change request state
             cureq.status="Accepted";
             //get the teaching slot            
             slotID=cureq.info;
             const curSlot=await teachingSlots.findById(slotID);
+            if(!curSlot)
+                return res.status(500).json("no teaching slot with the given id was found");
             //update the assignee id to be the sender's id
             curSlot.assigneeid=cureq.sender_id;
             //adding the slot to the assignee's schedule
             const actualSlot=curSlot.slot;
             day=actualSlot.day;
             const ass_schedule= await schedules.findOne({id:cureq.sender_id});
+            if(!ass_schedule)
+                return res.status(500).json("no schedule for the request sender was found");
             switch(day){
                 case "Saturday":
                     ass_schedule.Saturday.push(actualSlot);
@@ -84,7 +93,7 @@ route.post("/",async(req,res)=>{
             cureq.status="Rejected";
             await cureq.save();
         }
-        res.json("done");
+        res.json(cureq);
     }
     catch(err){
         return res.status(500).json({error:err.message});
