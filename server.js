@@ -20,6 +20,8 @@ const viewdayoff=require("./routes/HOD/viewdayoff");
 const viewrequests=require("./routes/HOD/viewrequests");
 const Requests = require("./models/Requests");
 const viewcoverage = require("./routes/HOD/viewcoverage");
+const acceptrequest = require("./routes/HOD/acceptrequest");
+const rejectrequest = require("./routes/HOD/rejectrequest");
 const viewta = require("./routes/HOD/viewta");
 const viewcourse = require("./routes/courseInstructorRoutes/viewcourse");
 const CoursesModel = require("./models/CoursesModel");
@@ -109,6 +111,10 @@ app.use("/viewcoverage",viewcoverage);
 app.use("/viewta",viewta);
 app.use("/viewcourse",viewcourse);
 app.use("/viewslots",viewslots);
+app.use("/acceptrequest" , acceptrequest);
+app.use("/rejectrequest" , rejectrequest);
+
+
 app.use("/viewmissdays" , missingDays);
 app.use("/viewmisshours" , missingHours);
 
