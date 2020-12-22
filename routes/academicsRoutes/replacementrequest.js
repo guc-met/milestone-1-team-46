@@ -9,7 +9,8 @@ route.post("/", async(req, res)=>{
       const r1=new requests(
           {
               sender_id: req.id,
-              type: "replacement"
+              type: "replacement",
+              replacementId: req.body.repId
           }
       )
       await r1.save().then(()=>{
@@ -28,8 +29,10 @@ route.post("/", async(req, res)=>{
 
 route.get("/", async(req, res)=>{
     try{
-    const result=  await requests.find({sender_id: req.id,type:"replacement"});
-     res.send(result);
+    const result1=  await requests.find({sender_id: req.id,type:"replacement"});
+    const result2= await requests.find({replacementId: req.id});
+    const result= result1.concat(result2);
+     res.send(result1);
 
     }catch(err)
     {

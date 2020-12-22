@@ -12,6 +12,9 @@ const TeachingSlots= mongoose.Schema({
     assigneeid:{
         type:Number,
         default:null
+    },
+    coursename:{
+    type:String,
     }
 })
 module.exports=mongoose.model("TeachingSlots",TeachingSlots);

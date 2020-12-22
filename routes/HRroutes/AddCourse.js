@@ -22,6 +22,10 @@ route.post('/', async(req,res)=>{
   const tutorials = req.body.tutorials;
   const totalSlots = req.body.totalSlots;
   let dep;
+  
+  if(! member.hr){
+    return res.status(400).json({msg:"unauthorized you can't access this page"});        
+}
 
   if(!facultyName){
       return res.send("Please Enter faculty name");

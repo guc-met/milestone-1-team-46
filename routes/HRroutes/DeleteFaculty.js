@@ -5,11 +5,16 @@ const faculty = require("../../models/Faculties");
 require('dotenv').config();
 
 route.post('/', async(req,res)=>{
-    // const id=req.id;
-    // let member= await staffMember.findOne({id:id});
-    // if(! member){
-    //     return res.status(400).json({msg:"incorrect credentials"});        
-    // }
+
+
+    const id=req.id;
+    let member= await staffMember.findOne({id:id});
+    if(! member.hr){
+        return res.status(400).json({msg:"unauthroised access"});        
+    }
+    if(! member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
   const name = req.body.name
 
   

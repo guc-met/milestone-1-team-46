@@ -9,11 +9,18 @@ const Room=mongoose.Schema({
         // could be lab, office, hall or tutorial room
         type:String,
         required:true,
+        enum:["lab","office","hall","tutorial room"]
     },
     maxcapacity:{
         type: Number,
+        required:true
 
     },
+    currentCapacity:{
+        type: Number
+
+    },
+    
     currcapacity:{
         type:Number,
     }

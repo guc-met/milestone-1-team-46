@@ -2,7 +2,7 @@ const express = require("express");
 const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
 const faculties=require("../../models/Faculties");
-const courses=require("../../models/Coursesmodel");
+const courses=require("../../models/CoursesModel");
 
 route.put("/",async(req,res)=>{
     try{

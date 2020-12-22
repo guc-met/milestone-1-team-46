@@ -24,7 +24,8 @@ const staffSchema = new schema({
     },
 
     gender : {
-        type:String
+        type:String,
+        enum:["Female","Male"]
     },
 
     email : {
@@ -65,7 +66,7 @@ const staffSchema = new schema({
     },
 
     daysOff :  {
-        type : Array
+        type : String
     },
 
     annualLeaveBalance : {
@@ -88,11 +89,12 @@ const staffSchema = new schema({
     },
     courses : {
         type : Array,
-        default : null
+       // default : null
         
     },
     salary: {
         type: Number,
+        
         
 
     }
