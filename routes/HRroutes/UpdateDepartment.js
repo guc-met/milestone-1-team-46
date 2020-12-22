@@ -9,6 +9,12 @@ require('dotenv').config();
 
 route.post('/', async(req,res)=>{
   
+
+    const id=req.id;
+    let member= await staffMember.findOne({id:id});
+    if(! member.hr){
+        return res.status(400).json({msg:"unauthroised access"});        
+    }
   const facultyName = req.body.facultyName
   const oldDepartmentName = req.body.oldDepartmentName
   const departmentName = req.body.departmentName;

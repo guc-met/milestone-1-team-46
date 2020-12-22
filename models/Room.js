@@ -18,6 +18,11 @@ const Room=mongoose.Schema({
     },
     currentCapacity:{
         type: Number
+
+    },
+    
+    currcapacity:{
+        type:Number,
     }
    
 })
