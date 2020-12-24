@@ -7,7 +7,7 @@ const Requests=require("../../models/Requests");
 
 
 
-route.post("/", async(req, res)=>{
+route.delete("/", async(req, res)=>{
     try{
         const id=req.id;
         const member= await staffMember.findOne({id:id});
