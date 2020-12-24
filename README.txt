@@ -1,6 +1,18 @@
 1. write in cmd npm run server
 2. port number: 3000
 ====================================================================================
+On adding any academic staff member, add the courses she/he teaches
+
+
+
+
+Functionality : Update Annual day balance for all staff members
+Route : HR/UpdateAnnualBalance
+Request type : PUT 
+
+
+put the token in parameter auth-token in the header of the request
+====================================================================================
 Functionality : log in onto the system
 Route : /
 Request type : POST 
@@ -174,7 +186,7 @@ Request body: {"type":"comoensatio leave","info": "2ZAHEGT","day":"2020-12-30"}
 
 Functionality: cancel a pending request
 Route: /ac/cancelrequest
-Request type: POST
+Request type: DELETE
 Request body: {"reqId":"5fddceb5beebcb4a94ae9dc7"}
 
 
