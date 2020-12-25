@@ -9,22 +9,50 @@ const schedules=require("../../models/Schedule");
 route.get("/",async(req,res)=>{
     try{
         const CCId=req.id;
-        const member= await staffMember.findOne({id:CCId});
+        const member= await staffMember.findOne({id:CCId,ac:true});
         //if the course coordinator specified an id
         const id=req.body.id;
         if(! member){
-            return res.status(400).json({msg:"incorrect credentials"});        
+            return res.status(401).json({msg:"incorrect credentials"});        
         }
         if(!member.cc){
-            return res.status(401).json({msg:"unauthorized"});            
+            return res.status(403).json({msg:"Forbidden, you are not a course coordinator"});            
         }
-        //const slots;
+        //get the course coordinator's course
+        let course="";
+        //get the member's faculty and department
+        const faculty=member.faculty; 
+        const department=member.department;
+        //getting the course name
+        const curFaculty=await faculties.findOne({name:faculty});
+        if(!curFaculty)
+            return res.status(406).json("the course coordinator's faculty was not found in the database");
+        
+        for(let i=0;i<curFaculty.departments.length;i++){
+            if(curFaculty.departments[i].name===department){
+                curDept=curFaculty.departments[i];
+                break;
+            }
+        }
+        if(!curDept)
+            return res.status(406).json("the course coordinator's department was not found in the database");  
+
+        for(let i=0;i<curDept.courses.length;i++){
+            if(curDept.courses[i].ccId===member.id){
+                course=curDept.courses[i].coursename;
+                break;
+            }
+            if(i==curDept.courses.length-1)
+                return res.status(406).json("course coordinator's course was not found");
+        }
         if(id){
-            slots=await teachingSlots.find({ccId:CCId,_id:id});
+            slots=await teachingSlots.find({"slot.course":course,_id:id});
         }
         else{
-            slots=await teachingSlots.find({ccId:CCId});
+            slots=await teachingSlots.find({"slot.course":course});
         }
+        if(!slots)
+            return res.status(406).json("No teaching slots for your course were found");
         
         res.json(slots);
     }
@@ -38,36 +66,47 @@ route.get("/",async(req,res)=>{
 route.post("/",async(req,res)=>{
     try{
         const CCId=req.id;
-        const member= await staffMember.findOne({id:CCId});
+        const member= await staffMember.findOne({id:CCId,ac:true});
         if(! member){
-            return res.status(400).json({msg:"incorrect credentials"});        
+            return res.status(401).json({msg:"incorrect credentials"});        
         }
         if(!member.cc){
-            return res.status(401).json({msg:"unauthorized"});            
+            return res.status(403).json({msg:"Forbidden, you are not a course coordinator"});            
         }
         //get the location and the timing of the slot to be added
         const location=req.body.location;
         const time=req.body.time;
         const type=req.body.type;
         const day=req.body.day;
-        //get the course coordinator's course
-        let course= "";//await getCourse(member);
-        //get the member's faculty and department
-        const faculty=member.faculty; 
-        const department=member.department;
-        //getting the course
-        const curFaculty=await faculties.findOne({name:faculty});
-        for(let i=0;i<curFaculty.departments.length;i++){
-            if(curFaculty.departments[i].name===department){
-                curDept=curFaculty.departments[i];
-                break;
-            }
-        }
-        for(let i=0;i<curDept.courses.length;i++){
-            if(curDept.courses[i].ccId===member.id){
-                course=curDept.courses[i];
-            }
-        }
+        if(!(location||time||type||day))
+            return res.status(406).json("Please specify a location, day, time and type for the teaching slot");
+       //get the course coordinator's course
+       let course=undefined;
+       //get the member's faculty and department
+       const faculty=member.faculty; 
+       const department=member.department;
+       //getting the course name
+       const curFaculty=await faculties.findOne({name:faculty});
+       if(!curFaculty)
+           return res.status(406).json("the course coordinator's faculty was not found in the database");
+       
+       for(let i=0;i<curFaculty.departments.length;i++){
+           if(curFaculty.departments[i].name===department){
+               curDept=curFaculty.departments[i];
+               break;
+           }
+       }
+       if(!curDept)
+           return res.status(406).json("the course coordinator's department was not found in the database");  
+
+       for(let i=0;i<curDept.courses.length;i++){
+           if(curDept.courses[i].ccId===member.id){
+               course=curDept.courses[i];
+               break;
+           }
+           if(i==curDept.courses.length-1)
+               return res.status(406).json("course coordinator's course was not found");
+       }
         //adding the slot
         const ts=new teachingSlots({
             slot:{
@@ -106,43 +145,53 @@ route.post("/",async(req,res)=>{
 route.delete("/",async(req,res)=>{
     try{
         const CCId=req.id;
-        const member= await staffMember.findOne({id:CCId});
+        const member= await staffMember.findOne({id:CCId,ac:true});
         if(! member){
-            return res.status(400).json({msg:"incorrect credentials"});        
+            return res.status(401).json({msg:"incorrect credentials"});        
         }
         if(!member.cc){
-            return res.status(401).json({msg:"unauthorized"});            
+            return res.status(403).json({msg:"Forbidden, you are not a course coordinator"});            
         }
         //getting the slot's id
         const slotID=req.body.id;
         const curSlot=await teachingSlots.findById(slotID);
+        if(!curSlot)
+            return res.status(406).json("no teaching slots of this id were found");
         const type=curSlot.slot.type;
         //get the course coordinator's course
-        let course= "";
-         //get the member's faculty and department
-         const faculty=member.faculty; 
-         const department=member.department;
-         //getting the course
-         const curFaculty=await faculties.findOne({name:faculty});
-         for(let i=0;i<curFaculty.departments.length;i++){
-             if(curFaculty.departments[i].name===department){
-                 curDept=curFaculty.departments[i];
-                 break;
-             }
-         }
-         for(let i=0;i<curDept.courses.length;i++){
-             if(curDept.courses[i].ccId===member.id){
-                 course=curDept.courses[i];
-             }
-         }
+        let course=undefined;
+        //get the member's faculty and department
+        const faculty=member.faculty; 
+        const department=member.department;
+        //getting the course name
+        const curFaculty=await faculties.findOne({name:faculty});
+        if(!curFaculty)
+            return res.status(406).json("the course coordinator's faculty was not found in the database");
+        
+        for(let i=0;i<curFaculty.departments.length;i++){
+            if(curFaculty.departments[i].name===department){
+                curDept=curFaculty.departments[i];
+                break;
+            }
+        }
+        if(!curDept)
+            return res.status(406).json("the course coordinator's department was not found in the database");  
+ 
+        for(let i=0;i<curDept.courses.length;i++){
+            if(curDept.courses[i].ccId===member.id){
+                course=curDept.courses[i];
+                break;
+            }
+            if(i==curDept.courses.length-1)
+                return res.status(406).json("course coordinator's course was not found");
+        }
         //the course coordinator is authorized to only delete a slot from his/her course
         if(curSlot.slot.course!==course.coursename){
-            return res.status(401).json({msg:"unauthorized"});                        
+            return res.status(403).json({msg:"forbidden, you can only delete slots from your own course"});                        
         }
         
         const deletedSlot=await teachingSlots.findByIdAndDelete(slotID);
         //updating total number of course slots
-        if(deletedSlot){
             if(!course.totalslots)
                 course.totalslots=0;
             if(course.totalslots>0){
@@ -153,11 +202,89 @@ route.delete("/",async(req,res)=>{
                 else if(type==="tutorial"){
                     course.tutorials--;
                 }
-                if(type==="lecture"){
+                else if(type==="lecture"){
                     course.lectures--;
                 }
             }
-        }
+            //remove this slot from the assignee's schedule
+            if(deletedSlot.assigneeid!=null){
+                const actualSlot=deletedSlot.slot;
+                day=actualSlot.day;
+                acslotID=actualSlot._id;
+                assID=deletedSlot.assigneeid;
+                assignee=await staffMember.findOne({id:assID,ac:true});
+                if(!assignee)
+                    return res.status(406).json("course coordinator's course was not found");
+                const ass_schedule= await schedules.findOne({id:assID});
+                if(!ass_schedule)
+                    return res.status(406).json({msg:"no schedule for the assignee academic member was found"});
+                switch(day){
+                    case "Saturday":
+                            for(i=0;i<ass_schedule.Saturday.length;i++){
+                                if(ass_schedule.Saturday[i]._id.equals(acslotID)){
+                                    ass_schedule.Saturday.splice(i,1);
+                                    break;
+                                }
+                                if(i==ass_schedule.Saturday.length-1)
+                                    return res.status(406).json({msg:"this slot was not found in the assignee academic member's schedule"});
+                            }
+                            break;
+                        case "Sunday":
+                            for(i=0;i<ass_schedule.Sunday.length;i++){
+                                if(ass_schedule.Sunday[i]._id.equals(acslotID)){
+                                    ass_schedule.Sunday.splice(i,1);
+                                    break;
+                                }
+                                if(i==ass_schedule.Sunday.length-1)
+                                    return res.status(406).json({msg:"this slot was not found in the assignee academic member's schedule"});
+                            }
+                            break;
+                        case "Monday":
+                            for(i=0;i<ass_schedule.Monday.length;i++){
+                                if(ass_schedule.Monday[i]._id.equals(acslotID)){
+                                    ass_schedule.Monday.splice(i,1);
+                                    break;
+                                }
+                                if(i==ass_schedule.Monday.length-1)
+                                    return res.status(406).json({msg:"this slot was not found in the assignee academic member's schedule"});
+                            }
+                            break;
+                        case "Tuesday":
+                            for(i=0;i<ass_schedule.Tuesday.length;i++){
+                                if(ass_schedule.Tuesday[i]._id.equals(acslotID)){
+                                    ass_schedule.Tuesday.splice(i,1)
+                                    break;
+                                }
+                                if(i==ass_schedule.Tuesday.length-1)
+                                    return res.status(406).json({msg:"this slot was not found in the assignee academic member's schedule"});
+                            }
+                            break;
+                        case "Wednesday":
+                            for(i=0;i<ass_schedule.Wednesday.length;i++){
+                                if(ass_schedule.Wednesday[i]._id.equals(acslotID)){
+                                    ass_schedule.Wednesday.splice(i,1)
+                                    break;
+                                }
+                                if(i==ass_schedule.Wednesday.length-1)
+                                    return res.status(406).json({msg:"this slot was not found in the assignee academic member's schedule"});
+                            }
+                            break;
+                        case "Thursday":
+                            for(i=0;i<ass_schedule.Thursday.length;i++){
+                                if(ass_schedule.Thursday[i]._id.equals(acslotID)){
+                                    ass_schedule.Thursday.splice(i,1)
+                                    break;
+                                }
+                                if(i==ass_schedule.Thursday.length-1)
+                                    return res.status(406).json({msg:"this slot was not found in the assignee academic member's schedule"});
+                            }
+                            break;
+                        default:
+                            console.log("day is wrong");
+                }
+                await ass_schedule.save();
+
+            }
         await curFaculty.save();
         res.json(deletedSlot);
     }
@@ -169,22 +296,22 @@ route.delete("/",async(req,res)=>{
 route.put("/",async(req,res)=>{
     try{
         const CCId=req.id;
-        const member= await staffMember.findOne({id:CCId});
+        const member= await staffMember.findOne({id:CCId,ac:true});
         if(! member){
-            return res.status(400).json({msg:"incorrect credentials"});        
+            return res.status(401).json({msg:"incorrect credentials"});        
         }
         if(!member.cc){
-            return res.status(401).json({msg:"unauthorized"});            
+            return res.status(403).json({msg:"Forbidden, you are not a course coordinator"});            
         }
-        //getting the slot's updated time and/or location
-        const time=req.body.time;
+        //getting the slot's updated time, type, day and/or location
+        let time=req.body.time;
         const location=req.body.location;
         const type=req.body.type;
-        const day=req.body.day;
+        let day=req.body.day;
         const slotID=req.body.id;
         const curSlot=await teachingSlots.findById(slotID);
         if(!curSlot)
-            return res.status(500).json("No such teaching slot was found");
+            return res.status(406).json("No teaching slot with this id was found");
         //get the course coordinator's course
         let course="";
         //get the member's faculty and department
@@ -193,7 +320,7 @@ route.put("/",async(req,res)=>{
         //getting the course name
         const curFaculty=await faculties.findOne({name:faculty});
         if(!curFaculty)
-            return res.status(500).json("the course coordinator's faculty was not found in the database");
+            return res.status(406).json("the course coordinator's faculty was not found in the database");
         
         for(let i=0;i<curFaculty.departments.length;i++){
             if(curFaculty.departments[i].name===department){
@@ -202,7 +329,7 @@ route.put("/",async(req,res)=>{
             }
         }
         if(!curDept)
-            return res.status(500).json("the course coordinator's department was not found in the database");  
+            return res.status(406).json("the course coordinator's department was not found in the database");  
 
         for(let i=0;i<curDept.courses.length;i++){
             if(curDept.courses[i].ccId===member.id){
@@ -210,11 +337,11 @@ route.put("/",async(req,res)=>{
                 break;
             }
             if(i==curDept.courses.length-1)
-                return res.status(500).json("course coordinator's course was not found");
+                return res.status(406).json("course coordinator's course was not found");
         }
         //the course coordinator is authorized to only update a slot from his/her course
         if(curSlot.slot.course!==course.coursename){
-            return res.status(401).json({msg:"unauthorized"});                        
+            return res.status(403).json({msg:"forbidden, you can only update slots from your own course"});                        
         }
         //updating the teaching slot
         const actualSlot=curSlot.slot;
@@ -265,7 +392,62 @@ route.put("/",async(req,res)=>{
             //get his/her schedule slot to be updated
             ass_schedule= await schedules.findOne({id:ass_id});
             if(!ass_schedule)
-                return res.status(500).json("No schedule was found for the assignee to be updated");
+                return res.status(406).json("No schedule was found for the assignee to be updated");
+            //looking for schedule conflicts
+            if(day||time){
+                if(!time)
+                    time=curSlot.slot.time;
+                if(!day)
+                    day=curSlot.slot.day;
+                switch(day){
+                    case "Saturday":
+                        for(i=0;i<ass_schedule.Saturday.length;i++){
+                            if(ass_schedule.Saturday[i].time==time){
+                                return res.status(406).json("the assigned academic member has another teaching slot at the same time");
+                            }
+                        }
+                        break;
+                    case "Sunday":
+                        for(i=0;i<ass_schedule.Sunday.length;i++){
+                            if(ass_schedule.Sunday[i].time==time){
+                                return res.status(406).json("the assigned academic member has another teaching slot at the same time");
+                            }
+                        }
+                        break;
+                    case "Monday":
+                        for(i=0;i<ass_schedule.Monday.length;i++){
+                            if(ass_schedule.Monday[i].time==time){
+                                return res.status(406).json("the assigned academic member has another teaching slot at the same time");
+                            }
+                        }
+                        break;
+                    case "Tuesday":
+                        for(i=0;i<ass_schedule.Tuesday.length;i++){
+                            if(ass_schedule.Tuesday[i].time==time){
+                                return res.status(406).json("the assigned academic member has another teaching slot at the same time");
+                            }
+                        }
+                        break;
+                    case "Wednesday":
+                        for(i=0;i<ass_schedule.Wednesday.length;i++){
+                            if(ass_schedule.Wednesday[i].time==time){
+                                return res.status(406).json("the assigned academic member has another teaching slot at the same time");
+                            }
+                        }
+                        break;
+                    case "Thursday":
+                        for(i=0;i<ass_schedule.Thursday.length;i++){
+                            if(ass_schedule.Thursday[i].time==time){
+                                return res.status(406).json("the assigned academic member has another teaching slot at the same time");
+                            }
+                        }
+                        
+                        break;
+                    default:
+                        console.log("day is wrong");
+    
+                }
+            }
             acslotID=actualSlot._id;
             let schedSlot=undefined;
             switch(oldDay){
@@ -322,12 +504,12 @@ route.put("/",async(req,res)=>{
                     console.log("day is wrong");
 
             }
-            if(time){
+            if(time&&time!=curSlot.slot.time){
                 await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.time":time}});
                 schedSlot.time=time;
                 await ass_schedule.save();
             }
-            if(location){
+            if(location&&location!=curSlot.slot.location){
                 await teachingSlots.findByIdAndUpdate(slotID,{$set:{"slot.location":location}});
                 schedSlot.location=location;
                 await ass_schedule.save();    
