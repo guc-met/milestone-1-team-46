@@ -1,6 +1,7 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
+const Schedule=require("../../models/Schedule");
 const faculties=require("../../models/Faculties");
 const room=require("../../models/Room");
 
@@ -35,6 +36,8 @@ route.post("/",async(req,res)=>{
         catch(err){
             return res.status(501).json({error:err.message});
         }
+
+        schedule= await Schedule.findOneAndDelete({id:id});
     
         res.json("deleted staff member successfully");
     }

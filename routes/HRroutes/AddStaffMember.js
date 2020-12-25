@@ -1,6 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const staffMember=require("../../models/staffMember");
+const Schedule=require("../../models/Schedule");
 const room=require("../../models/Room");
 
 require('dotenv').config();
@@ -25,7 +26,7 @@ route.post('/', async(req,res)=>{
     const role=req.body.role;
     const email=req.body.email;
     const department=req.body.department;
-    const Faculty=req.body.faculty;
+    const faculty=req.body.faculty;
   //   const email=req.body.email;
     // const salary=req.body.salary;
     // const office=req.body.office;  //passing parameters
@@ -70,16 +71,18 @@ route.post('/', async(req,res)=>{
             hod:hod,
             email:email,
             department:department,
-            faculty:Faculty,
+            faculty:faculty,
             daysOff:dayOff,
             office:office
             
            })
          await  NewStaff.save();
+
+       
            
     }
     else{
-        return res.status(401).json({ msg: "unauthorized you cant add your own missing sign-in " })
+        return res.status(401).json({ msg: "you must enter staff's name " })
     }
     
      member= await staffMember.findOne({email:email});
@@ -92,10 +95,17 @@ route.post('/', async(req,res)=>{
         pre="ac-";
     }
     const memid=pre+member.no;
+
+    let schedule = new Schedule({
+        id:member.id
+         
+        })
+      await  schedule.save();
     
     res.json({
        "name":member.name,
-       "ID":memid,
+       "ID with role":memid,
+       "ID":member.id,
        "email":member.email,
        "Office":member.office,
        "Day-Off":member.daysOff,
