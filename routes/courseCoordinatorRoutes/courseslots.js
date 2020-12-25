@@ -392,7 +392,7 @@ route.put("/",async(req,res)=>{
             //get his/her schedule slot to be updated
             ass_schedule= await schedules.findOne({id:ass_id});
             assignee=await staffMember.findOne({id:ass_id,ac:true});
-            if(!ass_schedule)
+            if(!assignee)
                 return res.status(406).json("the assignee was not found");
             if(!ass_schedule)
                 return res.status(406).json("No schedule was found for the assignee to be updated");
