@@ -1,6 +1,7 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
 const room = require("../../models/Room");
+const staffMember = require("../../models/staffMember");
 
 require('dotenv').config();
 

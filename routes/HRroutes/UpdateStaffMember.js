@@ -5,9 +5,13 @@ const staffMember=require("../../models/staffMember");
 require('dotenv').config();
 
 route.put('/', async(req,res)=>{
+    let member= await staffMember.findOne({id:req.id});
+    if(!member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
     const id=req.id;
     const sID=req.body.id;
-    let member= await staffMember.findOne({id:id});
+     member= await staffMember.findOne({id:id});
     if(! member.hr){
         return res.status(400).json({msg:"unauthorized you can't access this page"});        
     }

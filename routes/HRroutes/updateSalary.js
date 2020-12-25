@@ -47,6 +47,7 @@ route.post('/', async(req,res)=>{
     await staffMember.findOneAndUpdate({"id":sID},  {$set :{salary: req.body.salary}});
     }
 }
+
     else{
         return res.status(401).json({ msg: "unauthorized you cant update your own salary :)" })
     }

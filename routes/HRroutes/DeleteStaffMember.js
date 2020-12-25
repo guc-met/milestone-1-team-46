@@ -5,6 +5,14 @@ const faculties=require("../../models/Faculties");
 const room=require("../../models/Room");
 
 route.post("/",async(req,res)=>{
+    let member= await staffMember.findOne({id:req.id});
+    if(!member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
+    if(!member.hr){
+      return res.status(400).json({msg:"unauthorized"});        
+  }
+  
     try{
         const HRId=req.id;
         const member= await staffMember.findOne({id:HRId});
