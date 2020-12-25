@@ -391,6 +391,9 @@ route.put("/",async(req,res)=>{
         else{
             //get his/her schedule slot to be updated
             ass_schedule= await schedules.findOne({id:ass_id});
+            assignee=await staffMember.findOne({id:ass_id,ac:true});
+            if(!ass_schedule)
+                return res.status(406).json("the assignee was not found");
             if(!ass_schedule)
                 return res.status(406).json("No schedule was found for the assignee to be updated");
             //looking for schedule conflicts
@@ -399,6 +402,8 @@ route.put("/",async(req,res)=>{
                     time=curSlot.slot.time;
                 if(!day)
                     day=curSlot.slot.day;
+                if(day==assignee.daysOff)
+                    return res.status(406).json({msg:"you can not assign this slot to this academic member on his/her day off"});                
                 switch(day){
                     case "Saturday":
                         for(i=0;i<ass_schedule.Saturday.length;i++){

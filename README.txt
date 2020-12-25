@@ -25,6 +25,14 @@ Response : {
     }
 }
 
+Functionality : log out from the system
+Route : /logout
+Request type : POST 
+Response : {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA4NTc3NTcwfQ.hnyDmgKvoXkcNeBmmgw7l81s6YSKEFZYV3VXt6ZZdk4"
+
+}
+
 
 
 Functionality : Sign in for attendance
