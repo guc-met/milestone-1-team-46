@@ -25,6 +25,13 @@ route.post('/', async(req,res)=>{
   if(!facultyName){
       return res.send("Please Enter faculty name");
   }
+  if(!oldDepartmentName){
+      return res.send("Please enter department name");
+  }
+  if(!departmentName && !departmentHOD){
+    return res.send("Please Enter new  name or new HOD to update");
+
+  }
   else{
     
     let f = await faculty.findOne({name:facultyName});

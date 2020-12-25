@@ -42,6 +42,9 @@ route.post('/', async(req,res)=>{
       //  await faculty.updateOne({name:facultyName} , {$set: {departments : depArray}})
 
     }
+    else{
+      return res.send("Please input department name and HOD");
+    }
     const fUpdated =  await faculty.findOne({name:facultyName});
      return res.send(fUpdated);
   }
