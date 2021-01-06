@@ -11,7 +11,7 @@ route.get("/",async(req,res)=>{
         const CCId=req.id;
         const member= await staffMember.findOne({id:CCId,ac:true});
         //if the course coordinator specified an id
-        const id=req.body.id;
+        const id=req.query.id;
         if(! member){
             return res.status(401).json({msg:"incorrect credentials"});        
         }
