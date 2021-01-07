@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const signOut=require("../../models/SignOut");
 const faculty = require("../../models/Faculties");
 const Courses = require("../../models/Courses");
+const staffMember = require("../../models/staffMember");
 
 require('dotenv').config();
 
@@ -40,6 +41,9 @@ route.post('/', async(req,res)=>{
         await f.save();
       //  await faculty.updateOne({name:facultyName} , {$set: {departments : depArray}})
 
+    }
+    else{
+      return res.send("Please input department name and HOD");
     }
     const fUpdated =  await faculty.findOne({name:facultyName});
      return res.send(fUpdated);

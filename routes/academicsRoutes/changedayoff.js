@@ -8,7 +8,9 @@ const Faculties=require("../../models/Faculties")
 route.post("/", async(req, res)=>{
     try{
         const id=req.id;
-        const member= await staffMember.findOne({id:id});
+        const member= await StaffMembers.findOne({id:id});
+        const dayOff=req.body.dayOff;
+
         if(! member){
             return res.status(400).json({msg:"incorrect credentials"});        
         }
@@ -18,6 +20,10 @@ route.post("/", async(req, res)=>{
     const memId=req.id;
  
     const mem=  await StaffMembers.findOne({id:memId});
+    if(mem.daysOff==dayOff)
+    {
+        res.send(`Your Day off is already ${dayOff}`);
+    }
  
     const memFaculty=mem.faculty;
     const memDepartment=mem.department;
@@ -35,7 +41,6 @@ route.post("/", async(req, res)=>{
         }
 
     }
-    const dayOff=req.body.dayOff;
 
       const r1=new requests(
           {

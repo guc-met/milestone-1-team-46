@@ -12,6 +12,11 @@ route.post('/', async(req,res)=>{
     }
     const office=req.body.office; 
     const dayoff=req.body.dayoff; //passing parameters
+
+    if(!office && !dayoff){
+        return res.send("Please Enter an office or dayoff to update");
+    }
+
     if(office)
     {
        await staffMember.findOneAndUpdate({"id":id},  {$set :{"office": office}});

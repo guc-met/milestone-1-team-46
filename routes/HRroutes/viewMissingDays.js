@@ -6,6 +6,7 @@ const leaves = require('../../models/leaves');
 const signOut = require('../../models/SignOut');
 const HourBalance = require('../../models/HourBalance');
 const { sign } = require("jsonwebtoken");
+
 require('dotenv').config();
 
 route.get('/', async(req,res)=>{

@@ -24,10 +24,7 @@ route.post("/", async (req,res)=>{
         const token = jwt.sign({id:member.id},process.env.SIGNATURE);
         res.json({
             token,
-            member:{
-                id:member.id,
-                email:member.email
-            }
+            member
         })
     }
     catch(err){

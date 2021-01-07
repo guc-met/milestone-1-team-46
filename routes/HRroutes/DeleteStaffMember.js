@@ -1,10 +1,19 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
+const Schedule=require("../../models/Schedule");
 const faculties=require("../../models/Faculties");
 const room=require("../../models/Room");
 
 route.post("/",async(req,res)=>{
+    let member= await staffMember.findOne({id:req.id});
+    if(!member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
+    if(!member.hr){
+      return res.status(400).json({msg:"unauthorized"});        
+  }
+  
     try{
         const HRId=req.id;
         const member= await staffMember.findOne({id:HRId});
@@ -27,6 +36,8 @@ route.post("/",async(req,res)=>{
         catch(err){
             return res.status(501).json({error:err.message});
         }
+
+        schedule= await Schedule.findOneAndDelete({id:id});
     
         res.json("deleted staff member successfully");
     }

@@ -1,12 +1,13 @@
 const express = require("express");
 const route = express.Router({mergeParams: true});
+const staffMember=require("../../models/staffMember");
 
 const Requests=require("../../models/Requests");
 
 
 
 
-route.post("/", async(req, res)=>{
+route.delete("/", async(req, res)=>{
     try{
         const id=req.id;
         const member= await staffMember.findOne({id:id});
@@ -29,7 +30,7 @@ route.post("/", async(req, res)=>{
     }
     else
     {
-        res.send("Cannot delete a non-pending request")
+        res.send("Cannot cancel a non-pending request")
     }
 
     }

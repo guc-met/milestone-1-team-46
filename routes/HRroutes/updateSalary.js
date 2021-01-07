@@ -6,25 +6,30 @@ const Hours=require("../../models/HourBalance");
 require('dotenv').config();
 
 route.post('/', async(req,res)=>{
-    // const id=req.id;
-    // let member= await staffMember.findOne({id:id});
-    // if(! member){
-    //     return res.status(400).json({msg:"incorrect credentials"});        
-    // }
+    const id=req.id;
+    let member= await staffMember.findOne({id:id});
+    if(! member){
+        return res.status(400).json({msg:"incorrect credentials"});        
+    }
+ 
+    if(! member.hr){
+        return res.status(400).json({msg:"you can't access this page"});        
+    }
   let salary=req.body.salary;
   var d = new Date();
   var n = d.getMonth()+1;
   console.log("month is"+ n);
-  const id=(req.body.id);
-    if(id !=req.id )
-    {
-        let deductions= await Hours.find({id:id,month:n});
-        
+  const sID=(req.body.id);
+    if(sID !=req.id ) {
+        let deductions= await Hours.find({id:sID,month:n});
+         console.log("hereeeee" +deductions);
+        if (deductions){
+        console.log("right hereeeee");
         console.log("hours is"+deductions[0].hours);
         let deductionhours=-(deductions[0].hours);
         let deductiondays=-(deductions[0].days);
         console.log(deductionhours);
-        console.log(deductionhours);
+        console.log("i got days"+ deductiondays);
         if(deductionhours>2.98){
             salary=salary-(salary/180);
         }
@@ -32,14 +37,22 @@ route.post('/', async(req,res)=>{
         for(i=0;i<deductiondays;i++){
         salary=salary-(salary/(180*60));
         }}
+        console.log("ded"+ salary);
         
-       await staffMember.findOneAndUpdate({"id":id},  {$set :{"salary": salary}});
+       await staffMember.findOneAndUpdate({id:sID},  {$set :{salarywithDeductions: salary}});
+       await staffMember.findOneAndUpdate({id:sID},  {$set :{salary: req.body.salary}});
     }
+    else{
+    await staffMember.findOneAndUpdate({"id":sID},  {$set :{salarywithDeductions: 0}});
+    await staffMember.findOneAndUpdate({"id":sID},  {$set :{salary: req.body.salary}});
+    }
+}
+
     else{
         return res.status(401).json({ msg: "unauthorized you cant update your own salary :)" })
     }
    
-     member= await staffMember.findOne({id:id});
+     member= await staffMember.findOne({id:sID});
     let pre="";
     if(member.hr)
     {
@@ -61,7 +74,8 @@ route.post('/', async(req,res)=>{
     res.json({
        "name":member.name,
        "salary":member.salary,
-       "email":member.email
+       "email":member.email,
+       "salaryWithDeduction":member.salarywithDeductions
        
     })
 }

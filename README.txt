@@ -1,6 +1,18 @@
 1. write in cmd npm run server
 2. port number: 3000
 ====================================================================================
+On adding any academic staff member, add the courses she/he teaches
+
+
+
+
+Functionality : Update Annual day balance for all staff members
+Route : HR/UpdateAnnualBalance
+Request type : PUT 
+
+
+put the token in parameter auth-token in the header of the request
+====================================================================================
 Functionality : log in onto the system
 Route : /
 Request type : POST 
@@ -11,6 +23,14 @@ Response : {
         "id": 1,
         "email": "muhadsamir123@hotmail.com"
     }
+}
+
+Functionality : log out from the system
+Route : /logout
+Request type : POST 
+Response : {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA4NTc3NTcwfQ.hnyDmgKvoXkcNeBmmgw7l81s6YSKEFZYV3VXt6ZZdk4"
+
 }
 
 
@@ -174,7 +194,7 @@ Request body: {"type":"comoensatio leave","info": "2ZAHEGT","day":"2020-12-30"}
 
 Functionality: cancel a pending request
 Route: /ac/cancelrequest
-Request type: POST
+Request type: DELETE
 Request body: {"reqId":"5fddceb5beebcb4a94ae9dc7"}
 
 
@@ -820,7 +840,7 @@ Request body: {"id":5,"month":12}
 Response  missing : [{"id":"hr-5","missing_date":11,"missing_hours":-1.9000000000000004}]
 
 Functionality view Missing Days for a staff member
-Route: /HR/viewMissingHours
+Route: /HR/viewMissingDays
 Request type: GET
 Request body: {
   "id":1,
@@ -856,12 +876,16 @@ Functionality Update salary for a staff member
 Route: /HR/UpdateSalary
 Request type:POST
 Request body:{
-  "id":10,
-  "salary":5000}
+    "id":1,
+  "salary":5000
+  }
 Response {
-    "name": "newbie2",
-    "salary": 4972.222222222223,
-    "email": "newb22@yahoo.com"
+ {
+    "name": "Muhad",
+    "salary": 5000,
+    "email": "muhadsamir@hotmail.com",
+    "salaryWithDeduction": 4991.211030105926
+}
 }
 
 Functionality add missing Sign in for a staff member
@@ -1167,6 +1191,29 @@ Response [
         "__v": 0
     }
 ]
+
+Functionality Update Annual Leave Balance
+Route /HR/UpdateAnnualBalance
+Route type:PUT
+Request body{}
+Response {
+    "n": 11,
+    "nModified": 11,
+    "opTime": {
+        "ts": "6909173160176779277",
+        "t": 5
+    },
+    "electionId": "7fffffff0000000000000005",
+    "ok": 1,
+    "$clusterTime": {
+        "clusterTime": "6909173160176779277",
+        "signature": {
+            "hash": "ccfZLXvsdVYva+ahz9/1Mpx2FUs=",
+            "keyId": "6905737538527297539"
+        }
+    },
+    "operationTime": "6909173160176779277"
+}
 
 
 View Dayoff func :-
