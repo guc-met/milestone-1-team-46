@@ -23,8 +23,9 @@ route.post('/', async(req,res)=>{
     if(sID !=req.id ) {
         let deductions= await Hours.find({id:sID,month:n});
          console.log("hereeeee" +deductions);
-        if (deductions){
-        console.log("right hereeeee");
+         console.log("im deductions" + deductions);
+        if (deductions && deductions.hours && deductions.days){
+        console.log("right hereeeee"+ deductions);
         console.log("hours is"+deductions[0].hours);
         let deductionhours=-(deductions[0].hours);
         let deductiondays=-(deductions[0].days);
