@@ -46,7 +46,7 @@ const staffSchema = new schema({
     },
     hr: {
         type : Boolean,
-        required : true
+        default : false
     },
     hod: {
         type : Boolean,
