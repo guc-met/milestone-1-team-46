@@ -15,11 +15,13 @@ route.post("/", async(req, res)=>{
        if(!member.ac){
             return res.status(401).json({msg:"unauthorized"});            
        }
+       const email=req.body.email;
+       const memberR=await staffMember.findOne({email:email});
        const academics= await staffMember.find({ac:true});
        let found =false;
        for(let i=0;i<academics.length;i++)
        {
-           if(academics[i].id==req.body.repId)
+           if(academics[i].email==email)
            {
                 found=true;
            }
@@ -27,10 +29,11 @@ route.post("/", async(req, res)=>{
        }
        if(!found)
        {
+           
+           
         return res.status(401).json({msg:"There is no academic member with this ID"});
        }
-       const email=req.body.email;
-       const memberR=await staffMember.findOne({email:email});
+      
       const r1=new requests(
           {
               sender_id:id,
@@ -40,7 +43,7 @@ route.post("/", async(req, res)=>{
           }
       )
       await r1.save().then(()=>{
-        res.send("request submittedd");
+        res.send("Request submitted successfully");
         console.log(`Request submitted successfully ${r1}`);
        
      } ).catch(err=>{

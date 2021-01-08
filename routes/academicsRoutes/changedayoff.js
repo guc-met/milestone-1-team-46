@@ -20,9 +20,16 @@ route.post("/", async(req, res)=>{
     const memId=req.id;
  
     const mem=  await StaffMembers.findOne({id:memId});
+    const daysOfWeek=["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday"];
+    if(!daysOfWeek.includes(dayOff))
+    {
+        res.send("Enter a Valid day ");
+        return;
+    }
     if(mem.daysOff==dayOff)
     {
         res.send(`Your Day off is already ${dayOff}`);
+        return;
     }
  
     const memFaculty=mem.faculty;
@@ -51,7 +58,7 @@ route.post("/", async(req, res)=>{
           }
       )
      await r1.save().then(()=>{
-         res.send("request submittedd");
+         res.send("Request submitted successfully");
          console.log(`Request submitted successfully ${r1}`);
         
       } ).catch(err=>{
@@ -67,7 +74,7 @@ route.post("/", async(req, res)=>{
 
 route.get("/", async(req, res)=>{
     try{
-    const result=  await requests.find({sender_id: req.id,type:"slot linking"});
+    const result=  await requests.find({sender_id: req.id,type:"change-day-off"});
      res.send(result);
 
     }catch(err)
