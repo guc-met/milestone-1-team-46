@@ -24,12 +24,10 @@ route.post("/", async(req, res)=>{
     if(!daysOfWeek.includes(dayOff))
     {
         res.send("Enter a Valid day ");
-        return;
     }
     if(mem.daysOff==dayOff)
     {
         res.send(`Your Day off is already ${dayOff}`);
-        return;
     }
  
     const memFaculty=mem.faculty;
