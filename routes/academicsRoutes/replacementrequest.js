@@ -7,6 +7,7 @@ const requests=require("../../models/Requests");
 route.post("/", async(req, res)=>{
     try{
         const id=req.id;
+
         const member= await staffMember.findOne({id:id});
         if(! member){
             return res.status(400).json({msg:"incorrect credentials"});        
@@ -28,11 +29,14 @@ route.post("/", async(req, res)=>{
        {
         return res.status(401).json({msg:"There is no academic member with this ID"});
        }
+       const email=req.body.email;
+       const memberR=await staffMember.findOne({email:email});
       const r1=new requests(
           {
               sender_id:id,
               type: "replacement",
-              replacementId: req.body.repId
+              replacementId: memberR.id,
+              info: req.body.day
           }
       )
       await r1.save().then(()=>{
