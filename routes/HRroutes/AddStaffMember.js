@@ -27,27 +27,31 @@ route.post('/', async(req,res)=>{
     const email=req.body.email;
     const department=req.body.department;
     const faculty=req.body.faculty;
+    cc=req.body.cc;
+    ci=req.body.ci;
+    hr=req.body.hr;
+    hod=req.body.hod;
+    ac=req.body.ac;
   //   const email=req.body.email;
     // const salary=req.body.salary;
     // const office=req.body.office;  //passing parameters
-    for(i=0;i<role.length;i++){
-        if(role[i]=="ac"){
-            ac=true;
-        }
-        if(role[i]=="cc"){
-            cc=true;
-        }
-        if(role[i]=="ci"){
-            ci=true;
-        }
-        if(role[i]=="hr"){
-            hr=true;
-            dayOff="Saturday";
-        }
-        if(role[i]=="hod"){
-            hod=true;
-        }
+    if(ac==true){
+        ac=true;
     }
+    if(hr==true){
+        hr=true;
+        dayOff="Saturday";
+    }
+    if(cc==true){
+        cc=true;
+    }
+    if(hod==true){
+        hod=true;
+    }
+    if(ci==true){
+        ci=true;
+    }
+    
     let member2= await staffMember.findOne({email:email});
     if (member2 !=null){
         res.send("please enter a unique email");
