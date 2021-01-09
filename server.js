@@ -174,7 +174,7 @@ async function testSchemas() {
             time:"11:45"
         }]
     })
-    await s.save();
+   // await s.save();
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
