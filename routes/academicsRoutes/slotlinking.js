@@ -30,7 +30,7 @@ route.post("/", async(req, res)=>{
           }
       )
      await r1.save().then(()=>{
-         res.send("request submittedd");
+         res.send("Request submitted successfully");
          console.log(`Request submitted successfully ${r1}`);
         
       } ).catch(err=>{

@@ -139,72 +139,22 @@ app.listen(process.env.PORT, () => {
 
 
 async function testSchemas() {
-    const room= require('./models/Room.js');
-    const staffMember = require('./models/staffMember.js');
-    const Schedule=require("./models/Schedule"); 
-    const TeachingSlots=require("./models/TeachingSlots");
-    const t=new TeachingSlots({
-        slot:
-        {
-            location:"c7.109",
-            course:"csen603",
-            time:"10:00"
-        },
-        ccId:10,
-
-    })
- //  await t.save();
-
-    const s=new Schedule({
-        id:14,
-        Saturday:[{
-            location:"3am s3d",
-            course:"acl",
-            time:"8:15"
-        },
-        {
-            location:"3am s3d",
-            course:"acl",
-            time:"10:00"
-        }
-    ],
-        Sunday:[{
-            location:"3am s3d",
-            course:"acl",
-            time:"11:45"
-        }]
-    })
-   // await s.save();
+    const courses = require('./models/Coursesmodel.js');
    /* staffMember.counterReset('seq', function (err) {
         // Now the counter is 0
     });
     staffMember.counterReset('id', function (err) {
         // Now the counter is 0
     });*/
-    const c1 = new room({
-        location:"C8",
-        roomtype:"office",
-        occupied:false,
-        maxcapacity:30,
-        curcapacity:29
+    // const c1 = new courses({
+    //     coursename: "maths1",
+    //     coursecode: "maths101",
+    //     ccid:5
 
-
-   /* const s1 = new staffMember({
-        name: "slim",
-        gender: "Male",
-        email: "ci@hotmail.com",
-        office: "C701",
-        daysOff: ["Sunday"],
-        annualLeaveBalance: 5,
-        hr: false,
-        ci:true,
-        faculty:"engineering",
-        department:"MET"
-    });*/
- 
+    // });
 
  
-    });
+    // });
     //await s7.save();
     const s8 = new CoursesModel({
         coursename:"acl",
@@ -270,12 +220,7 @@ async function testSchemas() {
         hr : false
     });*/
 
-     
-
-
-
-   // await s1.save();
-   //await s2.save();
+     //await c1.save();
     /*s1.setNext('seq', function(err, user){
         s1.no; // the counter value
     });*/
