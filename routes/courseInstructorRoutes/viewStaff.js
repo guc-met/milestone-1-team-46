@@ -16,7 +16,7 @@ route.get("/",async(req,res)=>{
         //get the course instructor's faculty and department
         const faculty=member.faculty; 
         const department=member.department;
-        const course=req.body.course;
+        const course=req.query.course;
         //get all staff members in the same department
         let preresult= await staffMember.find({faculty:faculty,department:department,ac:true});
         if(!preresult)
