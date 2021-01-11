@@ -23,7 +23,7 @@ const Courses=mongoose.Schema({
     },
     lectures :  {
         type : Number,
-        default:0
+        default:0 
     },
     tutorials :  {
         type : Number,

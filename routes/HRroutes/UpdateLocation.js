@@ -22,11 +22,18 @@ route.post('/', async(req,res)=>{
   
 
   if(!location){
+
       return res.send("Please Enter location");
+
   }
   else{
+    console.log("Got in update location here");
+    console.log("Location:" + location);
+    console.log("RoomType:" + roomType);
+    console.log("maxCapacity:" + maxCapacity);
     if(roomType)
     {
+
        await room.findOneAndUpdate({"location":location},  {$set :{"roomtype": roomType}});
     }
     if(maxCapacity)
