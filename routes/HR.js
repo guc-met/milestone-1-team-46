@@ -24,6 +24,8 @@ const viewMissingDays=require("./HRroutes/viewMissingDays");
 const UpdateAnnualBalance=require("./HRroutes/UpdateAnnualBalance");
 const ViewLocations = require("./HRroutes/ViewLocations");
 const ViewFaculties = require("./HRroutes/ViewFaculties");
+const ViewDepartments = require("./HRroutes/ViewDepartments");
+const ViewCourses = require("./HRroutes/ViewCourses");
 route.use("/updateSalary",updateSalary);
 route.use("/viewMissingHours",viewMissingHours);
 route.use("/viewAttendance",viewAttendance);
@@ -48,4 +50,6 @@ route.use("/viewMissingDays",viewMissingDays);
 route.use("/UpdateStaffMember",UpdateStaffMember);
 route.use("/UpdateAnnualBalance",UpdateAnnualBalance);
 route.use("/ViewLocations" , ViewLocations);
+route.use("/ViewDepartments" , ViewDepartments);
+route.use("/ViewCourses" , ViewCourses)
 module.exports = route;

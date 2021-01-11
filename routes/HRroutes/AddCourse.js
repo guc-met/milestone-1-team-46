@@ -21,7 +21,7 @@ route.post('/', async(req,res)=>{
   const ccId = req.body.ccId;
   const labs = req.body.labs;
   const lectures = req.body.lectures;
-  const tutorials = req.body.tutorials;
+  const tutorials = req.body.tutorials; 
   const totalSlots = req.body.totalSlots;
   let dep;
   
@@ -70,6 +70,7 @@ route.post('/', async(req,res)=>{
 
     dep.courses.push(course);
     
+    console.log("Got to adding a course!")
         await f.save();
       //  await faculty.updateOne({name:facultyName} , {$set: {departments : depArray}})
 
