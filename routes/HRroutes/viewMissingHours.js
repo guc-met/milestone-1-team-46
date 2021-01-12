@@ -9,7 +9,7 @@ const { sign } = require("jsonwebtoken");
 
 require('dotenv').config();
 
-route.get('/', async(req,res)=>{
+route.post('/', async(req,res)=>{
     const id=req.id;
     const sID=req.body.id;
     let member= await staffMember.findOne({id:id});
@@ -434,7 +434,7 @@ finalhours +=output[i].missing_hours;
                        })
                      await  Hours.save();
                     }
-    return res.send("Hours : " + JSON.stringify(output));
+    return res.send( JSON.stringify(output));
     
    
    

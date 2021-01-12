@@ -29,7 +29,7 @@ route.post('/', async(req,res)=>{
   if(!departmentName){
     return res.send("Please Enter department name");
 }
-  if(!courseName || !courseCode){
+  if(!courseName && !courseCode){
     return res.send("Please Enter course name and course code");
 }
   else{
@@ -44,7 +44,7 @@ route.post('/', async(req,res)=>{
     }
     
     for(j = 0 ; j<dep.courses.length ; j++){
-        if(courseName == dep.courses[j].coursename && courseCode == dep.courses[j].coursecode){
+        if(courseName == dep.courses[j].coursename){
             dep.courses.splice(j,1);
         }
     }

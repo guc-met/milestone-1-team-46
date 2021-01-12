@@ -4,6 +4,38 @@ const staffMember=require("../../models/staffMember");
 const teachingSlots=require("../../models/TeachingSlots");
 const schedules=require("../../models/Schedule");
 
+//get all slots of his/her courses
+route.get("/",async(req,res)=>{
+    try{
+        const CIId=req.id;
+        const member= await staffMember.findOne({id:CIId,ac:true});
+        if(! member){
+            return res.status(401).json({msg:"incorrect credentials"});        
+        }
+        if(!member.ci){
+            return res.status(403).json({msg:"Forbidden, you are not a course instructor"});            
+        }
+        const course=req.params.course;
+        courses=member.courses;
+        if(course)
+            courses=[course];
+        result=[];
+        const slots=await teachingSlots.find();
+        if(!slots)
+            return res.status(406).json({msg:"No teaching slots were found"});
+        for(i=0;i<slots.length;i++){
+            if(courses.includes(slots[i].slot.course))
+                result.push(slots[i]);
+        }
+        if(slots.length==0)
+            return res.status(406).json({msg:"No teaching slots were found for your courses"});
+
+        res.json(result);
+    }
+    catch(err){
+        return res.status(500).json({error:err.message});
+    }
+})
 //assigning an academic member to an unassigned slot
 route.post("/",async(req,res)=>{
     try{

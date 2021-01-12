@@ -19,7 +19,7 @@ route.post('/', async(req,res)=>{
         return res.status(400).json({msg:"unauthorized you can't access this page"});        
     }
     let cc,ac,ci,hod=false;
-    var hr=false;
+    let hr=false;
     let dayOff="";
     let office="";
     const name=req.body.name;
@@ -27,31 +27,32 @@ route.post('/', async(req,res)=>{
     const email=req.body.email;
     const department=req.body.department;
     const faculty=req.body.faculty;
-    cc=req.body.cc;
-    ci=req.body.ci;
-    hr=req.body.hr;
-    hod=req.body.hod;
-    ac=req.body.ac;
+     cc=req.body.cc;
+     ci=req.body.ci;
+     hr=req.body.hr;
+     hod=req.body.hod;
+     ac=req.body.ac;
   //   const email=req.body.email;
     // const salary=req.body.salary;
     // const office=req.body.office;  //passing parameters
-    if(ac==true){
-        ac=true;
-    }
-    if(hr==true){
-        hr=true;
-        dayOff="Saturday";
-    }
-    if(cc==true){
-        cc=true;
-    }
-    if(hod==true){
-        hod=true;
-    }
-    if(ci==true){
-        ci=true;
-    }
-    
+        if(ac==true){
+            ac=true;
+        }
+        if(hr==true){
+            hr=true;
+            dayOff="Saturday";
+        }
+        if(cc==true){
+            cc=true;
+        }
+        if(hod==true){
+            hod=true;
+        }
+        if(ci==true){
+            ci=true;
+        }
+        
+  
     let member2= await staffMember.findOne({email:email});
     if (member2 !=null){
         res.send("please enter a unique email");
@@ -95,7 +96,7 @@ route.post('/', async(req,res)=>{
     {
         pre="hr-";
     }
-    else{
+    if(member.ac){
         pre="ac-";
     }
     const memid=pre+member.no;

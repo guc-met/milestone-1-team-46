@@ -35,7 +35,7 @@ route.post('/', async(req,res)=>{
   if(!departmentName){
     return res.send("Please Enter department name");
 }
-  if(!oldCourseName || !oldCourseCode){
+  if(!oldCourseName && !oldCourseCode){
     return res.send("Please Enter course name and course code");
 }
   else{
@@ -50,7 +50,7 @@ route.post('/', async(req,res)=>{
         }
     }
     for(j = 0 ; j<dep.courses.length ; j++){
-        if(oldCourseName == dep.courses[j].coursename && oldCourseCode == dep.courses[j].coursecode){
+        if(oldCourseName == dep.courses[j].coursename ){
             course = dep.courses[j];
         }
     }
@@ -77,7 +77,7 @@ route.post('/', async(req,res)=>{
     if(courseCode)
     course.coursecode = courseCode;
 
-    
+      console.log("Got to saving course")
         await f.save();
       //  await faculty.updateOne({name:facultyName} , {$set: {departments : depArray}})
 
