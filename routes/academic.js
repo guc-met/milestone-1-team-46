@@ -8,6 +8,7 @@ const viewslots=require("./academicsRoutes/viewunassignedslots");
 const changedayoff=require("./academicsRoutes/changedayoff");
 const leaverequests=require("./academicsRoutes/leaverequest");
 const cancelrequest=require("./academicsRoutes/cancelpendingrequest");
+const viewCourses=require("./academicsRoutes/viewCourses");
 
 //routes
 route.use("/viewschedule",viewSchedule);
@@ -18,6 +19,7 @@ route.use("/viewunassignedslots",viewslots);
 route.use("/changedayoff",changedayoff);
 route.use("/leaverequest",leaverequests);
 route.use("/cancelrequest",cancelrequest);
+route.use("/viewcourses",viewCourses);
 
 
 
