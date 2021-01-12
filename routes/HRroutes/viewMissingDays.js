@@ -9,7 +9,7 @@ const { sign } = require("jsonwebtoken");
 
 require('dotenv').config();
 
-route.get('/', async(req,res)=>{
+route.post('/', async(req,res)=>{
     const id=req.id;
     const sID=req.body.id;
     let member= await staffMember.findOne({id:sID});
