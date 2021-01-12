@@ -17,7 +17,7 @@ route.get("/", async(req, res)=>{
        if(!member.ac){
             return res.status(401).json({msg:"unauthorized"});            
        }
-    const status=req.body.status;
+    const status=req.query.status;
     let result;
     if(status=="all")
     {
@@ -27,7 +27,30 @@ route.get("/", async(req, res)=>{
     {
         result=  await requests.find({sender_id: req.id,status:status});
     }
-     res.send(result);
+    let resultSent=[]
+    for(let i=0;i<result.length;i++)
+     {
+         
+        let receiver_id=result[i].receiver_id;
+       
+       let receiverEmail=await staffMember.findOne({id:receiver_id});
+       
+    if( receiverEmail!=null){
+       
+        resultSent.push({
+            id: result[i]._id,
+            sender:member.email,
+            receiver:receiverEmail.email,
+            type: result[i].type,
+            status: result[i].status,
+          
+        });
+    }
+
+    }
+    
+   
+    res.send(resultSent);
 
     }catch(err)
     {

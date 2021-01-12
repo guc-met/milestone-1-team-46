@@ -38,6 +38,7 @@ route.post("/", async(req, res)=>{
           {
               sender_id:id,
               type: "replacement",
+              receiver_id:memberR.id,
               replacementId: memberR.id,
               info: req.body.day
           }
@@ -61,7 +62,32 @@ route.get("/", async(req, res)=>{
     const result1=  await requests.find({sender_id: req.id,type:"replacement"});
     const result2= await requests.find({replacementId: req.id});
     const result= result1.concat(result2);
-     res.send(result1);
+    let resultSent=[]
+    for(let i=0;i<result.length;i++)
+     {
+        let sender_id=result[i].sender_id;
+        let receiver_id=result[i].receiver_id;
+        let senderEmail=await staffMember.findOne({id:sender_id});
+       let receiverEmail=await staffMember.findOne({id:receiver_id});
+       
+    if( receiverEmail!=null){
+       console.log(senderEmail);
+       console.log(receiverEmail);
+        resultSent.push({
+            id: result[i]._id,
+            sender:senderEmail.email,
+            receiver:receiverEmail.email,
+            type: result[i].type,
+            status: result[i].status,
+          
+        });
+    }
+
+    }
+    
+   
+    res.send(resultSent);
+     
 
     }catch(err)
     {
