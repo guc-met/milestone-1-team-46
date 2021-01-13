@@ -12,7 +12,7 @@ route.get("/", async(req, res)=>{
         const id=req.id;
         const member= await staffMember.findOne({id:id});
         const myCourses= member.courses;
-        const course=req.body.course;
+        const course=req.query.course;
         if(! member){
             return res.status(400).json({msg:"incorrect credentials"});        
         }

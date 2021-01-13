@@ -7,7 +7,7 @@ const Requests=require("../../models/Requests");
 
 
 
-route.delete("/", async(req, res)=>{
+route.post("/", async(req, res)=>{
     try{
         const id=req.id;
         const member= await staffMember.findOne({id:id});
@@ -21,7 +21,9 @@ route.delete("/", async(req, res)=>{
     const request= await Requests.findOne({_id:reqId});
     if(request.status=="Pending")
     {
+       
         await Requests.deleteOne({_id:reqId}).then(()=>{
+
             console.log("Request cancelled successfully");
             res.send("Request Cancelled");
         }).catch(err=>{
@@ -36,6 +38,7 @@ route.delete("/", async(req, res)=>{
     }
     catch(err)
     {
+        console.log(err.message);
         return res.status(500).json({error:err.message});
     }
 })

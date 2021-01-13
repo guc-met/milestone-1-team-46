@@ -14,7 +14,7 @@ route.get("/", async(req, res)=>{
        if(!member.ac){
             return res.status(401).json({msg:"unauthorized"});            
        }
-        const myCourses= await staffMember.findOne({id:id}).courses;
+        const myCourses= member.courses;
         res.json(myCourses);
 
     }catch(err)
