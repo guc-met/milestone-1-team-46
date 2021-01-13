@@ -28,7 +28,7 @@ route.post('/', async(req,res)=>{
     const emails=[];
     
     allstaff.forEach(staff => {
-       output.push(staff.email);
+       output.push(staff);
     });
 
     // for(let i=0;i<allstaff.length;i++){

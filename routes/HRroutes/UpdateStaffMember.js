@@ -10,7 +10,7 @@ route.put('/', async(req,res)=>{
         return res.status(400).json({msg:"incorrect credentials"});        
     }
     const id=req.id;
-    const email=req.body.email;
+    const sID=req.body.id;
      member= await staffMember.findOne({id:id});
     if(! member.hr){
         return res.status(400).json({msg:"unauthorized you can't access this page"});        
@@ -19,13 +19,13 @@ route.put('/', async(req,res)=>{
     const faculty=req.body.faculty; //passing parameters
     if(department)
     {
-       await staffMember.findOneAndUpdate({email:email},  {$set :{department: department}});
+       await staffMember.findOneAndUpdate({id:sID},  {$set :{department: department}});
     }
     if(faculty)
     {
-       await staffMember.findOneAndUpdate({email:email},  {$set: {faculty: faculty}});
+       await staffMember.findOneAndUpdate({id:sID},  {$set: {faculty: faculty}});
     }
-     member= await staffMember.findOne({email:email});
+     member= await staffMember.findOne({id:sID});
     // let pre="";
     // if(member.hr)
     // {
