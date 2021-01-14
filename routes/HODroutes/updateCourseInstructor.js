@@ -20,13 +20,15 @@ route.put("/",async(req,res)=>{
         const course=req.body.course;   //get the course and the staff member to be assigned as CI's id
         const Oldid=req.body.Oldid;
         const Newid=req.body.Newid;
+        let object="";
+        let output=[];
         console.log("new id is"+ Newid);
         console.log("old id is"+ Oldid);
         try{
-            await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:Newid},{$set :{"ci": true}});
+            // await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:Newid},{$set :{"ci": true}});
             await courses.findOneAndUpdate({coursename:course},{$set :{"ciId": Newid}});
 
-            await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:Oldid},{$set :{"ci": false}});
+            // await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:Oldid},{$set :{"ci": false}});
             let c = await courses.findOne({coursename:course});
             let newCI=[];
             console.log((c.ciId).length);
@@ -38,6 +40,45 @@ route.put("/",async(req,res)=>{
                 }
                 await courses.findOneAndUpdate({coursename:course},{$set :{"ciId": newCI}});
                  console.log(newCI);
+
+                 const assignee= await staffMember.findOne({id:Oldid,ci:true});
+                 if(!assignee){
+                 object={
+                     message:"No course instructor with the provided id was found"
+                 }
+                   output.push(object);
+                   return res.send(JSON.stringify(output));
+                }
+                 if(!assignee.courses.includes(course)){
+                    object={
+                        message:"this course instructor is not assigned to this course"
+                    }
+                    output.push(object);
+                    return res.send(JSON.stringify(output));
+
+                 }
+               
+                 for(i=0;i<assignee.courses.length;i++){
+                     if(assignee.courses[i]===course){
+                         assignee.courses.splice(i,1);
+                         break;
+                     }
+                 }
+                 await assignee.save();
+                //  res.json(assignee);
+                const assignee2= await staffMember.findOne({id:Newid,ci:true});
+                assignee2.courses.push(course);
+                for(let i=0;i<assignee2.courses.length;i++){
+                    console.log(assignee2.courses[i]);
+                  
+                }
+                await assignee2.save();
+                object={
+                    message:"updated successfully"
+                }
+                  output.push(object);
+                  return res.send(JSON.stringify(output));
+               
         }
         catch(err){
             return res.status(501).json({error:err.message});

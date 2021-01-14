@@ -12,6 +12,7 @@ require('dotenv').config();
 route.post('/', async(req,res)=>{
     const id=req.id;
     const sID=req.body.id;
+    let Inefficient_Data="";
     let member= await staffMember.findOne({id:id});
     if(! member){
         return res.status(400).json({msg:"incorrect credentials"});        
@@ -111,7 +112,11 @@ route.post('/', async(req,res)=>{
         }
 
         if (Signouts.length !=Signins.length){
-            res.send("please enter  equal signs in and outs to calculate the staff missing hours");
+            object={
+                InefficientData: "please enter  equal signs in and outs to calculate the staff missing hours",
+            }
+            output.push(object);
+            return res.send( JSON.stringify(output));
         }
 
     //    console.log(allOuts);
@@ -121,7 +126,11 @@ route.post('/', async(req,res)=>{
        
 
        if(Signins.length==0 || Signouts.length==0){
-        res.send("you dont have signins or outs in the specified month");
+        object={
+            Inefficient_Data: "you dont have any sign ins or outs in the specified month",
+        }
+        output.push(object);
+        return res.send( JSON.stringify(output));
     }
     
      
@@ -348,7 +357,12 @@ route.post('/', async(req,res)=>{
             // console.log("testing this" +curHourBalance);
             // console.log("missing hours is"+ missing_hours)
             if(missing_hours ==0){
-                res.send("you dont have any missing hours");
+                
+                object={
+                    InefficientData: "you don't have any missing hours",
+                }
+                output.push(object);
+                return res.send( JSON.stringify(output));
             }
             // console.log("and right here");
 

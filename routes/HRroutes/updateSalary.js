@@ -16,6 +16,8 @@ route.post('/', async(req,res)=>{
         return res.status(400).json({msg:"you can't access this page"});        
     }
   let salary=req.body.salary;
+  let result=[];
+  let object;
   var d = new Date();
   var n = d.getMonth()+1;
   console.log("month is"+ n);
@@ -72,13 +74,15 @@ route.post('/', async(req,res)=>{
     }
     const memid=pre+member.no;
     
-    res.json({
+    object={
        "name":member.name,
        "salary":member.salary,
        "email":member.email,
        "salaryWithDeduction":member.salarywithDeductions
        
-    })
+    }
+    result.push(object);
+    return res.send( JSON.stringify(result));
 }
 )
 

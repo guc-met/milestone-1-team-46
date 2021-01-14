@@ -3,6 +3,8 @@ const route = express.Router();
 const updateSalary=require("./HRroutes/updateSalary");
 const viewMissingHours=require("./HRroutes/viewMissingHours");
 const viewAttendance=require("./HRroutes/viewAttendance");
+const viewSignIn=require("./HRroutes/viewSignIn");
+const viewSignOut=require("./HRroutes/viewSignOut");
 const AddMissingSignIn=require("./HRroutes/AddMissingSignIn");
 const AddMissingSignOut=require("./HRroutes/AddMissingSignOut");
 const DeleteStaffMember=require("./HRroutes/DeleteStaffMember");
@@ -53,5 +55,7 @@ route.use("/UpdateAnnualBalance",UpdateAnnualBalance);
 route.use("/viewStaff",ViewStaff);
 route.use("/ViewLocations" , ViewLocations);
 route.use("/ViewDepartments" , ViewDepartments);
-route.use("/ViewCourses" , ViewCourses)
+route.use("/ViewCourses" , ViewCourses);
+route.use("/ViewSignIn" , viewSignIn);
+route.use("/ViewSignOut" , viewSignOut);
 module.exports = route;

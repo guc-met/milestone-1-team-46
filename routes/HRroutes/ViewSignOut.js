@@ -68,7 +68,7 @@ route.post('/', async(req,res)=>{
 
         }
         }
-        return res.send("Sign ins : " + JSON.stringify(ins) + "\n" + "Signs outs : " + JSON.stringify(outs));
+        return res.send( JSON.stringify(outs));
     }
 
     else   //if he doesnt specify a month , get all records
@@ -99,7 +99,7 @@ route.post('/', async(req,res)=>{
       }
      
 
-      return res.send("Sign ins : " + JSON.stringify(ins) + "\n" + "Signs outs : " + JSON.stringify(outs));
+      return res.send( JSON.stringify(outs));
     }
     
    

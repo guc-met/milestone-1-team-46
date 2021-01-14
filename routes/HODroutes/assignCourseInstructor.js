@@ -20,8 +20,10 @@ route.post("/",async(req,res)=>{
         let course=req.body.course;   //get the course and the staff member to be assigned as CI's id
         let id=req.body.id;
         try{
-            await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:id},{$set :{"ci": true}});
+            member= await staffMember.findOne({id:id});
+            // await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:id},{$set :{"ci": true}});
             await courses.findOneAndUpdate({coursename:course},{$set :{"ciId": id}});
+            member.courses.push(course);
         }
         catch(err){
             return res.status(501).json({error:err.message});

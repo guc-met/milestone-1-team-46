@@ -3,7 +3,7 @@ const route = express.Router({mergeParams: true});
 const staffMember=require("../../models/staffMember");
 
 
-route.get("/",async(req,res)=>{
+route.post("/",async(req,res)=>{
     try{
         const id=req.id;
         const member= await staffMember.findOne({id:id});

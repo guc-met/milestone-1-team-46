@@ -14,13 +14,21 @@ route.post("/",async(req,res)=>{
         if(!member.hod){
             return res.status(401).json({msg:"unauthorized you can't access this page"});            
         }
-        let faculty=member.faculty; 
-        let department=member.department;   //get the HOD's faculty and department
-       
-        let course=req.body.course;   //get the course and the staff member to be assigned as CI's id
+     
         let id=req.body.id;
+        let course=req.body.course;
+        let newcourses=[];
         try{
-          let s=  await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:id},{$set :{"ci": false}});
+         
+member=await staffMember.findOne({id:id});
+for(i=0;i<member.courses.length;i++){
+    if(member.courses[i]!==course){
+        console.log(member.courses[i]);
+        newcourses.push(member.courses[i]);
+        break;
+    }
+}
+await staffMember.findOneAndUpdate({id:id},{$set :{courses: newcourses}});
 
             // let curcourse = await faculty.findOne({coursename:course});
 
@@ -33,7 +41,8 @@ route.post("/",async(req,res)=>{
                     newCI.push(c.ciId[i]);
                 }
             }
-            await courses.findOneAndUpdate({coursename:course},{$set :{"ciId": newCI}});
+            await courses.findOneAndUpdate({coursename:course},{$set :{ciId: newCI}});
+            return res.send("deleted successfully");
              console.log(newCI);
         
           
