@@ -14,9 +14,20 @@ route.post("/",async(req,res)=>{
         if(!member.hod){
             return res.status(401).json({msg:"unauthorized you can't access this page"});            
         }
+
+        
      
         let id=req.body.id;
         let course=req.body.course;
+        if(!id&& !course ){
+            return res.status(400).json({msg:"please select and enter fields "});  
+        }
+        if(!id){
+            return res.status(400).json({msg:"please select instructor id "});  
+        }
+        if(!course){
+            return res.status(400).json({msg:"please enter course name "});  
+        }
         let newcourses=[];
         try{
          

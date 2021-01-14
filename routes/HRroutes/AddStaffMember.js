@@ -55,8 +55,38 @@ route.post('/', async(req,res)=>{
   
     let member2= await staffMember.findOne({email:email});
     if (member2 !=null){
-        res.send("please enter a unique email");
+        return res.status(400).json({msg:"please enter a unique email"});  
     }
+
+    if(!email && !department && !faculty && !email && !name){
+        return res.status(400).json({msg:"please fill all fields"});  
+    }
+
+    if(!email){
+        return res.status(400).json({msg:"please enter an email"});
+
+    }
+
+    if(!department){
+        return res.status(400).json({msg:"please enter a department"});
+
+    }
+
+    if(!faculty){
+        return res.status(400).json({msg:"please enter a faculty"});
+
+    }
+    if(ac!=true && cc!=true && ci!=true && hod!=true && hr!=true){
+        return res.status(400).json({msg:"please choose a role"});
+    }
+
+    if(ac==true && cc==true && ci==true && hod==true && hr==true){
+        return res.status(400).json({msg:"you cant choose all roles"});
+    }
+
+   
+    
+
     const curRoom=await room.find({roomtype:"office"});
     for(i=0;i<curRoom.length;i++){
         if (curRoom[i].currcapacity +1 <=curRoom[i].maxcapacity){

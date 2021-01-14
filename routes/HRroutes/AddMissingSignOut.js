@@ -21,6 +21,17 @@ route.post('/', async(req,res)=>{
     // }
   const time=req.body.time
   const id=(req.body.id);
+
+  if(!id && !time){
+    return res.status(400).json({msg:"plesse select all fields"});
+  }
+  if(!id ){
+    return res.status(400).json({msg:"plesse select staff member"});
+  }
+
+  if(!time ){
+    return res.status(400).json({msg:"plesse select time"});
+  }
     if(id !=req.id )
     {
       
@@ -36,6 +47,7 @@ route.post('/', async(req,res)=>{
         return res.status(401).json({ msg: "unauthorized you cant add your own missing sign-out" })
     }
    
+    return res.status(400).json({msg:"addedd successfully"});
 
     res.json({
         "ID":req.body.id,

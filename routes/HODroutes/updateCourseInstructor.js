@@ -20,6 +20,19 @@ route.put("/",async(req,res)=>{
         const course=req.body.course;   //get the course and the staff member to be assigned as CI's id
         const Oldid=req.body.Oldid;
         const Newid=req.body.Newid;
+
+        if(!Oldid && !Newid && !course ){
+            return res.status(400).json({msg:"please select and fill the fields "});  
+        }
+        if(!Oldid ){
+            return res.status(400).json({msg:"please select old instructor id "});  
+        }
+        if(!Newid ){
+            return res.status(400).json({msg:"please select new instructor id "});  
+        }
+        if(!course ){
+            return res.status(400).json({msg:"please enter coursename "});  
+        }
         let object="";
         let output=[];
         console.log("new id is"+ Newid);

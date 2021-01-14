@@ -19,6 +19,18 @@ route.post("/",async(req,res)=>{
        
         let course=req.body.course;   //get the course and the staff member to be assigned as CI's id
         let id=req.body.id;
+
+        if(!id && !course){
+            return res.status(400).json({msg:"please select all fields "});  
+        }
+
+        if(!id ){
+            return res.status(400).json({msg:"please select instructor id "});  
+        }
+
+        if(!course ){
+            return res.status(400).json({msg:"please select course "});  
+        }
         try{
             member= await staffMember.findOne({id:id});
             // await staffMember.findOneAndUpdate({faculty:faculty,department:department,id:id},{$set :{"ci": true}});
