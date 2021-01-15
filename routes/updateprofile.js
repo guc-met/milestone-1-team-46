@@ -23,7 +23,7 @@ route.post('/', async(req,res)=>{
     }
     if(dayoff)
     {
-       await staffMember.findOneAndUpdate({"id":id},  {$set: {"daysOff": [dayoff]}});
+       await staffMember.findOneAndUpdate({"id":id},  {$set: {"daysOff": dayoff}});
     }
      member= await staffMember.findOne({id:id});
     let pre="";
@@ -41,7 +41,7 @@ route.post('/', async(req,res)=>{
        "ID":memid,
        "email":member.email,
        "Office":member.office,
-       "Day-Off":member.daysOff,
+       "DayOff":member.daysOff,
        "Annual Leave Balance":member.annualLeaveBalance,
        "Accidental Leave Balance":member.accidentalLeaveBalance,
        "Department":member.department,

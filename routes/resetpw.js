@@ -20,6 +20,8 @@ route.post('/', async(req,res)=>{
             const salt=bcryptjs.genSaltSync();
             const hashedPassword=bcryptjs.hashSync(newPassword,salt);
             await staffMember.findOneAndUpdate({"id":id},  {$set :{"password": hashedPassword}});
+            console.log("changing pw in backend");
+                return res.send("Password changed successfully");
         }
         else
         {
@@ -42,11 +44,7 @@ route.post('/', async(req,res)=>{
     }
     const memid=pre+member.no;
    
-    res.json({
-       "id" : memid,
-       "email":member.email,
-       "password" : newPassword
-    })
+  
 }
 )
 

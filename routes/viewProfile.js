@@ -4,7 +4,7 @@ const staffMember=require("../models/staffMember");
 
 require('dotenv').config();
 
-route.get('/', async(req,res)=>{
+route.post('/', async(req,res)=>{
     const id=req.id;
     const member= await staffMember.findOne({id:id});
     if(! member){
@@ -19,16 +19,16 @@ route.get('/', async(req,res)=>{
         pre="ac-";
     }
     const memid=pre+member.no;
-    res.json({
-       "name":member.name,
-       "ID":memid,
-       "email":member.email,
-       "Office":member.office,
-       "Day-Off":member.daysOff,
-       "Annual Leave Balance":member.annualLeaveBalance,
-       "Accidental Leave Balance":member.accidentalLeaveBalance,
-       "Department":member.department,
-       "Faculty":member.faculty
+    return res.json({
+       name:member.name,
+       ID:memid,
+       email:member.email,
+       Office:member.office,
+       DayOff:member.daysOff,
+       AnnualLeaveBalance:member.annualLeaveBalance,
+       AccidentalLeaveBalance:member.accidentalLeaveBalance,
+       Department:member.department,
+       Faculty:member.faculty
     })
 }
 )
