@@ -5,7 +5,7 @@ const staffMember=require("../../models/staffMember");
 const requests=require("../../models/Requests");
 
 
-route.get("/", async(req, res)=>{
+route.post("/", async(req, res)=>{
     try{
     const id=req.id;
     const member= await staffMember.findOne({id:id});
@@ -24,22 +24,27 @@ route.get("/", async(req, res)=>{
     const type5="sick leave";
     const type6="accidental leave";
     //get all staff member in the same department
-    let allmemebrs= await staffMember.find({faculty:faculty,department:department});
+   // let allmemebrs= await staffMember.find({faculty:faculty,department:department});
     //get all requests with same type "change dayoff/leave"
-    let allrequests=  await requests.find( { $or:[ {type:type1},{type:type2},{type:type3},{type:type4},{type:type5},{type:type6}],receiver_id:id});
+    let allrequests=  await requests.find( { $or:[ {type:type1},{type:type2},{type:type3},{type:type4},{type:type5},{type:type6}],receiver_id:id,status:"Pending"});
 
-    let results=[];
+  //  let results=[];
+// console.log(allrequests);
+  // console.log(allmemebrs);
 
-    for(let i=0;i<allmemebrs.length;i++){
-     for(let j=0;j<allrequests.length;j++){
-         if(allmemebrs[i].id==allrequests[j].sender_id){
-         results.push(allmemebrs[i]);
-         }
-        
-     }
+
+  //  if((!allmemebrs)||allmemebrs.length==0&&(!allrequests)||allrequests.length==0){
+ console.log(allrequests);
+  if (allrequests){
+  
+    res.send(allrequests);
+  }
+    else{
+       
+        return res.status(401).json("there are no requests for you");
     }
-    
-     res.send(results);
+      
+  
 
     }catch(err)
     {

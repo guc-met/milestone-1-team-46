@@ -18,16 +18,21 @@ route.post("/", async(req, res)=>{
        }
         
        let request = await requests.findOne({_id:req.body._id});
-       if(request)
+       console.log(request);
+       if(request){
        requestt= await requests.findOneAndUpdate({_id:req.body._id},{$set :{"status": "Accepted"}});
 
-       const requesttype = request.type;
+    //    const requesttype = requestt.type;
+       ;}
+       else{
+        return res.status(401).json("there are no requests for you");
+    }
        
 
-       if(requesttype=="change-day-off"){
+       if(requestt.type=="change-day-off"){
         //const sender = await staffMember.findOne({id:request.sender_id});
         //console.log(request.info);
-        await staffMember.findOneAndUpdate({id:request.sender_id},{$set :{"daysOff": request.info}});
+        await staffMember.findOneAndUpdate({_id:req.body._id},{$set :{"daysOff": request.info}});
         res.send("Day off changed!");
        }
        else{
