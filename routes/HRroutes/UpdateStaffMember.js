@@ -25,6 +25,14 @@ route.put('/', async(req,res)=>{
     {
        await staffMember.findOneAndUpdate({id:sID},  {$set: {faculty: faculty}});
     }
+
+    if(!department && !faculty){
+      return res.status(400).json({msg:"please enter a department or a faculty"});
+    }
+
+    if(!sID){
+      return res.status(400).json({msg:"please select a staff member"});
+    }
      member= await staffMember.findOne({id:sID});
     // let pre="";
     // if(member.hr)

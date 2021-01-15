@@ -30,6 +30,9 @@ const missingDays = require("./routes/viewmissingdays");
 const missingHours = require("./routes/viewmissinghours");
 const HR=require("./routes/HR");
 const HOD=require("./routes/HOD");
+const signins = require("./routes/viewSiginIns");
+const signouts = require("./routes/viewSignOuts");
+
 
 
 
@@ -103,6 +106,8 @@ app.use("/cc",courseCoordinator);
 app.use("/resetpw" , resetPassword);
 app.use("/viewatt" , viewAtt);
 app.use("/ac",academic);
+app.use("/viewsignins" , signins)
+app.use("/viewsignouts" , signouts)
 
 
 app.use("/viewdayoff",viewdayoff);

@@ -12,7 +12,7 @@ require('dotenv').config();
 route.post('/', async(req,res)=>{
     const id=req.id;
     const sID=req.body.id;
-    let member= await staffMember.findOne({id:sID});
+    let member= await staffMember.findOne({id:id});
     if(! member){
         return res.status(400).json({msg:"incorrect credentials"});        
     }
@@ -20,6 +20,19 @@ route.post('/', async(req,res)=>{
     if(! member.hr){
         return res.status(400).json({msg:"unauthroised access"});        
     }
+
+     member= await staffMember.findOne({id:sID});
+     let month=req.body.month; 
+     if(!sID && !month){
+        return res.status(400).json({msg:"please select fields"});
+}
+    if(!sID){
+            return res.status(400).json({msg:"please select a staff member"});
+    }
+
+    if(!month ){
+        return res.status(400).json({msg:"please select a month"});
+}
 
     let pre="";
     if(member.hr)
@@ -30,7 +43,6 @@ route.post('/', async(req,res)=>{
         pre="ac-";
     }
     const memid=pre+member.no;
-    let month=req.body.month; 
     const allAttendanceIN=  await signIn.find({id : sID});
     const allAttendanceOUT=  await signOut.find({id : sID});
     const allLeaves = await leaves.find({id:sID});
@@ -51,6 +63,8 @@ route.post('/', async(req,res)=>{
      const monthOut = allAttendanceOUT.filter((record)=>{
         return (new Date(record.time).getMonth()+1 == month || new Date(record.time).getMonth()+1 == month+1)
     })
+
+
 
     
     //TODO: comment the console.logs
@@ -113,7 +127,7 @@ route.post('/', async(req,res)=>{
      let balanceRecord = await HourBalance.findOne({id:id , month:month-1});
      if(!balanceRecord){
 
-        const record = new hoursbalance({
+        const record = new HourBalance({
             id : id,
             month : month-1,
             days : -missing.length

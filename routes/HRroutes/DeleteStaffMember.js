@@ -24,6 +24,12 @@ route.post("/",async(req,res)=>{
             return res.status(401).json({msg:"unauthorized you can't access this page"});            
         }
         const id=req.body.id;
+
+        if(!id){
+           
+                return res.status(400).json({msg:"please select a staff member"});
+            
+        }
         try{
             console.log(id);
             let office= await room.findOne({"office":id.office});

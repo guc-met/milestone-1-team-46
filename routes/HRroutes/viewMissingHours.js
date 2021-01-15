@@ -22,9 +22,7 @@ route.post('/', async(req,res)=>{
     }
 
     let mem= await staffMember.findOne({id:sID});
-        if(! mem){
-            return res.status(400).json({msg:"this staff member doesn't exist"});        
-        }
+    
 
     let pre="";
     if(member.hr)
@@ -58,6 +56,17 @@ route.post('/', async(req,res)=>{
     let missing_hours=0;
     let missing_arrs=[];
     let object ;
+
+    if(!sID&& !month){
+        return res.status(400).json({msg:"please select fields"});
+}
+    if(!sID ){
+            return res.status(400).json({msg:"please select a staff member"});
+    }
+
+    if(!month ){
+        return res.status(400).json({msg:"please select a month"});
+}
 
     if(month){
 
