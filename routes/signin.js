@@ -7,6 +7,8 @@ const Signin=require("../models/SignIn");
 
 route.post("/", async (req,res)=>{
     try{
+        console.log("Got to sign in")
+
         const id=req.id;
         const member= await staffMember.findOne({id:id});
         if(! member){
