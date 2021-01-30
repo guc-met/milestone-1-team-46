@@ -118,7 +118,7 @@ Response: schedule of academic . Example of a single schedule: {
 Functionality: submit replacement request with the id of the replacement member
 Route: ac/replacementrequest
 Request type: POST
-Request body:{"repId":2}
+Request body:{"email": "newbie@yahoo.com"}
 
 Functionality: view replacement request that both I submitted and was submitted to me
 Route: ac/replacementrequest
@@ -194,7 +194,7 @@ Request body: {"type":"comoensatio leave","info": "2ZAHEGT","day":"2020-12-30"}
 
 Functionality: cancel a pending request
 Route: /ac/cancelrequest
-Request type: DELETE
+Request type: POST
 Request body: {"reqId":"5fddceb5beebcb4a94ae9dc7"}
 
 
